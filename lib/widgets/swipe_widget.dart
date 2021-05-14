@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 
-class SwipeWidget extends StatefulWidget {
+class ListViewWidget extends StatefulWidget {
 
   @override
-  _SwipeWidgetState createState() => _SwipeWidgetState();
+  _ListViewWidgetState createState() => _ListViewWidgetState();
 }
 
-class _SwipeWidgetState extends State<SwipeWidget> {
+class _ListViewWidgetState extends State<ListViewWidget> {
   int _currentPage = 0;
 
   PageController _controladorPageView = new PageController(initialPage: 0);

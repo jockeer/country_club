@@ -1,5 +1,6 @@
-import 'package:country/widgets/swipe_widget.dart';
 import 'package:flutter/material.dart';
+
+import 'package:country/widgets/swipe_widget.dart';
 
 class WelcomePage extends StatelessWidget {
   
@@ -10,7 +11,7 @@ class WelcomePage extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            SwipeWidget(),
+            ListViewWidget(),
             ButtonsBottom(),
           ],
         ),
@@ -33,31 +34,41 @@ class ButtonsBottom extends StatelessWidget {
           children: [
             SizedBox(width: 10.0,),
             Expanded(
-              child: ElevatedButton(
-                child: Text('Ingresa', style: TextStyle(fontSize: 20.0),),
-                onPressed: (){},
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.0)
-                  )
-                ),
-              ),    
+              child: _Button(label: 'Ingresa', color: Color(0xff009D47), ruta: 'login') 
             ),
             Expanded(
-              child: ElevatedButton(
-                child: Text('Registrate', style: TextStyle(fontSize: 20.0), ),
-                onPressed: (){},
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.0)
-                  )
-                ),
-              ), 
+              child: _Button(label: 'Registrate', color: Color(0xffFF8A00), ruta: 'login') 
             ),
             SizedBox(width: 10.0,),
           ],
-        )
+        ),
+        SizedBox(height: 20.0,)
       ],
+    );
+  }
+}
+
+class _Button extends StatelessWidget {
+
+  final String label,ruta;
+  final Color color;
+
+  _Button({ @required this.label, @required this.color, @required this.ruta });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      child: Text(this.label , style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900), ),
+      onPressed: (){
+        Navigator.pushNamed(context, this.ruta);
+      },
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(vertical: 15.0),
+        primary: this.color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0)
+        )
+      ),
     );
   }
 }
