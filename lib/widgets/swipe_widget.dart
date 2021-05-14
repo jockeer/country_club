@@ -1,0 +1,59 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+
+
+class SwipeWidget extends StatefulWidget {
+
+  @override
+  _SwipeWidgetState createState() => _SwipeWidgetState();
+}
+
+class _SwipeWidgetState extends State<SwipeWidget> {
+  int _currentPage = 0;
+
+  PageController _controladorPageView = new PageController(initialPage: 0);
+  @override
+  void initState() {
+    super.initState();
+  
+
+    Timer.periodic(new Duration(seconds: 3), (Timer timer) {
+      if (_currentPage <= 1) {
+        _currentPage++;
+      } else {
+        _currentPage = 0;
+      }
+      _controladorPageView.animateToPage(_currentPage,
+          duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+    });
+
+  }
+  @override
+  Widget build(BuildContext context) {
+    
+    final phoneSize = MediaQuery.of(context).size;
+  
+    return PageView(
+        controller: _controladorPageView,
+        children: <Widget>[
+          Container(
+            width: phoneSize.width,
+            height: phoneSize.height,
+            color: Color(0xff00472B),
+          ),    
+          Container(
+            width: phoneSize.width,
+            height: phoneSize.height,
+            color: Color(0xff009D47),
+          ),    
+          Container(
+            width: phoneSize.width,
+            height: phoneSize.height,
+            color: Color(0xffFF8A00),
+          ),           
+        
+        ],
+      );;
+  }
+}
