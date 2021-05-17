@@ -40,7 +40,8 @@ class _ListViewWidgetState extends State<ListViewWidget> {
           Container(
             width: phoneSize.width,
             height: phoneSize.height,
-            color: Color(0xff00472B),
+            child: Image(image: AssetImage('assets/backgrounds/fondo_inicio.png'), fit: BoxFit.cover,),
+            
           ),    
           Container(
             width: phoneSize.width,
@@ -54,6 +55,6 @@ class _ListViewWidgetState extends State<ListViewWidget> {
           ),           
         
         ],
-      );;
+      );
   }
 }

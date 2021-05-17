@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:country/widgets/floating_button_widget.dart';
 
-class LoginPage extends StatelessWidget {
+class RegisterPage2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -14,17 +14,26 @@ class LoginPage extends StatelessWidget {
             SingleChildScrollView( //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
               child: Column(
                 children: [
-                  // Image(image: AssetImage('')),
-                  SizedBox(height: 80.0,),
-                  Image(image: AssetImage('assets/icons/logo.png'),),
+                  SizedBox(height: 60.0,),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
+                    child:Column(
+                      children: [
+                        Text('INGRESA INFORMACION ADICIONAL', style: TextStyle(fontWeight: FontWeight.w900,fontSize: 16.0 ), textAlign: TextAlign.center,),
+                        SizedBox(height: 10.0,),
+                        Text('Vamos a necesitar alguna informacion tuya para continuar con el registro', style: TextStyle(), textAlign: TextAlign.center,)
+                      ],
+                    ),
+                  ),
                   _Formulario(),
+                  Image(image: AssetImage('assets/icons/logo.png'), width: 250.0,),
                 ],
               ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingButtonWidget(), //WIDGET CREADO PARA EL BOTON QUE REGRESA
+      floatingActionButton: FloatingButtonWidget(),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
@@ -56,19 +65,31 @@ class _Formulario extends StatelessWidget  {
           SizedBox(height: 30.0,),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
-            child: Text('NOMBRE DE USUARIO', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+            child: Text('NOMBRES(S)', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
           ),
           _InputUserName(), //INPUT DONDE ESTA EL NOMBRE DE USUARIO
-          SizedBox(height: 30.0,),
+          SizedBox(height: 20.0,),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
-            child: Text('CONTRASEÑA', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+            child: Text('APELLIDO(S)', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
           ),
-          _InputPassword(), // INPUT PARA EL PASSWORD
+          _InputPassword(),
+          SizedBox(height: 20.0,), // INPUT PARA EL PASSWORD
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
+            child: Text('CORREO ELECTRONICO', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+          ),
+          _InputUserName(), //INPUT DONDE ESTA EL NOMBRE DE USUARIO
+          SizedBox(height: 20.0,),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
+            child: Text('CONTRASEÑA', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+          ),
+          _InputUserName(), //INPUT DONDE ESTA EL NOMBRE DE USUARIO
+          SizedBox(height: 20.0,),
+          // SizedBox(height: 50.0,),
+          Center(child: _ButtonNext()),
           SizedBox(height: 30.0,),
-          Center(child: _ContrasenaOlvidada()),
-          SizedBox(height: 50.0,),
-          Center(child: _ButtonLogin())
         ],
       ),
     );
@@ -83,7 +104,7 @@ class _InputUserName extends StatelessWidget {
     return TextField(
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
-        hintText: 'Nombre de usuario',
+        hintText: 'Codigo de socio',
         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.transparent)),
         enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(50.0) ),
@@ -115,15 +136,15 @@ class _InputPassword extends StatelessWidget {
 
 }
 
-class _ButtonLogin extends StatelessWidget {
+class _ButtonNext extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: (){
-        Navigator.pushNamed(context, 'menu');
+        Navigator.pushNamed(context, 'register_page_2');
       },
-      child: Text('Ingresar', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),),
+      child: Text('Siguiente', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),),
       style: ElevatedButton.styleFrom(
         elevation: 5.0,
         padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 50.0),
@@ -133,15 +154,6 @@ class _ButtonLogin extends StatelessWidget {
         )
       ),
     );
-  }
-
-}
-
-class _ContrasenaOlvidada extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return Text('¿Olvidaste tu contraseña?', style: TextStyle( fontWeight: FontWeight.bold ),);
   }
 
 }
