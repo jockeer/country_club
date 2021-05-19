@@ -106,6 +106,7 @@ class _FondoPantalla extends StatelessWidget {
     return Image(
       image: AssetImage('assets/backgrounds/fondo_blanco.png'),
       height: phoneSize.height,
+      width: phoneSize.width,
       fit: BoxFit.fill,
     );
   }

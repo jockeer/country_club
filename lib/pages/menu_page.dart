@@ -27,7 +27,7 @@ class _Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final phoneSize = MediaQuery.of(context).size;
+    // final phoneSize = MediaQuery.of(context).size;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0.0),

@@ -115,6 +115,7 @@ class _FondoPantalla extends StatelessWidget {
     final phoneSize = MediaQuery.of(context).size;
     return Image(
       image: AssetImage('assets/backgrounds/fondo_blanco.png'),
+      width: phoneSize.width,
       height: phoneSize.height,
       fit: BoxFit.fill,
     );

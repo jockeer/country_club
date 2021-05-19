@@ -1,8 +1,10 @@
-import 'package:country/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:country/helpers/preferencias_usuario.dart';
+import 'package:country/routes/routes.dart';
+import 'package:provider/provider.dart';
+import 'package:country/providers/registro_provider.dart';
 
 void main() async {
 
@@ -26,12 +28,19 @@ class MyApp extends StatelessWidget {
       )
     );
     
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Country Club',
-      initialRoute: 'welcome',
-      routes: getAplicationRoutes(),
-      
+    return MultiProvider(
+
+      providers: [
+        ChangeNotifierProvider(create: (_) => RegistroProvider(),)
+      ],
+
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Country Club',
+        initialRoute: 'welcome',
+        routes: getAplicationRoutes(),
+        
+      ),
     );
   }
 }
