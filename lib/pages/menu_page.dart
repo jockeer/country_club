@@ -1,69 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:country/widgets/menu_lateral_widget.dart';
 
 class MenuPage extends StatelessWidget {
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      drawer: MenuLateral(),
-      body: SafeArea(
-        child: Stack(
+      appBar: AppBar(title: Text('Menu', style: TextStyle(color: Colors.black38),),backgroundColor: Colors.transparent, iconTheme: IconThemeData(), elevation: 0.0,),
+      drawer: MenuLateralWidget(),
+      body: SingleChildScrollView(
+        child: Column(
           children: [
-            _FondoPantalla(),
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: 60.0,),
-                  _Menu(),
-                  Image(image: AssetImage('assets/icons/logo.png'), width: 250.0,),
-                ],
-              ),
-            )
+            _Menu(),
+            Image(image: AssetImage('assets/icons/logo.png'), width: 250.0,),
           ],
         ),
-      ),
-    
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        child: Icon(Icons.menu, color: Colors.black,),
-        onPressed: (){
-          _scaffoldKey.currentState.openDrawer();
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-    );
-     
+      )
+    );  
   }
 }
 
-class _FondoPantalla extends StatelessWidget { 
-
-  @override
-  Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
-    return Image(
-      image: AssetImage('assets/backgrounds/fondo_blanco.png'),
-      height: phoneSize.height,
-      fit: BoxFit.fill,
-    );
-  }
-
-}
-
-class MenuLateral extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      
-
-    );
-  }
-}
 
 class _Menu extends StatelessWidget {
 
@@ -73,56 +30,77 @@ class _Menu extends StatelessWidget {
     final phoneSize = MediaQuery.of(context).size;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 0.0),
       child: Column(
         children: [
           GestureDetector(
             onTap: (){
-              print('ss');
+              Navigator.pushNamed(context, 'tarjeta');
             },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0),
-                color: Color(0xff009D47)
-              ),
-              width: phoneSize.width,
-              height: 100.0,
+            child: Card(
+              color: Color(0xff009D47),
+              elevation: 10.0,
+              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10.0)),
+              child: Container(         
+                height: 100.0,
+                child: Stack(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container( 
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10.0), bottomRight:Radius.circular(10.0) ),
+                            color: Colors.black38,
+                          ),
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Text('Tarjeta de consumo', textAlign: TextAlign.right, style: TextStyle(color: Colors.white),),
+                          )
+                        ),
+                      ],
+                    ),                
+                  ],
+                ),
+              )
             ),
           ),
           SizedBox(height: 10.0,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _ButtonMenu(titulo: 'Historico de tarjeta', color: Colors.yellow),
+              _ButtonMenu(titulo: 'Historico de tarjeta', color: Colors.yellow, ruta: 'reservas'),
               SizedBox(width: 10.0,),
-              _ButtonMenu(titulo: 'Mensualidad', color: Colors.green)
+              _ButtonMenu(titulo: 'Mensualidad', color: Colors.green, ruta: 'reservas')
             ],
           ),
           SizedBox(height: 10.0,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _ButtonMenu(titulo: 'Menu', color: Colors.yellow),
+              _ButtonMenu(titulo: 'Menu', color: Colors.yellow, ruta: 'reservas'),
               SizedBox(width: 10.0,),
-              _ButtonMenu(titulo: 'Inbox', color: Colors.green)
+              _ButtonMenu(titulo: 'Inbox', color: Colors.green, ruta: 'reservas')
             ],
           ),
           SizedBox(height: 10.0,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _ButtonMenu(titulo: 'Reservas', color: Colors.yellow),
+              _ButtonMenu(titulo: 'Reservas', color: Colors.yellow, ruta: 'reservas'),
               SizedBox(width: 10.0,),
-              _ButtonMenu(titulo: 'Historial de reservas', color: Colors.green)
+              _ButtonMenu(titulo: 'Historial de reservas', color: Colors.green, ruta: 'reservas')
             ],
           ),
           SizedBox(height: 10.0,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _ButtonMenu(titulo: 'Eventos', color: Colors.yellow),
+              _ButtonMenu(titulo: 'Eventos', color: Colors.yellow, ruta: 'reservas',),
               SizedBox(width: 10.0,),
-              _ButtonMenu(titulo: 'Handicap', color: Colors.green)
+              _ButtonMenu(titulo: 'Handicap', color: Colors.green, ruta: 'reservas')
             ],
           ),
         ],
@@ -135,8 +113,9 @@ class _ButtonMenu extends StatelessWidget {
 
   final String titulo;
   final Color color;
+  final String ruta;
 
-  _ButtonMenu({@required this.titulo, @required this.color});
+  _ButtonMenu({@required this.titulo, @required this.color, @required this.ruta});
 
   @override
   Widget build(BuildContext context) {
@@ -144,12 +123,12 @@ class _ButtonMenu extends StatelessWidget {
     return Expanded(
       child: GestureDetector(
         onTap: (){
-          print('ss');
+          Navigator.pushNamed(context, 'reservas');
         },
         child: Card(
           color: Color(0xff009D47),
           elevation: 10.0,
-          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10.0)),
+          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20.0)),
           child: Container(         
             height: 100.0,
             child: Stack(
@@ -159,10 +138,17 @@ class _ButtonMenu extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Container( width: double.infinity,color: Colors.black38,child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Text(this.titulo, textAlign: TextAlign.right, style: TextStyle(color: Colors.white),),
-                      )),
+                      Container( 
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20.0), bottomRight:Radius.circular(20.0) ),
+                          color: Colors.black38,
+                        ),
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 5.0),
+                          child: Text(this.titulo, textAlign: TextAlign.right, style: TextStyle(color: Colors.white),),
+                        )
+                      ),
                     ],
                   ),
                 
