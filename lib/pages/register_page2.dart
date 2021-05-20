@@ -81,6 +81,12 @@ class _RegisterPage2State extends State<RegisterPage2> {
                 ),
                 _InputOrigen(origen: socio.origen,),
                 SizedBox(height: 20.0,), // INPUT PARA EL PASSWORD
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
+                  child: Text('ORIGEN', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                ),
+                _InputTelefono(),
+               // INPUT PARA EL PASSWORD
                 // _InputUserName(), 
               ],
             ),
@@ -100,11 +106,10 @@ class _RegisterPage2State extends State<RegisterPage2> {
   
     return ElevatedButton(
       onPressed: (){
-        // print(socio.email);
-        // Navigator.pushNamed(context, 'register_page_2');
+
         if (!form2State.currentState.validate() ) return;
         Navigator.pushNamed(context, 'login');
-        // _mostrarAlerta();
+
       },
       child: Text('Siguiente', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),),
       style: ElevatedButton.styleFrom(
@@ -117,40 +122,6 @@ class _RegisterPage2State extends State<RegisterPage2> {
       ),
     );
   
-  }
-
-  void _mostrarAlerta(){
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: ( context ){
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          title: Text('titulo'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Este es el contenido de la caja de la alerta'),
-              FlutterLogo(size: 100,)
-            ],
-          ),
-          actions: [
-            TextButton(
-              child: Text('Cancelar'),
-              onPressed: (){
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Ok'),
-              onPressed: (){
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      }
-    );
   }
 }
 
@@ -266,5 +237,83 @@ class _InputCodigo extends StatelessWidget {
     );
   }
 
+}
+
+class _InputTelefono extends StatefulWidget {
+  @override
+  __InputTelefonoState createState() => __InputTelefonoState();
+}
+
+class __InputTelefonoState extends State<_InputTelefono> {
+  @override
+  Widget build(BuildContext context) {
+
+    final provider = Provider.of<RegistroProvider>(context, listen: true);
+
+    final phoneSize = MediaQuery.of(context).size;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 100.0,
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(50.0),bottomLeft: Radius.circular(50.0)),
+            color: Color(0xff00472B),
+          ),
+          
+          child: DropdownButton(
+            icon: Icon(Icons.arrow_circle_down_outlined, color: Colors.white,),
+            isExpanded: true,
+            focusColor: Colors.white,
+            dropdownColor: Color(0xff009D47),
+            underline: Container(
+              height: 0.0,
+            ),
+            value: provider.codtel,
+            items: [
+              DropdownMenuItem(child: Text('+591', style: TextStyle(color: Colors.white),), value: '+591',),
+              // DropdownMenuItem(child: Text('+111'), value: '+111',),
+              // DropdownMenuItem(child: Text('+222'), value: '+222',),
+              // DropdownMenuItem(child: Text('+333'), value: '+333',),
+            ],
+
+            onChanged: (opt){
+              provider.codtel = opt;
+            },
+          ),
+        ),
+        Container(
+          width: phoneSize.width*0.4,
+          child: TextFormField(
+            
+            keyboardType: TextInputType.text,
+            // obscureText: true,
+            decoration: InputDecoration(
+
+              hintText: 'Telefono',
+              contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
+              border: OutlineInputBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(50.0),bottomRight:Radius.circular(50.0) ), borderSide: BorderSide(color: Colors.transparent)),
+              enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.only(topRight: Radius.circular(50.0),bottomRight:Radius.circular(50.0) ) ),
+              filled: true,        
+
+              
+            ),
+            onChanged: (value){
+              provider.telefono=value;
+            },
+            validator: (value){
+              if (value.isEmpty) {
+                return 'ingrese un numero de telefono';
+              } else {
+                return null;
+              }
+            },
+          ),
+        ),
+      ],
+    );
+  }
 }
 

@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 class RegistroProvider extends ChangeNotifier{
 
   String _codigo  = '';  
-  String _apPaterno = '';
-  String _apMaterno= '';
-  String _nombre= '';
+  // String _apPaterno = '';
+  // String _apMaterno= '';
+  // String _nombre= '';
   String _ci = '';
   String _origen= '';
-  String _direccion= '';
-  String _telefono= '';
+  // String _direccion= '';
+  String _codtel = '+591';
+  String _telefono = '';
 
   String _email = '';
   String _password = '';
@@ -54,6 +55,22 @@ class RegistroProvider extends ChangeNotifier{
 
   set origen(String origen){
     this._origen = origen;
+    notifyListeners();
+  }
+  String get codtel{
+    return this._codtel;
+  }
+
+  set codtel(String codtel){
+    this._codtel = codtel;
+    notifyListeners();
+  }
+  String get telefono{
+    return this._telefono;
+  }
+
+  set telefono(String telefono){
+    this._telefono = telefono;
     notifyListeners();
   }
 

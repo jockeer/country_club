@@ -24,9 +24,18 @@ class MenuLateralWidget extends StatelessWidget {
                       Icon(Icons.person_outlined, color: Colors.green, size: phoneSize.width*0.25,),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text('${prefs.nombreSocio}', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16.0),),
-                          Text('correocliente@prueba.com', style: TextStyle(color: Colors.black45),),
+                          Container(
+                            width: phoneSize.width*0.5,
+                            child: Text('${prefs.nombreSocio}', 
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900, 
+                              ),
+                              textAlign: TextAlign.center,
+                            )
+                          ),
+                          Container( width: phoneSize.width*0.5,child: Text('${prefs.correoSocio}', style: TextStyle(color: Colors.black45),textAlign: TextAlign.center, overflow: TextOverflow.ellipsis,)),
                         ],
                       )
                     ],

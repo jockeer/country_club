@@ -5,6 +5,7 @@ import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/routes/routes.dart';
 import 'package:provider/provider.dart';
 import 'package:country/providers/registro_provider.dart';
+import 'package:country/providers/login_provider.dart';
 
 void main() async {
 
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
 
       providers: [
-        ChangeNotifierProvider(create: (_) => RegistroProvider(),)
+        ChangeNotifierProvider(create: (_) => RegistroProvider(),),
+        ChangeNotifierProvider(create: (_)=> LoginProvider(),)
       ],
 
       child: MaterialApp(

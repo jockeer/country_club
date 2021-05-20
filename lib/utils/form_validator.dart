@@ -11,4 +11,12 @@ class FormValidator{
         return false;
       }
   }
+
+  bool isNumeric(String numero){
+    
+    final n = num.tryParse(numero);
+
+    return (n==null) ? false : true;
+    
+  }
 }

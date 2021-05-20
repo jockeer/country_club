@@ -1,6 +1,12 @@
+import 'package:country/utils/form_validator.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/helpers/preferencias_usuario.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:provider/provider.dart';
+import 'package:country/providers/login_provider.dart';
+import 'package:country/providers/socio_provider.dart';
+import 'package:country/utils/show_snack_bar.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -10,28 +16,36 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final formkey = GlobalKey<FormState>();
+
+  bool indicator = false;
+  final _socioProvider = new SocioProvider();
+
   @override
   Widget build(BuildContext context) {
 
     final phoneSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
-            SingleChildScrollView( //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
-              child: Column(
-                children: [
-                  // Image(image: AssetImage('')),
-                  SizedBox(height: 80.0,),
-                  Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.85,),
-                  _formulario(),
-                ],
+      body: ModalProgressHUD(
+        child: SafeArea(
+          child: Stack(
+            children: [
+              _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
+              SingleChildScrollView( //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
+                child: Column(
+                  children: [
+                    // Image(image: AssetImage('')),
+                    SizedBox(height: 80.0,),
+                    Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.85,),
+                    _formulario(),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        inAsyncCall: indicator,
+        // dismissible: false,
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.transparent,
@@ -98,12 +112,33 @@ class _LoginPageState extends State<LoginPage> {
   
   }
 
-  void _submit() {
+  void _submit() async {
     final prefs = PreferenciasUsuario();
     if (!formkey.currentState.validate()) return;
 
-    prefs.nombreSocio ='Daniel ssss';
-    Navigator.pushNamed(context, 'menu');
+    final provider = Provider.of<LoginProvider>(context, listen: false);
+
+    setState(() {
+      indicator = true;
+    });
+    print(provider.usuario + provider.password);
+    final socio = await _socioProvider.loginSocio(provider.usuario, provider.password);
+
+    this.indicator=false;
+      setState((){
+        if(socio!=null){
+          print(socio.apMaterno);
+            prefs.nombreSocio = '${socio.nombre} ${socio.apPaterno} ${socio.apMaterno} ';
+            // prefs.correoSocio = socio.email;
+            prefs.correoSocio = 'correo@correo.com';
+            Navigator.pushNamed(context, 'menu');
+        }else{
+          mostrarSnackBar(context, 'Datos Incorrectos');
+        }     
+    });
+
+    
+    
   }
 }
 
@@ -128,6 +163,9 @@ class _InputUserName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final provider = Provider.of<LoginProvider>(context, listen: false);
+
     return TextFormField(
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
@@ -137,6 +175,9 @@ class _InputUserName extends StatelessWidget {
         enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(50.0) ),
         filled: true,
       ),
+      onChanged: (value){
+        provider.usuario = value;
+      },
       validator: (value){
         if (value.length < 1) {
           return 'Ingrese su nombre de usuario';
@@ -153,6 +194,7 @@ class _InputPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<LoginProvider>(context, listen: false);
     return TextFormField(
       keyboardType: TextInputType.text,
       obscureText: true,
@@ -164,6 +206,9 @@ class _InputPassword extends StatelessWidget {
         filled: true,
         // border: 
       ),
+      onChanged: (value){
+        provider.password = value;
+      },
       validator: (value){
         if (value.length < 1) {
           return 'Ingrese su contraseña';
