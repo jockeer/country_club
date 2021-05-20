@@ -4,6 +4,7 @@ import 'package:country/widgets/floating_button_widget.dart';
 import 'package:country/providers/socio_provider.dart';
 import 'package:country/utils/show_snack_bar.dart';
 import 'package:country/providers/registro_provider.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
 class ValidacionCodigoPage extends StatefulWidget {
@@ -18,26 +19,31 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
   final stateForm = GlobalKey<FormState>();
 
   final _socioProvider = new SocioProvider();
+  bool indicator = false;
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
-            SingleChildScrollView( //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
-              child: Column(
-                children: [
-                  // Image(image: AssetImage('')),
-                  SizedBox(height: 80.0,),
-                  Image(image: AssetImage('assets/icons/logo.png'),),
-                  _formulario(),
-                ],
+      body: ModalProgressHUD(
+        child: SafeArea(
+          child: Stack(
+            children: [
+              _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
+              SingleChildScrollView( //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
+                child: Column(
+                  children: [
+                    // Image(image: AssetImage('')),
+                    SizedBox(height: 80.0,),
+                    Image(image: AssetImage('assets/icons/logo.png'),),
+                    _formulario(),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+      inAsyncCall: indicator,
       ),
       floatingActionButton: FloatingButtonWidget(),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -75,27 +81,22 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
   Widget _buttonNext(){
   
     return ElevatedButton(
-      onPressed: () async {
+      onPressed: () async {  
           if (!stateForm.currentState.validate()) return;
+          setState(() {
+            this.indicator=true;
+          });
           final provider = Provider.of<RegistroProvider>(context, listen: false);
-
-          print(provider.codigo.toString());
-
-          final resp = await _socioProvider.getSocio(provider.codigo.toString()); //6038
-
-          if(resp!=null){
-            print(resp.apMaterno);
-          }else{
-            mostrarSnackBar(context, 'El codigo del socio no es valido');
-
-          }
-
-          // Scaffold.of(context).showSnackBar(snackBar); 
-          // final provider = Provider.of<RegistroProvider>(context, listen: false);
-
-          // print(provider.codigo);
-          // if (!stateForm.currentState.validate()) return;
-          // Navigator.pushNamed(context, 'register_page_1');
+          final socio = await _socioProvider.getSocio(provider.codigo.toString()); //6038
+          this.indicator=false;
+          setState((){
+            if(socio!=null){
+              print(socio.apMaterno);
+              Navigator.pushNamed(context, 'register_page_1', arguments: socio);
+            }else{
+              mostrarSnackBar(context, 'El codigo del socio no es valido');
+            }     
+          });
       },
       child: Text('Validar', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),),
       style: ElevatedButton.styleFrom(
@@ -142,7 +143,7 @@ class _InputCodigoSocio extends StatelessWidget {
       ),
       onChanged: (value){
         final provider = Provider.of<RegistroProvider>(context, listen: false);
-        provider.codigo = int.parse(value);
+        provider.codigo = value;
         print("desde provider: " + provider.codigo.toString());
       },
       validator: (value){

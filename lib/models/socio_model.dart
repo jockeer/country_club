@@ -25,6 +25,9 @@ class Socio {
     String direccion;
     String telefono;
 
+    String email = '';
+    String password = '';
+
     factory Socio.fromJson(Map<String, dynamic> json) => Socio(
         codigo: json["codigo"],
         apPaterno: json["ap_paterno"],

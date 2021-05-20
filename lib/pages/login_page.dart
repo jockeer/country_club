@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:country/widgets/floating_button_widget.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,6 +12,9 @@ class _LoginPageState extends State<LoginPage> {
   final formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+
+    final phoneSize = MediaQuery.of(context).size;
+
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -23,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   // Image(image: AssetImage('')),
                   SizedBox(height: 80.0,),
-                  Image(image: AssetImage('assets/icons/logo.png'),),
+                  Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.85,),
                   _formulario(),
                 ],
               ),
@@ -31,7 +33,14 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingButtonWidget(), //WIDGET CREADO PARA EL BOTON QUE REGRESA
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        child: Icon(Icons.arrow_back,color: Colors.black, ),
+        onPressed: (){
+          Navigator.pushNamed(context,'welcome');
+        },
+      ), //WIDGET CREADO PARA EL BOTON QUE REGRESA
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
