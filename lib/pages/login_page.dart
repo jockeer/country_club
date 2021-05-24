@@ -167,7 +167,7 @@ class _InputUserName extends StatelessWidget {
     final provider = Provider.of<LoginProvider>(context, listen: false);
 
     return TextFormField(
-      keyboardType: TextInputType.text,
+      keyboardType: TextInputType.number,
       decoration: InputDecoration(
         hintText: 'Nombre de usuario',
         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),

@@ -8,27 +8,10 @@ import 'package:country/models/socio_model.dart';
 
 class SocioProvider{
 
-  // Future<Socio> _procesarRespuesta(Uri url) async{
-  //   final resp = await http.get( url );
-    
-  //   final decodedData = json.decode(resp.body);
-
-  //   // print(decodedData['results']);
-
-  //   // final socio = Socio.fromJson(decodedData)
-    
-  //   // final peliculas = new Peliculas.fromJsonList(decodedData['results']);
-
-  //   // print(peliculas.items[0].title);
-    
-
-  //   // return peliculas.items;
-  // }
-
   Future<Socio> getSocio(String codigoSocio) async {
     final n = num.tryParse(codigoSocio);
 
-    if(n==null){
+    if(n == null){
       return null;
     }
 

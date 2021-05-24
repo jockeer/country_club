@@ -27,10 +27,10 @@ class _MenuReservas extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
         children: [
-          _MenuButton(ruta: 'reservas',titulo: 'Deportes', color: Colors.red,),
-          _MenuButton(ruta: 'reservas',titulo: 'Cabañas',color: Colors.brown),
-          _MenuButton(ruta: 'reservas',titulo: 'Servicios',color: Colors.blue),
-          _MenuButton(ruta: 'reservas',titulo: 'Eventos',color: Colors.green),
+          _MenuButton(ruta: 'subcatreservas',titulo: 'Deportes', color: Colors.red, subcat: 1,),
+          _MenuButton(ruta: 'subcatreservas',titulo: 'Cabañas',color: Colors.brown, subcat: 2,),
+          _MenuButton(ruta: 'subcatreservas',titulo: 'Servicios',color: Colors.blue, subcat: 3,),
+          _MenuButton(ruta: 'subcatreservas',titulo: 'Eventos',color: Colors.green, subcat: 4,),
         ],
       ); 
   }
@@ -42,13 +42,17 @@ class _MenuButton extends StatelessWidget {
   final String titulo;
   final String ruta;
   final Color color;
+  final int subcat;
 
-  const _MenuButton({@required this.color ,@required this.titulo, @required this.ruta});
+  const _MenuButton({@required this.color ,@required this.titulo, @required this.ruta, @required this.subcat});
 
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: (){
+        Navigator.pushNamed(context, this.ruta, arguments: {"subcat": this.subcat, "titulo": this.titulo});
+      },
       child: Container(
         decoration: BoxDecoration(
           color: this.color,

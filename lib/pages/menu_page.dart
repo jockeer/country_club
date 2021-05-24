@@ -6,6 +6,7 @@ class MenuPage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(title: Text('Menu', style: TextStyle(color: Colors.black38),),backgroundColor: Colors.transparent, iconTheme: IconThemeData(), elevation: 0.0,),
       drawer: MenuLateralWidget(),
@@ -123,7 +124,7 @@ class _ButtonMenu extends StatelessWidget {
     return Expanded(
       child: GestureDetector(
         onTap: (){
-          Navigator.pushNamed(context, 'reservas');
+          Navigator.pushNamed(context, 'reservas_historial');
         },
         child: Card(
           color: Color(0xff009D47),

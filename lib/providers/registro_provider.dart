@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 class RegistroProvider extends ChangeNotifier{
 
   String _codigo  = '';  
-  // String _apPaterno = '';
-  // String _apMaterno= '';
-  // String _nombre= '';
+
   String _ci = '';
   String _origen= '';
   // String _direccion= '';

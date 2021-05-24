@@ -1,3 +1,4 @@
+import 'package:country/providers/reserva_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -22,9 +23,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle.light.copyWith(
+      SystemUiOverlayStyle(
         statusBarColor: Color(0xff00472B),
-        systemNavigationBarIconBrightness: Brightness.light
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.light
+        // statusBarColor: Colors.,
         
       )
     );
@@ -33,7 +36,8 @@ class MyApp extends StatelessWidget {
 
       providers: [
         ChangeNotifierProvider(create: (_) => RegistroProvider(),),
-        ChangeNotifierProvider(create: (_)=> LoginProvider(),)
+        ChangeNotifierProvider(create: (_)=> LoginProvider(),),
+        ChangeNotifierProvider(create: (_)=> ReservaProvider(),),
       ],
 
       child: MaterialApp(
@@ -41,6 +45,9 @@ class MyApp extends StatelessWidget {
         title: 'Country Club',
         initialRoute: 'welcome',
         routes: getAplicationRoutes(),
+        theme: ThemeData(
+          primarySwatch: Colors.green
+        ),
         
       ),
     );

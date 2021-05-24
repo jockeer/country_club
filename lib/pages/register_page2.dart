@@ -83,7 +83,13 @@ class _RegisterPage2State extends State<RegisterPage2> {
                 SizedBox(height: 20.0,), // INPUT PARA EL PASSWORD
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
-                  child: Text('ORIGEN', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                  child: Text('DIRECCION', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                ),
+                _InputDireccion(direccion: socio.direccion,),
+                SizedBox(height: 20.0,), // INPUT PARA EL PASSWORD
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
+                  child: Text('TELEFONO', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
                 ),
                 _InputTelefono(),
                // INPUT PARA EL PASSWORD
@@ -239,6 +245,32 @@ class _InputCodigo extends StatelessWidget {
 
 }
 
+class _InputDireccion extends StatelessWidget {
+  final String direccion;
+
+  const _InputDireccion({@required this.direccion});
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<RegistroProvider>(context);
+    return TextFormField(
+      initialValue: this.direccion,
+      keyboardType: TextInputType.text,
+      // obscureText: true,
+      decoration: InputDecoration(
+        enabled: false,
+        hintText: 'Direecion',
+        contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.transparent)),
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(50.0) ),
+        filled: true,        
+        // border: 
+        
+      ),
+    );
+  }
+}
+
 class _InputTelefono extends StatefulWidget {
   @override
   __InputTelefonoState createState() => __InputTelefonoState();
@@ -254,6 +286,7 @@ class __InputTelefonoState extends State<_InputTelefono> {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           width: 100.0,
