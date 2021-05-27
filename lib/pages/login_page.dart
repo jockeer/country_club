@@ -1,11 +1,10 @@
-import 'package:country/utils/form_validator.dart';
+import 'package:country/services/socio_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:country/providers/login_provider.dart';
-import 'package:country/providers/socio_provider.dart';
 import 'package:country/utils/show_snack_bar.dart';
 
 class LoginPage extends StatefulWidget {
@@ -18,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   final formkey = GlobalKey<FormState>();
 
   bool indicator = false;
-  final _socioProvider = new SocioProvider();
+  final _socioProvider = new SocioService();
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       indicator = true;
     });
-    print(provider.usuario + provider.password);
+    // print(provider.usuario + provider.password);
     final socio = await _socioProvider.loginSocio(provider.usuario, provider.password);
 
     this.indicator=false;
@@ -129,16 +128,13 @@ class _LoginPageState extends State<LoginPage> {
         if(socio!=null){
           print(socio.apMaterno);
             prefs.nombreSocio = '${socio.nombre} ${socio.apPaterno} ${socio.apMaterno} ';
-            // prefs.correoSocio = socio.email;
             prefs.correoSocio = 'correo@correo.com';
-            Navigator.pushNamed(context, 'menu');
+            prefs.codigoSocio = '${socio.codigo}';
+            Navigator.pushNamed(context, 'main_menu');
         }else{
           mostrarSnackBar(context, 'Datos Incorrectos');
         }     
     });
-
-    
-    
   }
 }
 
@@ -154,9 +150,7 @@ class _FondoPantalla extends StatelessWidget {
       fit: BoxFit.fill,
     );
   }
-
 }
-
 
 
 class _InputUserName extends StatelessWidget {
@@ -171,9 +165,10 @@ class _InputUserName extends StatelessWidget {
       decoration: InputDecoration(
         hintText: 'Nombre de usuario',
         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.transparent)),
-        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(50.0) ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
         filled: true,
+        fillColor: Colors.white
       ),
       onChanged: (value){
         provider.usuario = value;
@@ -201,9 +196,10 @@ class _InputPassword extends StatelessWidget {
       decoration: InputDecoration(
         hintText: 'Contraseña',
         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.transparent)),
-        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(50.0) ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
         filled: true,
+        fillColor: Colors.white
         // border: 
       ),
       onChanged: (value){
@@ -221,12 +217,16 @@ class _InputPassword extends StatelessWidget {
 
 }
 
-
 class _ContrasenaOlvidada extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('¿Olvidaste tu contraseña?', style: TextStyle( fontWeight: FontWeight.bold ),);
+    return GestureDetector(
+      onTap: (){
+        Navigator.pushNamed(context, 'recuperar_password');
+      },
+      child: Text('¿Olvidaste tu contraseña?', style: TextStyle( fontWeight: FontWeight.bold ),)
+    );
   }
 
 }

@@ -1,40 +1,21 @@
-import 'package:country/helpers/preferencias_usuario.dart';
-import 'package:country/providers/tarjeta_provider.dart';
 import 'package:flutter/material.dart';
+
 import 'package:country/widgets/menu_lateral_widget.dart';
-import 'package:provider/provider.dart';
-// import 'package:provider/provider.dart';
 
-class TarjetaPage extends StatefulWidget {
-
-  @override
-  _TarjetaPageState createState() => _TarjetaPageState();
-}
-
-class _TarjetaPageState extends State<TarjetaPage> {
+class HistoricoTarjetaPage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
-    
+    final phoneSize = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldKey,
       drawer: MenuLateralWidget(),
-      body: RefreshIndicator(
-        onRefresh: _refreshPuntos,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _Tarjeta(),
-              _UltimasTransacciones(),
-              SizedBox(height: 20.0,),
-              Text('Puedes recargar tu tarjeta', style: TextStyle(color: Colors.black45), ),
-              SizedBox(height: 10.0,),
-              _ButtonRecargar(),
-              Image(image: AssetImage('assets/icons/logo.png'), width: 250.0,),
-            ],
-          )
-        ),
+      body: Column(
+        children: [
+          _Tarjeta(),
+          _UltimasTransacciones(),
+          Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.5,),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         elevation: 0.0,
@@ -47,17 +28,6 @@ class _TarjetaPageState extends State<TarjetaPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
-
-  Future<void> _refreshPuntos() async {
-
-    final prefs = PreferenciasUsuario();
-    final provider = Provider.of<TarjetaProvider>(context, listen: false);
-    await provider.cargarDinero(prefs.codigoSocio);
-    setState(() {
-    });
-
-
-  }
 }
 
 class _Tarjeta extends StatelessWidget {
@@ -66,33 +36,25 @@ class _Tarjeta extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final phoneSize = MediaQuery.of(context).size;
-    final prefs = PreferenciasUsuario();
-    final provider = Provider.of<TarjetaProvider>(context, listen: true);
+
 
     return SafeArea(
       child: Container(
         width: phoneSize.width,
-        height: phoneSize.height*0.4,
+        height: phoneSize.height*0.3,
         color: Color(0xff00472B),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FutureBuilder(
-              future: provider.cargarDinero(prefs.codigoSocio),
-              builder: (context, AsyncSnapshot<String> snapshot){
-                if (snapshot.hasData) {   
-                  return Text('Bs.'+ '${snapshot.data}', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: phoneSize.width*0.2, decoration: TextDecoration.underline),);          
-                } 
-                return CircularProgressIndicator();
-              },
-            ),
-            Text('Tarjeta de consumo', style: TextStyle(color: Colors.white38, fontSize: phoneSize.width*0.06),),
+            
+            // Text('Tarjeta de consumo', style: TextStyle(color: Colors.white38, fontSize: phoneSize.width*0.06),),
           ],
         ),
       ),
     );
   }
 }
+
 class _UltimasTransacciones extends StatelessWidget {
 
   @override
@@ -110,7 +72,7 @@ class _UltimasTransacciones extends StatelessWidget {
           ),
         ),
         Container(
-          height: phoneSize.height*0.3,
+          height: phoneSize.height*0.5,
           child: ListView(
             padding: EdgeInsets.all(0.0),
             children: [
@@ -138,33 +100,23 @@ class _UltimasTransacciones extends StatelessWidget {
                 trailing: Text('Bs. 150', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),),
               ),
               Divider(color: Colors.black45,),
+              ListTile(
+                title: Text('Almuerzo Familiar'),
+                subtitle: Text('30/09/2020 - Comprobante N 450313'),
+                trailing: Text('Bs. 150', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),),
+              ),
+              Divider(color: Colors.black45,),
+              ListTile(
+                title: Text('Almuerzo Familiar'),
+                subtitle: Text('30/09/2020 - Comprobante N 450313'),
+                trailing: Text('Bs. 150', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),),
+              ),
+              Divider(color: Colors.black45,),
               
             ],
           ),
         )
       ],
-    );
-  }
-}
-
-class _ButtonRecargar extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: ()async{
-        
-        // Navigator.pushNamed(context, 'menu');
-      },
-      child: Text('Recargar', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),),
-      style: ElevatedButton.styleFrom(
-        elevation: 5.0,
-        padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 50.0),
-        primary: Color(0xff009D47),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0)
-        )
-      ),
     );
   }
 }

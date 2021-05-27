@@ -58,6 +58,7 @@ class _Categoria extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ReservaProvider>(context, listen: true);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50.0),
       decoration: BoxDecoration(
@@ -72,16 +73,16 @@ class _Categoria extends StatelessWidget {
           ),
           icon: Icon(Icons.arrow_circle_down_outlined),
           isExpanded: true,
-          value: '1',
+          value: provider.codigoCat,
           items: [
-            DropdownMenuItem(child: Text('1', style: TextStyle(color: Colors.black),), value: '1',),
-            DropdownMenuItem(child: Text('2', style: TextStyle(color: Colors.black),), value: '2',),
+            DropdownMenuItem(child: Text('Evento 1', style: TextStyle(color: Colors.black),), value: '1',),
+            DropdownMenuItem(child: Text('Evento 2', style: TextStyle(color: Colors.black),), value: '2',),
             // DropdownMenuItem(child: Text('+111'), value: '+111',),
             // DropdownMenuItem(child: Text('+222'), value: '+222',),
             // DropdownMenuItem(child: Text('+333'), value: '+333',),
           ],
           onChanged: (opt){
-            print(opt);
+            provider.codigoCat=opt;
 
           },
         ),

@@ -13,6 +13,7 @@ class LoginProvider extends ChangeNotifier{
 
   set usuario(String usuario){
     this._usuario = usuario;
+    print("desde provider Lgoin: " + usuario);
     notifyListeners();
   }
 

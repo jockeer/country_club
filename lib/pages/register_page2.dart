@@ -165,9 +165,10 @@ class _InputCi extends StatelessWidget {
         enabled: (this.ci.isEmpty ||this.ci == '0' )? true : false,
         hintText: 'Carnet de identidad',
         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.transparent)),
-        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(50.0) ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
         filled: true,
+        fillColor: Colors.white
       ),
       onChanged: (value){
         provider.ci = value;
@@ -202,9 +203,10 @@ class _InputOrigen extends StatelessWidget {
       decoration: InputDecoration(
         hintText: 'Origen',
         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.transparent)),
-        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(50.0) ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
         filled: true,
+        fillColor: Colors.white
         // border: 
         
       ),
@@ -234,9 +236,10 @@ class _InputCodigo extends StatelessWidget {
         enabled: false,
         hintText: 'Codigo cliente',
         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.transparent)),
-        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(50.0) ),
-        filled: true,        
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
+        filled: true,
+        fillColor: Colors.white        
         // border: 
         
       ),
@@ -258,15 +261,25 @@ class _InputDireccion extends StatelessWidget {
       keyboardType: TextInputType.text,
       // obscureText: true,
       decoration: InputDecoration(
-        enabled: false,
-        hintText: 'Direecion',
+        enabled: true,
+        hintText: 'Direccion',
         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.transparent)),
-        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(50.0) ),
-        filled: true,        
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
+        filled: true,
+        fillColor: Colors.white        
         // border: 
         
       ),
+      onChanged: (value){
+        provider.direccion = value;
+      },
+      validator: (value){
+        if(value.isEmpty){
+          return "la direccion no puede quedar vacia";
+        }
+        return null;
+      },
     );
   }
 }
@@ -327,9 +340,10 @@ class __InputTelefonoState extends State<_InputTelefono> {
 
               hintText: 'Telefono',
               contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-              border: OutlineInputBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(50.0),bottomRight:Radius.circular(50.0) ), borderSide: BorderSide(color: Colors.transparent)),
-              enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.only(topRight: Radius.circular(50.0),bottomRight:Radius.circular(50.0) ) ),
-              filled: true,        
+              border: OutlineInputBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(50.0),bottomRight:Radius.circular(50.0) ), borderSide: BorderSide(color: Colors.black26)),
+              enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.only(topRight: Radius.circular(50.0),bottomRight:Radius.circular(50.0) ) ),
+              filled: true,
+              fillColor: Colors.white        
 
               
             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:country/widgets/floating_button_widget.dart';
-import 'package:country/providers/socio_provider.dart';
+import 'package:country/services/socio_service.dart';
 import 'package:country/utils/show_snack_bar.dart';
 import 'package:country/providers/registro_provider.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -18,7 +18,7 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
   
   final stateForm = GlobalKey<FormState>();
 
-  final _socioProvider = new SocioProvider();
+  final _socioProvider = new SocioService();
   bool indicator = false;
 
 
@@ -68,6 +68,8 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
                 ),
                 _InputCodigoSocio(),
                 SizedBox(height: 20.0,),
+                _InputCISocio(),
+                SizedBox(height: 20.0,),
 
                 Center(child: _buttonNext()),
               ],
@@ -87,14 +89,14 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
             this.indicator=true;
           });
           final provider = Provider.of<RegistroProvider>(context, listen: false);
-          final socio = await _socioProvider.getSocio(provider.codigo.toString()); //6038
+          final socio = await _socioProvider.getSocio(provider.codigo, provider.ci); //6038
           this.indicator=false;
           setState((){
             if(socio!=null){
               print(socio.apMaterno);
               Navigator.pushNamed(context, 'register_page_1', arguments: socio);
             }else{
-              mostrarSnackBar(context, 'El codigo del socio no es valido');
+              mostrarSnackBar(context, 'Los datos del socio no son validos por favor actualice su informacion');
             }     
           });
       },
@@ -132,19 +134,48 @@ class _InputCodigoSocio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<RegistroProvider>(context, listen: false);
     return TextFormField(
-      keyboardType: TextInputType.phone,
+      keyboardType: TextInputType.number,
       decoration: InputDecoration(
         hintText: 'Codigo Socio',
         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.transparent)),
-        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(50.0) ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
         filled: true,
+        fillColor: Colors.white
       ),
       onChanged: (value){
-        final provider = Provider.of<RegistroProvider>(context, listen: false);
         provider.codigo = value;
-        print("desde provider: " + provider.codigo.toString());
+      },
+      validator: (value){
+        if (value.length < 1) {
+          return 'Ingrese un valor Valido';
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+
+}
+class _InputCISocio extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<RegistroProvider>(context, listen: false);
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        hintText: 'Carnet del Socio',
+        contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
+        filled: true,
+        fillColor: Colors.white
+      ),
+      onChanged: (value){
+        provider.ci = value;
       },
       validator: (value){
         if (value.length < 1) {

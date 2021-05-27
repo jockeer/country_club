@@ -1,4 +1,3 @@
-import 'package:country/providers/reserva_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,6 +6,8 @@ import 'package:country/routes/routes.dart';
 import 'package:provider/provider.dart';
 import 'package:country/providers/registro_provider.dart';
 import 'package:country/providers/login_provider.dart';
+import 'package:country/providers/reserva_provider.dart';
+import 'package:country/providers/tarjeta_provider.dart';
 
 void main() async {
 
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RegistroProvider(),),
         ChangeNotifierProvider(create: (_)=> LoginProvider(),),
         ChangeNotifierProvider(create: (_)=> ReservaProvider(),),
+        ChangeNotifierProvider(create: (_)=> TarjetaProvider(),),
       ],
 
       child: MaterialApp(

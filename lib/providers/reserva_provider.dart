@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class ReservaProvider extends ChangeNotifier{
 
-  String _codigoCat;
+  String _codigoCat = '1';
   String _codigoSubCat;
 
   String _fecha='';

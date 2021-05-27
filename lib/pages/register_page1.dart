@@ -157,9 +157,10 @@ class _InputFirstName extends StatelessWidget {
       decoration: InputDecoration(
         hintText: 'Nombre',
         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.transparent)),
-        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(50.0) ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
         filled: true,
+        fillColor: Colors.white
       ),
       validator: (value){
         if (value.isEmpty) {
@@ -187,9 +188,10 @@ class _InputLastName extends StatelessWidget {
       decoration: InputDecoration(
         hintText: 'Apellido',
         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.transparent)),
-        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(50.0) ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
         filled: true,
+        fillColor: Colors.white
         // border: 
         
       ),
@@ -222,9 +224,10 @@ class _InputEmail extends StatelessWidget {
       decoration: InputDecoration(
         hintText: 'Correo electronico',
         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.transparent)),
-        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(50.0) ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
         filled: true,
+        fillColor: Colors.white
         
       ),
       onChanged: (value){
@@ -261,9 +264,10 @@ class _InputPassword extends StatelessWidget {
       decoration: InputDecoration(
         hintText: 'Contraseña',
         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.transparent)),
-        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(50.0) ),
-        filled: true, 
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
+        filled: true,
+        fillColor: Colors.white 
         
       ),
       onChanged: (value){

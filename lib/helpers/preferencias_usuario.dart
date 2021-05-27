@@ -20,6 +20,15 @@ class PreferenciasUsuario {
 
   //GET Y SET del Nombre de Socio
 
+  get codigoSocio{
+    return _prefs.getString('codigo') ?? 'sin codigo';
+  }
+
+  set codigoSocio(String codigo){
+    _prefs.setString('codigo', codigo);
+  }
+  //GET Y SET del Nombre de Socio
+
   get nombreSocio{
     return _prefs.getString('nombre') ?? 'sin nombre';
   }
