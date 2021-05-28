@@ -26,7 +26,7 @@ class _ReservaProcesoPageState extends State<ReservaProcesoPage> {
             children: [
               _Categoria(),
               _Calendar(),
-              _HorasPersonas()
+              _FormularioReservas()
             ],
           ),
         ),
@@ -141,13 +141,13 @@ class __CalendarState extends State<_Calendar> {
   }
 }
 
-class _HorasPersonas extends StatefulWidget {
+class _FormularioReservas extends StatefulWidget {
 
   @override
-  __HorasPersonasState createState() => __HorasPersonasState();
+  __FormularioReservasState createState() => __FormularioReservasState();
 }
 
-class __HorasPersonasState extends State<_HorasPersonas> {
+class __FormularioReservasState extends State<_FormularioReservas> {
   
   final formkey = GlobalKey<FormState>();
   
@@ -159,6 +159,7 @@ class __HorasPersonasState extends State<_HorasPersonas> {
       child: Form(
         key: formkey,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -182,28 +183,53 @@ class __HorasPersonasState extends State<_HorasPersonas> {
                 )
               ],
             ),
+            SizedBox(height: 30.0,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 5.0),
+              child: Text('Celular de contacto'),
+            ),
+            _CelularContacto(),
+            SizedBox(height: 20.0,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 5.0),
+              child: Text('Nombre de contacto'),
+            ),
+            _NombreContacto(),
             SizedBox(height: 40.0,),
             _RequerimientosExtras(),
-            ElevatedButton(
-              onPressed: (){
-                if (provider.fecha == '') {
-                  mostrarSnackBar(context, 'elija una fecha');
-                  return;
-                }
-                if (!formkey.currentState.validate()) return;
-                provider.fecha='';
-                print('fecha: ${provider.fecha } cantidad: ${provider.cantPersonas} req: ${provider.reqExtras} ');
-              }, 
-              child: Text('Hacer reserva', style: TextStyle(fontSize: 18.0),),
-              style: ElevatedButton.styleFrom(
-                primary: Color(0xff009D47),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0))
+            Center(
+              child: ElevatedButton(
+                onPressed: (){
+                  if (provider.fecha == '') {
+                    mostrarSnackBar(context, 'elija una fecha');
+                    return;
+                  }
+                  if (!formkey.currentState.validate()) return;
+                  provider.fecha='';
+                  print('fecha: ${provider.fecha } cantidad: ${provider.cantPersonas} req: ${provider.reqExtras} ');
+
+                  _mensajeExito();
+                }, 
+                child: Text('Hacer reserva', style: TextStyle(fontSize: 18.0),),
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xff009D47),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0))
+                ),
               ),
             ),
             SizedBox(height: 20.0,)
           ],
         ),
       ),
+    );
+  }
+  void _mensajeExito(){
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: ( context ){
+        return _DialogExito();
+      }
     );
   }
 }
@@ -239,13 +265,14 @@ class _CantidadPersonas extends StatelessWidget {
 
     return TextFormField(
       // initialValue: '0',
+      style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
       textAlign: TextAlign.center,
       keyboardType: TextInputType.phone,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.zero,
-        hintStyle: TextStyle(fontSize: 20.0),
+        hintStyle: TextStyle(fontSize: 30.0),
         hintText: '0',
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
       ),
       onChanged: (value){
         provider.cantPersonas = value;
@@ -280,7 +307,7 @@ class _HoraReserva extends StatelessWidget {
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.zero,
-        hintStyle: TextStyle(fontSize: 20.0),
+        hintStyle: TextStyle(fontSize: 30.0, color: Colors.black, fontWeight: FontWeight.bold,),
         hintText: provider.hora,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))
       ),
@@ -315,7 +342,6 @@ class _HoraReserva extends StatelessWidget {
 
 class _DialogInfo extends StatelessWidget {
 
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -340,7 +366,6 @@ class _DialogInfo extends StatelessWidget {
             Container(decoration: BoxDecoration(color: Colors.grey[300],borderRadius: BorderRadius.circular(20.0)), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0) ,child: Text('12:30 - 23:00'),)
           ],),
         
-          // SizedBox(height: 20.0,),
         ],
       ),
       actions: [
@@ -357,6 +382,90 @@ class _DialogInfo extends StatelessWidget {
             ),
           ),
         ),
+      ],
+    );
+  }
+}
+
+class _CelularContacto extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      keyboardType: TextInputType.phone,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0)),
+        hintText: "Celular de contacto",
+      ),
+      validator: (value){
+        if (value.isEmpty) {
+          return "Digite un numero de contacto";
+        }
+        return null;
+      },
+    );
+  }
+}
+
+class _NombreContacto extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0)),
+        hintText: "Nombre de contacto",
+      ),
+      validator: (value){
+        if (value.isEmpty) {
+          return "Ingrese un nombre";
+        }
+        return null;
+      },
+    );
+  }
+}
+
+class _DialogExito extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+      titlePadding: EdgeInsets.only(top: 10.0),
+      contentPadding: EdgeInsets.zero,
+      title: Image(image: AssetImage('assets/icons/logo.png'), height: 100.0,),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('!Su reserva fue enviada correctamente!', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
+          Text('Recibira un mensaje de confirmacion en las proximas 48 horas', textAlign: TextAlign.center, style: TextStyle(fontSize: 14.0, color: Colors.black45),),
+          SizedBox(height: 20.0,),
+          Image(image: AssetImage('assets/images/notificacion.png'),)
+        ],
+      
+      ),
+      actions: [
+        Center(
+          child:Padding(
+            padding: EdgeInsets.only(bottom: 10.0),
+            child: ElevatedButton(
+              onPressed: (){
+                Navigator.popAndPushNamed(context, 'main_menu');
+                // Navigator.pushNamedAndRemoveUntil(context, 'main_menu', (route) => false);
+              }, 
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                child: Text('Aceptarss', style: TextStyle(fontSize: 18.0),),
+              ), 
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))
+              ),
+            )
+          )
+        )
       ],
     );
   }

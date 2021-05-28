@@ -1,0 +1,347 @@
+{
+  "project_info": {
+    "project_number": "839837285812",
+    "firebase_url": "https://loyaltyclubs-36d7a.firebaseio.com",
+    "project_id": "loyaltyclubs-36d7a",
+    "storage_bucket": "loyaltyclubs-36d7a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839837285812:android:9ac95775d4801d134f86e1",
+        "android_client_info": {
+          "package_name": "com.loyaltyclubs.countryclub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839837285812-ejbqht8iragb6t6o0e6mdfhrdb8ije97.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.loyaltyclubs.countryclub",
+            "certificate_hash": "2b19d616ed5c984c1609ddd2b021259ec5e816a0"
+          }
+        },
+        {
+          "client_id": "839837285812-9jpbiuk9vpun1o1vss6d7dgkle6le4ro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLhkeq6XfC0CRCxaQ7H6mZKyYjfJ5DFV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839837285812-9jpbiuk9vpun1o1vss6d7dgkle6le4ro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839837285812-4ej87ai06csb90feoof5jc4p3slnvonf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.loyaltyclubs.shellbolivia"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839837285812:android:1368096bcb92d48a4f86e1",
+        "android_client_info": {
+          "package_name": "com.loyaltyclubs.farmacorpatc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839837285812-9jpbiuk9vpun1o1vss6d7dgkle6le4ro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLhkeq6XfC0CRCxaQ7H6mZKyYjfJ5DFV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839837285812-9jpbiuk9vpun1o1vss6d7dgkle6le4ro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839837285812-4ej87ai06csb90feoof5jc4p3slnvonf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.loyaltyclubs.shellbolivia"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839837285812:android:b5acbcef2d2ea7de4f86e1",
+        "android_client_info": {
+          "package_name": "com.loyaltyclubs.flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839837285812-tnsqus7j7c4djvja9b8v7g56sf19gp8q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.loyaltyclubs.flutter",
+            "certificate_hash": "78c2a8d0152a83f05f4b2fa27a41a2f5b78f2bf7"
+          }
+        },
+        {
+          "client_id": "839837285812-9jpbiuk9vpun1o1vss6d7dgkle6le4ro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLhkeq6XfC0CRCxaQ7H6mZKyYjfJ5DFV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839837285812-9jpbiuk9vpun1o1vss6d7dgkle6le4ro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839837285812-4ej87ai06csb90feoof5jc4p3slnvonf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.loyaltyclubs.shellbolivia"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839837285812:android:490e95520b73476f4f86e1",
+        "android_client_info": {
+          "package_name": "com.loyaltyclubs.opalclub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839837285812-86uslm710850qb7bsgc9ifjh4pmbieud.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.loyaltyclubs.opalclub",
+            "certificate_hash": "91624ccf37cab13597af940af6909057ce100901"
+          }
+        },
+        {
+          "client_id": "839837285812-99b320bfho588co27445aj529rncrcn7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.loyaltyclubs.opalclub",
+            "certificate_hash": "9a0ac86fa743942295a54761f5ee5c5092e68fa2"
+          }
+        },
+        {
+          "client_id": "839837285812-me17914im224k34ug4951kaf8vg13u2s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.loyaltyclubs.opalclub",
+            "certificate_hash": "e3a2ed38f680fde6bf1c4e8be5e9d29c051a45d3"
+          }
+        },
+        {
+          "client_id": "839837285812-9jpbiuk9vpun1o1vss6d7dgkle6le4ro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLhkeq6XfC0CRCxaQ7H6mZKyYjfJ5DFV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839837285812-9jpbiuk9vpun1o1vss6d7dgkle6le4ro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839837285812-4ej87ai06csb90feoof5jc4p3slnvonf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.loyaltyclubs.shellbolivia"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839837285812:android:8de6950b174bc0204f86e1",
+        "android_client_info": {
+          "package_name": "com.loyaltyclubs.shell"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839837285812-9jpbiuk9vpun1o1vss6d7dgkle6le4ro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLhkeq6XfC0CRCxaQ7H6mZKyYjfJ5DFV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839837285812-9jpbiuk9vpun1o1vss6d7dgkle6le4ro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839837285812-4ej87ai06csb90feoof5jc4p3slnvonf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.loyaltyclubs.shellbolivia"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839837285812:android:4cd31a7d20389d0e4f86e1",
+        "android_client_info": {
+          "package_name": "com.loyaltyclubs.venta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839837285812-ssbmsk5fov464dpgm7fkuj04a941jfuc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.loyaltyclubs.venta",
+            "certificate_hash": "78c2a8d0152a83f05f4b2fa27a41a2f5b78f2bf7"
+          }
+        },
+        {
+          "client_id": "839837285812-9jpbiuk9vpun1o1vss6d7dgkle6le4ro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLhkeq6XfC0CRCxaQ7H6mZKyYjfJ5DFV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839837285812-9jpbiuk9vpun1o1vss6d7dgkle6le4ro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839837285812-4ej87ai06csb90feoof5jc4p3slnvonf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.loyaltyclubs.shellbolivia"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839837285812:android:c144dcedef17d8974f86e1",
+        "android_client_info": {
+          "package_name": "com.loyaltyclubs.weidlings"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839837285812-9jpbiuk9vpun1o1vss6d7dgkle6le4ro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLhkeq6XfC0CRCxaQ7H6mZKyYjfJ5DFV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839837285812-9jpbiuk9vpun1o1vss6d7dgkle6le4ro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839837285812-4ej87ai06csb90feoof5jc4p3slnvonf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.loyaltyclubs.shellbolivia"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839837285812:android:055d125cd72819824f86e1",
+        "android_client_info": {
+          "package_name": "com.stellarclubs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839837285812-9jpbiuk9vpun1o1vss6d7dgkle6le4ro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLhkeq6XfC0CRCxaQ7H6mZKyYjfJ5DFV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839837285812-9jpbiuk9vpun1o1vss6d7dgkle6le4ro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839837285812-4ej87ai06csb90feoof5jc4p3slnvonf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.loyaltyclubs.shellbolivia"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

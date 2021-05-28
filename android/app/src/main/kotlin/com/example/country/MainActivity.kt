@@ -1,4 +1,4 @@
-package com.example.country
+package com.loyaltyclubs.countryclub
 
 import io.flutter.embedding.android.FlutterActivity
 

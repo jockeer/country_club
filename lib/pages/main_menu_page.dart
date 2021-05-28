@@ -48,7 +48,6 @@ class _Menu extends StatelessWidget {
             child: Container(
               width: phoneSize.width,
               height: phoneSize.height*0.32,
-              color: Colors.yellow,
               child: Stack(
                 children: [
                   Image(image: AssetImage('assets/images/Tarjeta.png'), fit: BoxFit.fill, width: double.infinity, height: double.infinity,),
@@ -57,7 +56,7 @@ class _Menu extends StatelessWidget {
                     children: [
                       Container(
                         padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                        color: Colors.black26,
+                        color: Colors.black38,
                         width: double.infinity, 
                         alignment: Alignment.centerRight,
                         child: Text('Tarjeta de Consumo', style: TextStyle(color: Colors.white,fontWeight: FontWeight.w900),)
@@ -88,15 +87,15 @@ class _Menu extends StatelessWidget {
           SizedBox(height: 20.0,),
           Row(
             children: [
-              _ButtonMenu(titulo: "Reservas", img: 'Reservas', ruta: 'menu', lado: "izq",),
+              _ButtonMenu(titulo: "Reservas", img: 'Reservas', ruta: 'reservas', lado: "izq",),
               SizedBox(width: 15.0,),
-              _ButtonMenu(titulo: "Historial de resersas", img: 'Historial_de_reserva', ruta: 'menu', lado: "der"),
+              _ButtonMenu(titulo: "Historial de resersas", img: 'Historial_de_reserva', ruta: 'reservas_historial', lado: "der"),
             ],
           ),
           SizedBox(height: 20.0,),
           Row(
             children: [
-              _ButtonMenu(titulo: "Eventos", img: 'Eventos', ruta: 'menu', lado: "izq",),
+              _ButtonMenu(titulo: "Eventos", img: 'Eventos', ruta: 'eventos', lado: "izq",),
               SizedBox(width: 15.0,),
               _ButtonMenu(titulo: "Handicap", img: 'Handicap', ruta: 'menu', lado: "der"),
             ],
@@ -139,7 +138,7 @@ class _ButtonMenu extends StatelessWidget {
                   children: [
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
-                      color: Colors.black26,
+                      color: Colors.black38,
                       width: double.infinity, 
                       alignment: Alignment.centerRight,
                       child: Text(this.titulo, style: TextStyle(color: Colors.white,fontWeight: FontWeight.w900),)

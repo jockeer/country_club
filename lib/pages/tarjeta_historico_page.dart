@@ -42,7 +42,7 @@ class _Tarjeta extends StatelessWidget {
       child: Container(
         width: phoneSize.width,
         height: phoneSize.height*0.3,
-        color: Color(0xff00472B),
+        decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/Tarjeta_consumo.png'),fit: BoxFit.fill)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

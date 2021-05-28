@@ -12,31 +12,24 @@ class MenuPage extends StatelessWidget {
       drawer: MenuLateralWidget(),
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Column(
+          child: Column( 
             children: [
-              Row(
-                children: [
-                  IconButton(onPressed: (){_scaffoldKey.currentState.openDrawer();}, icon: Icon(Icons.menu)),
-                ],
+              _InputMenu(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: _Menu(),
               ),
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Text('Plato principal', style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w500, fontSize: 18.0 ),),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: _Menu(),
-                    ),
-                  ],
-              ),
-             
             ],
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        child: Icon(Icons.menu, color: Colors.black,),
+        onPressed: ()=> _scaffoldKey.currentState.openDrawer(),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
 }
@@ -46,7 +39,12 @@ class _Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Text('Plato principal', style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w500, fontSize: 18.0 ),),
+        ),
         Row(
           children: [
             _ButtonMenu(titulo: "Hamburguesa con queso y papas fritas", img: 'Menu', precio: '25',),
@@ -104,6 +102,37 @@ class _ButtonMenu extends StatelessWidget {
             ),
           )
         ),
+    );
+  }
+}
+
+class _InputMenu extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0, left: 80, right: 30.0),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black26),
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+        child: DropdownButton(
+          underline: Container(height: 0.0,),
+          isExpanded: true,
+          value: "1",
+          items: [
+            DropdownMenuItem(child: Text('Menu - Cabaña La Palmera'),value: "1"),
+            DropdownMenuItem(child: Text('Menu - Cabaña La Palmera'),value: "2"),
+            DropdownMenuItem(child: Text('Menu - Cabaña La Palmera'),value: "3"),
+          ],
+          onChanged: (opt){
+            print(opt);
+          },
+        ),
+      ),
     );
   }
 }

@@ -8,12 +8,17 @@ import 'package:country/providers/registro_provider.dart';
 import 'package:country/providers/login_provider.dart';
 import 'package:country/providers/reserva_provider.dart';
 import 'package:country/providers/tarjeta_provider.dart';
+import 'package:country/providers/galeria_provider.dart';
+import 'package:country/providers/notificacion_provider.dart';
+import 'package:country/services/push_notificacion_service.dart';
 
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = PreferenciasUsuario();
   await prefs.initPrefs();
+
+  await PushNotificationService.initializeApp();
   
   runApp(MyApp());
 }
@@ -40,6 +45,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_)=> LoginProvider(),),
         ChangeNotifierProvider(create: (_)=> ReservaProvider(),),
         ChangeNotifierProvider(create: (_)=> TarjetaProvider(),),
+        ChangeNotifierProvider(create: (_)=> GaleriaProvider(),),
+        ChangeNotifierProvider(create: (_)=> NotificacionesProvider(),),
       ],
 
       child: MaterialApp(
