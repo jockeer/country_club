@@ -1,3 +1,4 @@
+import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/models/socio_model.dart';
 import 'package:country/providers/registro_provider.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class RegisterPage2 extends StatefulWidget {
 class _RegisterPage2State extends State<RegisterPage2> {
 
   final form2State = GlobalKey<FormState>();
+    final colores = ColoresApp();
   @override
   Widget build(BuildContext context) {
 
@@ -46,7 +48,7 @@ class _RegisterPage2State extends State<RegisterPage2> {
           ],
         ),
       ),
-      floatingActionButton: FloatingButtonWidget(),
+      floatingActionButton: FloatingButtonWidget(color: Colors.black,),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
@@ -121,7 +123,7 @@ class _RegisterPage2State extends State<RegisterPage2> {
       style: ElevatedButton.styleFrom(
         elevation: 5.0,
         padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 50.0),
-        primary: Color(0xff009D47),
+        primary: colores.boton,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0)
         )
@@ -296,6 +298,7 @@ class __InputTelefonoState extends State<_InputTelefono> {
     final provider = Provider.of<RegistroProvider>(context, listen: true);
 
     final phoneSize = MediaQuery.of(context).size;
+    final colores = ColoresApp();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -306,7 +309,7 @@ class __InputTelefonoState extends State<_InputTelefono> {
           padding: EdgeInsets.symmetric(horizontal: 10.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(50.0),bottomLeft: Radius.circular(50.0)),
-            color: Color(0xff00472B),
+            color: colores.verdeOscuro,
           ),
           
           child: DropdownButton(

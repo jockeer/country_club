@@ -24,13 +24,16 @@ class TarjetaService {
 
 
   Future<String> obtenerSaldo(String codigoSocio) async{
+    print('consulta a la bd');
 
     final url = Uri.http('190.186.228.218', 'appmovil/api/Tarjeta/GetCreditCardID/$codigoSocio');
 
     final respuesta = await _procesarInfo(url);
+     if(respuesta == null)return null;
     
  
     return respuesta[0]["saldo"].toString();
+    
     // return "450";
   }
 

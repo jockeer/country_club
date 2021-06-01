@@ -15,6 +15,11 @@ import 'package:country/pages/recuperar_contrasena_page.dart';
 import 'package:country/pages/menu_page.dart';
 import 'package:country/pages/galeria_page.dart';
 import 'package:country/pages/eventos_page.dart';
+import 'package:country/pages/inbox_page.dart';
+import 'package:country/pages/mensualidad_page.dart';
+import 'package:country/pages/handicap_page.dart';
+import 'package:country/pages/tarjeta_recarga_page.dart';
+import 'package:country/pages/metodo_pago_page.dart';
 
 Map<String, WidgetBuilder> getAplicationRoutes(){
   return <String, WidgetBuilder>{
@@ -33,7 +38,10 @@ Map<String, WidgetBuilder> getAplicationRoutes(){
     'historico_tarjeta': ( _ ) => HistoricoTarjetaPage(),
     'recuperar_password': ( _ ) => RecuperarPassPage(),
     'eventos': ( _ ) => EventosPage(),
-    
-    
+    'inbox': ( _ ) => InboxPage(),
+    'mensualidad': ( _ ) => MensualidadPage(),
+    'handicap': ( _ ) => HandicapPage(),
+    'tarjeta_recarga': ( _ ) => RecargaTarjetaPage(), 
+    'metodo_pago':( _ ) => MetodoPagoPage(),
   };
 }

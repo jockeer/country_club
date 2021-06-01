@@ -1,3 +1,4 @@
+import 'package:country/helpers/datos_constantes.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/widgets/floating_button_widget.dart';
@@ -20,6 +21,7 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
 
   final _socioProvider = new SocioService();
   bool indicator = false;
+  final colores = ColoresApp();
 
 
   @override
@@ -45,7 +47,7 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
         ),
       inAsyncCall: indicator,
       ),
-      floatingActionButton: FloatingButtonWidget(),
+      floatingActionButton: FloatingButtonWidget(color: Colors.black,),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
@@ -104,7 +106,7 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
       style: ElevatedButton.styleFrom(
         elevation: 5.0,
         padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 50.0),
-        primary: Color(0xff009D47),
+        primary: colores.boton,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0)
         )

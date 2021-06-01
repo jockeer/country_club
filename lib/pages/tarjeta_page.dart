@@ -1,3 +1,4 @@
+import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/providers/tarjeta_provider.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +65,7 @@ class _Tarjeta extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colores =ColoresApp();
 
     final phoneSize = MediaQuery.of(context).size;
     final prefs = PreferenciasUsuario();
@@ -73,7 +75,7 @@ class _Tarjeta extends StatelessWidget {
       child: Container(
         width: phoneSize.width,
         height: phoneSize.height*0.4,
-        color: Color(0xff00472B),
+        color: colores.verdeOscuro,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -151,16 +153,17 @@ class _ButtonRecargar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colores = ColoresApp();
     return ElevatedButton(
       onPressed: ()async{
         
-        // Navigator.pushNamed(context, 'menu');
+       Navigator.pushNamed(context, 'tarjeta_recarga');
       },
       child: Text('Recargar', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),),
       style: ElevatedButton.styleFrom(
         elevation: 5.0,
         padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 50.0),
-        primary: Color(0xff009D47),
+        primary: colores.boton,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0)
         )

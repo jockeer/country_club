@@ -10,12 +10,14 @@ class HistoricoTarjetaPage extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       drawer: MenuLateralWidget(),
-      body: Column(
-        children: [
-          _Tarjeta(),
-          _UltimasTransacciones(),
-          Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.5,),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _Tarjeta(),
+            _UltimasTransacciones(),
+            Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.5,),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         elevation: 0.0,
@@ -41,7 +43,7 @@ class _Tarjeta extends StatelessWidget {
     return SafeArea(
       child: Container(
         width: phoneSize.width,
-        height: phoneSize.height*0.3,
+        height: phoneSize.height*0.35,
         decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/Tarjeta_consumo.png'),fit: BoxFit.fill)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

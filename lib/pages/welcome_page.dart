@@ -1,3 +1,4 @@
+import 'package:country/helpers/datos_constantes.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/widgets/swipe_widget.dart';
@@ -26,6 +27,7 @@ class ButtonsBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colores = ColoresApp();
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -34,10 +36,10 @@ class ButtonsBottom extends StatelessWidget {
           children: [
             SizedBox(width: 10.0,),
             Expanded(
-              child: _Button(label: 'Ingresa', color: Color(0xff009D47), ruta: 'login') 
+              child: _Button(label: 'Ingresa', color: colores.naranja, ruta: 'login') 
             ),
             Expanded(
-              child: _Button(label: 'Registrate', color: Color(0xffFF8A00), ruta: 'codigo') 
+              child: _Button(label: 'Registrate', color: colores.verdeOscuro, ruta: 'codigo') 
             ),
             SizedBox(width: 10.0,),
           ],
@@ -63,7 +65,7 @@ class _Button extends StatelessWidget {
         Navigator.pushNamed(context, this.ruta);
       },
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(vertical: 15.0),
+        padding: EdgeInsets.symmetric(vertical: 10.0),
         primary: this.color,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0)

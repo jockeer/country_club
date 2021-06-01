@@ -27,7 +27,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons:
 
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/miniatura.png"
+  adaptive_icon_background: "assets/icons/miniatura.png"
 
 flutter:
 

@@ -33,7 +33,7 @@ class RecuperarPassPage extends StatelessWidget {
         ),
       ),
       
-      floatingActionButton: FloatingButtonWidget(),
+      floatingActionButton: FloatingButtonWidget(color: Colors.black,),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }

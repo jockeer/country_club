@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:country/providers/reserva_provider.dart';
 import 'package:country/utils/form_validator.dart';
 import 'package:country/utils/show_snack_bar.dart';
+import 'package:country/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
@@ -19,7 +20,7 @@ class _ReservaProcesoPageState extends State<ReservaProcesoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Reserva', style: TextStyle(color: Colors.black45),),iconTheme: IconThemeData(),elevation: 0.0,backgroundColor: Colors.transparent,actions: [Image(image: AssetImage('assets/icons/logo.png'))],),
+      appBar: appBarWidget(titulo: 'Reservas'),
       body: ModalProgressHUD(
         child: SingleChildScrollView(
           child: Column(

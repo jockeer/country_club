@@ -73,7 +73,7 @@ class _Menu extends StatelessWidget {
             children: [
               _ButtonMenu(titulo: "Historico de tarjeta", img: 'Historial_tarjeta', ruta: 'historico_tarjeta', lado: "izq",),
               SizedBox(width: 15.0,),
-              _ButtonMenu(titulo: "Mensualidad", img: 'Mensualidad', ruta: 'menu', lado: "der"),
+              _ButtonMenu(titulo: "Mensualidad", img: 'Mensualidad', ruta: 'mensualidad', lado: "der"),
             ],
           ),
           SizedBox(height: 20.0,),
@@ -81,7 +81,7 @@ class _Menu extends StatelessWidget {
             children: [
               _ButtonMenu(titulo: "Menu", img: 'Menu', ruta: 'menu', lado: "izq",),
               SizedBox(width: 15.0,),
-              _ButtonMenu(titulo: "Inbox", img: 'Inbox', ruta: 'menu', lado: "der"),
+              _ButtonMenu(titulo: "Inbox", img: 'Inbox', ruta: 'inbox', lado: "der"),
             ],
           ),
           SizedBox(height: 20.0,),
@@ -97,7 +97,7 @@ class _Menu extends StatelessWidget {
             children: [
               _ButtonMenu(titulo: "Eventos", img: 'Eventos', ruta: 'eventos', lado: "izq",),
               SizedBox(width: 15.0,),
-              _ButtonMenu(titulo: "Handicap", img: 'Handicap', ruta: 'menu', lado: "der"),
+              _ButtonMenu(titulo: "Handicap", img: 'Handicap', ruta: 'handicap', lado: "der"),
             ],
           ),
           SizedBox(height: 20.0,),

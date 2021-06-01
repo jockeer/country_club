@@ -1,4 +1,6 @@
+import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/services/socio_service.dart';
+import 'package:country/services/token_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/helpers/preferencias_usuario.dart';
@@ -18,6 +20,8 @@ class _LoginPageState extends State<LoginPage> {
 
   bool indicator = false;
   final _socioProvider = new SocioService();
+  final _tokenService = TokenService();
+  final colores = ColoresApp();
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
       style: ElevatedButton.styleFrom(
         elevation: 5.0,
         padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 50.0),
-        primary: Color(0xff009D47),
+        primary: colores.boton,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0)
         )
@@ -123,18 +127,27 @@ class _LoginPageState extends State<LoginPage> {
     // print(provider.usuario + provider.password);
     final socio = await _socioProvider.loginSocio(provider.usuario, provider.password);
 
-    this.indicator=false;
-      setState((){
-        if(socio!=null){
-          print(socio.apMaterno);
-            prefs.nombreSocio = '${socio.nombre} ${socio.apPaterno} ${socio.apMaterno} ';
-            prefs.correoSocio = 'correo@correo.com';
-            prefs.codigoSocio = '${socio.codigo}';
-            Navigator.pushNamed(context, 'main_menu');
+    
+    if(socio != null){
+      print(socio.apMaterno);
+        prefs.nombreSocio = '${socio.nombre} ${socio.apPaterno} ${socio.apMaterno}';
+        prefs.correoSocio = 'correo@correo.com';
+        prefs.codigoSocio = '${socio.codigo}';
+        //Validar token
+        final message = await _tokenService.obtenerToken();
+        if (message.isEmpty) {
+          mostrarSnackBar(context, "Error con el servidor");
         }else{
-          mostrarSnackBar(context, 'Datos Incorrectos');
-        }     
-    });
+          setState((){
+            this.indicator=false;
+          });
+          Navigator.pushNamed(context, 'main_menu');
+        }
+    }else{
+        // Navigator.pushNamed(context, 'main_menu');
+      mostrarSnackBar(context, 'Datos Incorrectos');
+    }    
+     
   }
 }
 

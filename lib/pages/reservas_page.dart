@@ -1,3 +1,4 @@
+import 'package:country/widgets/app_bar_widget.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,7 @@ class ReservasPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Reservas', style: TextStyle(color: Colors.black54),),backgroundColor: Colors.transparent, elevation: 0.0,iconTheme: IconThemeData()),
+      appBar: appBarWidget(titulo: 'Reservas'),
       drawer: MenuLateralWidget(),
       body: SingleChildScrollView(
         child: Column(

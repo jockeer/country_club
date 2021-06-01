@@ -1,3 +1,4 @@
+import 'package:country/helpers/datos_constantes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -27,16 +28,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final colores = ColoresApp();
+
     
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Color(0xff00472B),
+        statusBarColor: colores.verdeOscuro,
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.light
         // statusBarColor: Colors.,
         
       )
     );
+
     
     return MultiProvider(
 

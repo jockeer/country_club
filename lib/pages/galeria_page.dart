@@ -1,4 +1,5 @@
 import 'package:country/providers/galeria_provider.dart';
+import 'package:country/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:photo_view/photo_view.dart';
@@ -12,7 +13,7 @@ class GaleriaPage extends StatelessWidget {
     final phoneSize = MediaQuery.of(context).size;
     final provider = Provider.of<GaleriaProvider>(context);
     return Scaffold(
-      appBar: AppBar(title: Text('Galeria de fotos', style: TextStyle(color: Colors.black54),),iconTheme: IconThemeData(), backgroundColor: Colors.white, actions: [Image.asset('assets/icons/logo.png')],),
+      appBar: appBarWidget(titulo: 'Galeria de fotos'),
       body: Stack(
         children: [
           _FondoPantalla(),
@@ -21,13 +22,11 @@ class GaleriaPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Container(width: double.infinity, height: phoneSize.width*0.25, alignment: Alignment.center , child: Text('Pagina 1 / ${provider.pagina}',style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),)),
+              Container(width: double.infinity, height: phoneSize.width*0.25, alignment: Alignment.center , child: Text('Pagina ${provider.pagina} / 3 ',style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),)),
             ],
           ),
         ],
       ),
-      // floatingActionButton: FloatingButtonWidget(),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
 }
@@ -45,31 +44,6 @@ class _FondoPantalla extends StatelessWidget {
     );
   }
 }
-
-// class _Gallery extends StatefulWidget {
-
-//   @override
-//   __GalleryState createState() => __GalleryState();
-// }
-
-// class __GalleryState extends State<_Gallery> {
-//   bool loading;
-//   List<String> ids = ['0', '1' , '10'];
-//   @override
-//   Widget build(BuildContext context) {
-//     return GridView.builder(
-//        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//          crossAxisCount: 2,
-
-//        ),
-//        itemBuilder: (context, index){
-//          return Image(image: NetworkImage('https://picsum.photos/300/300?image=${ids[index]}'));
-//        },
-//        itemCount: ids.length,
-//     );
-//   }
-// }
-
 
 class _Gallery extends StatefulWidget {
 

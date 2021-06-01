@@ -17,12 +17,17 @@ class SocioService{
   }
 
   Future<dynamic> _procesarInfo(Uri url) async{
-    final resp = await http.get(url,
-      headers: {
-        "authorization": basicAuthenticationHeader(user, password)
-      }
-    );
-    return json.decode(resp.body);
+    try {
+      final resp = await http.get(url,
+        headers: {
+          "authorization": basicAuthenticationHeader(user, password)
+        }
+      );
+      return json.decode(resp.body);
+      
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<Socio> getSocio(String codigoSocio, String ci) async {
@@ -36,12 +41,15 @@ class SocioService{
 
     final respuesta = await _procesarInfo(url);
 
+    if(respuesta == null)return null;
+
     if (respuesta[0]["error"] != "") return null;
 
 
     final url2 = Uri.http('190.186.228.218', 'appmovil/api/Asociado/GetDataID/$codigoSocio');
     
     final decodedData = await _procesarInfo(url2);
+     if(decodedData == null)return null;
 
     if (decodedData.length == 0) return null;
       
@@ -67,9 +75,10 @@ class SocioService{
 
     final decodedData = await _procesarInfo(url);
 
-    if (decodedData.length == 0) {
+    if(decodedData == null)return null;
+
+    if (decodedData.length == 0 || decodedData == null) {
       return null;
-      
     }
     final socio = new Socio.fromJson(decodedData[0]);
 
