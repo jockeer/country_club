@@ -19,6 +19,7 @@ class MenuPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: _Menu(),
               ),
+              SizedBox(height: 50.0,)
             ],
           ),
         ),
@@ -51,7 +52,7 @@ class _Menu extends StatelessWidget {
             _ButtonMenu(titulo: "Milanesa Picada", img: 'Menu', precio: '35',),
           ],
         ),
-        Row(
+        Row(    
           children: [
             _ButtonMenu(titulo: "Pizza familiar 4 quesos", img: 'Menu', precio: '80',),
             _ButtonMenu(titulo: "Piquemacho especial", img: 'Menu', precio: '80',),
@@ -81,27 +82,25 @@ class _ButtonMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final phoneSize = MediaQuery.of(context).size;
     return Expanded(
-      child: ClipRRect(
-          
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-            margin: EdgeInsets.all(5.0),
-            child: Column(
-              children: [
-                Container(
+      child: Column(
+        children: [
+          ClipRRect(
+              child: Card(
+                elevation: 4.0,
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                margin: EdgeInsets.all(5.0),
+                child: Container(
                   height: phoneSize.width*0.4,
                   child: Image(image: AssetImage('assets/images/${this.img}.png'), fit: BoxFit.cover,),
-
                 ),
-                SizedBox(height: 10.0,),
-                Text(this.titulo,textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold),),
-                Text('Bs.' + this.precio),
-                SizedBox(height: 10.0,),
-              ],
-            ),
-          )
-        ),
+              )
+          ),
+          SizedBox(height: 10.0,),
+          Text(this.titulo,textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold),),
+          Text('Bs.' + this.precio),
+        ],
+      ),
     );
   }
 }

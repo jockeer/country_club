@@ -29,28 +29,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colores = ColoresApp();
-
-    
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: colores.verdeOscuro,
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.light
-        // statusBarColor: Colors.,
-        
       )
     );
 
-    
     return MultiProvider(
 
       providers: [
-        ChangeNotifierProvider(create: (_) => RegistroProvider(),),
-        ChangeNotifierProvider(create: (_)=> LoginProvider(),),
-        ChangeNotifierProvider(create: (_)=> ReservaProvider(),),
-        ChangeNotifierProvider(create: (_)=> TarjetaProvider(),),
-        ChangeNotifierProvider(create: (_)=> GaleriaProvider(),),
-        ChangeNotifierProvider(create: (_)=> NotificacionesProvider(),),
+        ChangeNotifierProvider(create: (_)  => RegistroProvider(),),
+        ChangeNotifierProvider(create: (_)  => LoginProvider(),),
+        ChangeNotifierProvider(create: (_)  => ReservaProvider(),),
+        ChangeNotifierProvider(create: (_)  => TarjetaProvider(),),
+        ChangeNotifierProvider(create: (_)  => GaleriaProvider(),),
+        ChangeNotifierProvider(create: (_)  => NotificacionesProvider(),),
       ],
 
       child: MaterialApp(

@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
-                  child: Text('NOMBRE DE USUARIO', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                  child: Text('CODIGO DE SOCIO', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
                 ),
                 _InputUserName(), //INPUT DONDE ESTA EL NOMBRE DE USUARIO
                 SizedBox(height: 30.0,),
@@ -127,22 +127,22 @@ class _LoginPageState extends State<LoginPage> {
     // print(provider.usuario + provider.password);
     final socio = await _socioProvider.loginSocio(provider.usuario, provider.password);
 
+    setState(() {
+      indicator = false;
+    });
     
+    // Navigator.pushNamed(context, 'main_menu');
     if(socio != null){
       print(socio.apMaterno);
-        prefs.nombreSocio = '${socio.nombre} ${socio.apPaterno} ${socio.apMaterno}';
-        prefs.correoSocio = 'correo@correo.com';
+        prefs.nombreSocio = '${socio.nombre} ${socio.apPaterno}';
+        prefs.correoSocio = '${socio.email}';
         prefs.codigoSocio = '${socio.codigo}';
-        //Validar token
-        final message = await _tokenService.obtenerToken();
-        if (message.isEmpty) {
-          mostrarSnackBar(context, "Error con el servidor");
-        }else{
-          setState((){
-            this.indicator=false;
-          });
-          Navigator.pushNamed(context, 'main_menu');
-        }
+
+        Navigator.pushNamed(context, 'main_menu');
+    
+        setState((){
+          this.indicator=false;
+        });
     }else{
         // Navigator.pushNamed(context, 'main_menu');
       mostrarSnackBar(context, 'Datos Incorrectos');
@@ -176,7 +176,7 @@ class _InputUserName extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
-        hintText: 'Nombre de usuario',
+        hintText: 'Codigo de socio',
         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
         enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
@@ -235,7 +235,9 @@ class _ContrasenaOlvidada extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () async {
+        final tokenService = TokenService();
+        await tokenService.obtenerToken(); 
         Navigator.pushNamed(context, 'recuperar_password');
       },
       child: Text('¿Olvidaste tu contraseña?', style: TextStyle( fontWeight: FontWeight.bold ),)

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class ReservaHistorialPage extends StatelessWidget {
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  // final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {

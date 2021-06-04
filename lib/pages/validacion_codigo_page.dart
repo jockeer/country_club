@@ -1,4 +1,6 @@
 import 'package:country/helpers/datos_constantes.dart';
+import 'package:country/helpers/preferencias_usuario.dart';
+import 'package:country/services/token_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/widgets/floating_button_widget.dart';
@@ -18,10 +20,11 @@ class ValidacionCodigoPage extends StatefulWidget {
 class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
   
   final stateForm = GlobalKey<FormState>();
-
+  final _tokenService = TokenService();
   final _socioProvider = new SocioService();
   bool indicator = false;
   final colores = ColoresApp();
+  final prefs = PreferenciasUsuario();
 
 
   @override
@@ -70,6 +73,10 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
                 ),
                 _InputCodigoSocio(),
                 SizedBox(height: 20.0,),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
+                  child: Text('CARNET', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                ),
                 _InputCISocio(),
                 SizedBox(height: 20.0,),
 
@@ -92,14 +99,20 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
           });
           final provider = Provider.of<RegistroProvider>(context, listen: false);
           final socio = await _socioProvider.getSocio(provider.codigo, provider.ci); //6038
-          this.indicator=false;
-          setState((){
-            if(socio!=null){
-              print(socio.apMaterno);
-              Navigator.pushNamed(context, 'register_page_1', arguments: socio);
+          if(socio!=null){
+            print(socio.apMaterno);
+            final message = await _tokenService.obtenerToken();
+            if (message.isEmpty) {
+              mostrarSnackBar(context, "Error con el servidor");
             }else{
-              mostrarSnackBar(context, 'Los datos del socio no son validos por favor actualice su informacion');
-            }     
+              // prefs.token = 
+              Navigator.pushNamed(context, 'register_page_1', arguments: socio);
+            }
+          }else{
+            mostrarSnackBar(context, 'Los datos del socio no son validos por favor actualice su informacion');
+          }     
+          setState((){
+            this.indicator=false;
           });
       },
       child: Text('Validar', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),),

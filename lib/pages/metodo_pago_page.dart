@@ -1,5 +1,7 @@
 import 'package:country/helpers/datos_constantes.dart';
+import 'package:country/providers/tarjeta_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MetodoPagoPage extends StatelessWidget {
 
@@ -12,6 +14,9 @@ class MetodoPagoPage extends StatelessWidget {
             _Tarjeta(),
             _Titulos(),
             _Opciones(),
+            SizedBox(height: 20.0,),
+            _ButtonNext(),
+            SizedBox(height: 30.0,)
           ],
         ),
       ),
@@ -85,15 +90,36 @@ class _Opciones extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<TarjetaProvider>(context);
     return Column(
       children: [
-        RadioListTile(title: Text('Puntos'),value: '1', groupValue: '1', onChanged: (value){}),
-        RadioListTile(title: Text('Efectivo'),value: '1', groupValue: '2', onChanged: (value){}),
-        RadioListTile(title: Text('Transferencia Bancaria'),value: '1', groupValue: '3', onChanged: (value){}),
-        RadioListTile(title: Text('Tigo Money'),value: '1', groupValue: '4', onChanged: (value){}),
-        RadioListTile(title: Text('Pagos Net'),value: '1', groupValue: '5', onChanged: (value){}),
-        RadioListTile(title: Text('ATC'),value: '1', groupValue: '5', onChanged: (value){}),
+        RadioListTile(title: Text('Puntos'),value: '1', groupValue: provider.modoPago, onChanged: (value){ provider.modoPago=value;}),
+        RadioListTile(title: Text('Efectivo'),value: '2', groupValue: provider.modoPago, onChanged: (value){provider.modoPago=value;}),
+        RadioListTile(title: Text('Transferencia Bancaria'),value: '3', groupValue: provider.modoPago, onChanged: (value){provider.modoPago=value;}),
+        RadioListTile(title: Text('Tigo Money'),value: '4', groupValue: provider.modoPago, onChanged: (value){provider.modoPago=value;}),
+        RadioListTile(title: Text('Pagos Net'),value: '5', groupValue: provider.modoPago, onChanged: (value){provider.modoPago=value;}),
+        RadioListTile(title: Text('ATC'),value: '6', groupValue: provider.modoPago, onChanged: (value){provider.modoPago=value;}),
       ],
+    );
+  }
+}
+
+class _ButtonNext extends StatelessWidget {
+
+
+  @override
+  Widget build(BuildContext context) {
+    final colores = ColoresApp();
+    return ElevatedButton(
+      onPressed: (){}, 
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text('Siguiente', style: TextStyle(fontSize: 18.0),),
+      ),
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        primary: colores.boton
+      ),
     );
   }
 }

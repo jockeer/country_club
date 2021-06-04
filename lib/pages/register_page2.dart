@@ -1,9 +1,12 @@
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/models/socio_model.dart';
 import 'package:country/providers/registro_provider.dart';
+import 'package:country/services/socio_service.dart';
+import 'package:country/utils/show_snack_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/widgets/floating_button_widget.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
 class RegisterPage2 extends StatefulWidget {
@@ -15,38 +18,44 @@ class RegisterPage2 extends StatefulWidget {
 class _RegisterPage2State extends State<RegisterPage2> {
 
   final form2State = GlobalKey<FormState>();
-    final colores = ColoresApp();
+  final colores = ColoresApp();
+  final socioSerice = SocioService();
+  bool indicator = false;
+
   @override
   Widget build(BuildContext context) {
 
     final Socio socio = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
-            SingleChildScrollView( //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
-              child: Column(
-                children: [
-                  SizedBox(height: 60.0,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
-                    child:Column(
-                      children: [
-                        Text('INGRESA INFORMACION ADICIONAL', style: TextStyle(fontWeight: FontWeight.w900,fontSize: 16.0 ), textAlign: TextAlign.center,),
-                        SizedBox(height: 10.0,),
-                        Text('Vamos a necesitar alguna informacion tuya para continuar con el registro', style: TextStyle(), textAlign: TextAlign.center,)
-                      ],
+      body: ModalProgressHUD(
+        child: SafeArea(
+          child: Stack(
+            children: [
+              _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
+              SingleChildScrollView( //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
+                child: Column(
+                  children: [
+                    SizedBox(height: 60.0,),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
+                      child:Column(
+                        children: [
+                          Text('INGRESA INFORMACION ADICIONAL', style: TextStyle(fontWeight: FontWeight.w900,fontSize: 16.0 ), textAlign: TextAlign.center,),
+                          SizedBox(height: 10.0,),
+                          Text('Vamos a necesitar alguna informacion tuya para continuar con el registro', style: TextStyle(), textAlign: TextAlign.center,)
+                        ],
+                      ),
                     ),
-                  ),
-                  _formulario(socio),
-                  Image(image: AssetImage('assets/icons/logo.png'), width: 250.0,),
-                ],
+                    _formulario(socio),
+                    Image(image: AssetImage('assets/icons/logo.png'), width: 250.0,),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        inAsyncCall: indicator,
       ),
       floatingActionButton: FloatingButtonWidget(color: Colors.black,),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -113,10 +122,30 @@ class _RegisterPage2State extends State<RegisterPage2> {
   Widget _buttonRegister(Socio socio){
   
     return ElevatedButton(
-      onPressed: (){
+      onPressed: ()async{
 
         if (!form2State.currentState.validate() ) return;
-        Navigator.pushNamed(context, 'login');
+
+        final provider = Provider.of<RegistroProvider>(context, listen: false);
+
+        setState(() {
+          indicator = true;
+        });
+
+        socio.telefono = provider.codtel + provider.telefono;
+        socio.direccion = provider.direccion;
+        
+        final resultado = await socioSerice.registrarSocio(socio);
+        if (resultado["Status"]==false) {
+          mostrarSnackBar(context, resultado["Message"]);
+        } else {
+          showDialog(context: context,barrierDismissible: false, builder: (context){return _DialogInfo(message: resultado["Message"],);});
+          print('True papa');
+        }
+        setState(() {
+          indicator = false;
+        });
+        // Navigator.pushNamed(context, 'login');
 
       },
       child: Text('Siguiente', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),),
@@ -130,6 +159,43 @@ class _RegisterPage2State extends State<RegisterPage2> {
       ),
     );
   
+  }
+}
+
+class _DialogInfo extends StatelessWidget {
+
+  final String message;
+
+  const _DialogInfo({@required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image(image: AssetImage('assets/icons/success.gif'), width:150.0 ),
+          Text(this.message)
+        ],
+      ),
+      actions: [
+        Center(
+          child: ElevatedButton(
+            child: Text('Aceptar', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16.0),),
+            onPressed: (){
+              Navigator.of(context).pop();
+              Navigator.pushNamed(context, 'login');
+            },
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.symmetric(horizontal: 50.0),
+              primary: Color(0xff00472B),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -160,6 +226,7 @@ class _InputCi extends StatelessWidget {
 
     final provider = Provider.of<RegistroProvider>(context);
 
+
     return TextFormField(
       initialValue: this.ci,
       keyboardType: TextInputType.phone,
@@ -176,6 +243,7 @@ class _InputCi extends StatelessWidget {
         provider.ci = value;
       },
       validator: (value){
+        provider.ci=value;
         if (value.isEmpty || value == '0') {
           return 'rellene el carnet de identidad';
         } else {
@@ -277,6 +345,7 @@ class _InputDireccion extends StatelessWidget {
         provider.direccion = value;
       },
       validator: (value){
+        provider.direccion=value;
         if(value.isEmpty){
           return "la direccion no puede quedar vacia";
         }
@@ -323,9 +392,9 @@ class __InputTelefonoState extends State<_InputTelefono> {
             value: provider.codtel,
             items: [
               DropdownMenuItem(child: Text('+591', style: TextStyle(color: Colors.white),), value: '+591',),
-              // DropdownMenuItem(child: Text('+111'), value: '+111',),
-              // DropdownMenuItem(child: Text('+222'), value: '+222',),
-              // DropdownMenuItem(child: Text('+333'), value: '+333',),
+              DropdownMenuItem(child: Text('+111', style: TextStyle(color: Colors.white),), value: '+111',),
+              // DropdownMenuItem(child: Text('+222',style: TextStyle(color: Colors.white),), value: '+222',),
+              // DropdownMenuItem(child: Text('+333',style: TextStyle(color: Colors.white),), value: '+333',),
             ],
 
             onChanged: (opt){

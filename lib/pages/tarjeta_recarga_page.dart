@@ -123,13 +123,13 @@ class _MontosFijos extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(width: 20.0,),
-          _MontoButoon(monto: '10',opt: 1,),
+          _MontoButon(monto: '10',opt: 1,),
           SizedBox(width: 10.0,),
-          _MontoButoon(monto: '20',opt: 2,),
+          _MontoButon(monto: '20',opt: 2,),
           SizedBox(width: 10.0,),
-          _MontoButoon(monto: '30',opt: 3,),
+          _MontoButon(monto: '30',opt: 3,),
           SizedBox(width: 10.0,),
-          _MontoButoon(monto: '50',opt: 4,),
+          _MontoButon(monto: '50',opt: 4,),
 
           SizedBox(width: 20.0,),
         ],
@@ -137,12 +137,12 @@ class _MontosFijos extends StatelessWidget {
   }
 }
 
-class _MontoButoon extends StatelessWidget {
+class _MontoButon extends StatelessWidget {
 
   final String monto;
   final int opt;
 
-  const _MontoButoon({@required this.monto, @required this.opt});
+  const _MontoButon({@required this.monto, @required this.opt});
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +181,7 @@ class _CorreoBoton extends StatelessWidget {
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
               enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
               filled: true,
-              fillColor: Color(0xffEBEBEB)
+              fillColor: Colors.white
             ),
           ),
         ),

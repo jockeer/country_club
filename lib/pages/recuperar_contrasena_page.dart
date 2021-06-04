@@ -1,5 +1,8 @@
+import 'package:country/providers/registro_provider.dart';
+import 'package:country/services/socio_service.dart';
 import 'package:country/widgets/floating_button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RecuperarPassPage extends StatelessWidget {
 
@@ -62,6 +65,7 @@ class _Formulario extends StatefulWidget {
 class __FormularioState extends State<_Formulario> {
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<RegistroProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50.0),
       child: TextFormField(
@@ -82,6 +86,9 @@ class __FormularioState extends State<_Formulario> {
           }
           return null;
         },
+        onChanged: (value){
+          provider.email = value;
+        },
       ),
       
     );
@@ -98,8 +105,15 @@ class _ButtonRecoverPass extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: (){
+      onPressed: ()async{
+        final socioService = SocioService();
+        final provider = Provider.of<RegistroProvider>(context, listen: false);
         if (!this.keyForm.currentState.validate() ) return; 
+
+        final respuesta = await socioService.recoverPassword(provider.email);
+
+        print(respuesta);
+
         
       },
       child: Padding(

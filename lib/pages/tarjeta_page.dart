@@ -1,10 +1,10 @@
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
-import 'package:country/providers/tarjeta_provider.dart';
+
+import 'package:country/services/tarjeta_service.dart';
 import 'package:flutter/material.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
-import 'package:provider/provider.dart';
-// import 'package:provider/provider.dart';
+
 
 class TarjetaPage extends StatefulWidget {
 
@@ -14,6 +14,7 @@ class TarjetaPage extends StatefulWidget {
 
 class _TarjetaPageState extends State<TarjetaPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final tarjetaService = TarjetaService();
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +53,7 @@ class _TarjetaPageState extends State<TarjetaPage> {
   Future<void> _refreshPuntos() async {
 
     final prefs = PreferenciasUsuario();
-    final provider = Provider.of<TarjetaProvider>(context, listen: false);
-    await provider.cargarDinero(prefs.codigoSocio);
+    await tarjetaService.obtenerSaldo(prefs.codigoSocio);
     setState(() {
     });
 
@@ -69,7 +69,7 @@ class _Tarjeta extends StatelessWidget {
 
     final phoneSize = MediaQuery.of(context).size;
     final prefs = PreferenciasUsuario();
-    final provider = Provider.of<TarjetaProvider>(context, listen: true);
+    final tarjetaService = TarjetaService();
 
     return SafeArea(
       child: Container(
@@ -80,15 +80,15 @@ class _Tarjeta extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             FutureBuilder(
-              future: provider.cargarDinero(prefs.codigoSocio),
+              future: tarjetaService.obtenerSaldo(prefs.codigoSocio),
               builder: (context, AsyncSnapshot<String> snapshot){
                 if (snapshot.hasData) {   
-                  return Text('Bs.'+ '${snapshot.data}', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: phoneSize.width*0.2, decoration: TextDecoration.underline),);          
+                  return Text('Bs.'+ '${snapshot.data}', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: phoneSize.width*0.15, decoration: TextDecoration.underline),);          
                 } 
                 return CircularProgressIndicator();
               },
             ),
-            Text('Tarjeta de consumo', style: TextStyle(color: Colors.white38, fontSize: phoneSize.width*0.06),),
+            Text('Tarjeta de consumo', style: TextStyle(color: Colors.white38, fontSize: phoneSize.width*0.05),),
           ],
         ),
       ),

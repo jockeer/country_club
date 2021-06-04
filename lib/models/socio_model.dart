@@ -14,13 +14,14 @@ class Socio {
         this.origen,
         this.direccion,
         this.telefono,
+        this.email
     });
 
-    int codigo;
+    String codigo;
     String apPaterno;
     String apMaterno;
     String nombre;
-    int ci;
+    String ci;
     String origen;
     String direccion;
     String telefono;
@@ -29,24 +30,27 @@ class Socio {
     String password = '';
 
     factory Socio.fromJson(Map<String, dynamic> json) => Socio(
-        codigo: json["codigo"],
+      
+        codigo: json["codigo"].toString(),
         apPaterno: json["ap_paterno"],
         apMaterno: json["ap_materno"],
         nombre: json["nombre"],
-        ci: json["ci"],
+        ci: json["ci"].toString(),
         origen: json["origen"],
         direccion: json["direccion"],
         telefono: json["telefono"],
+        email: json["email"],
     );
 
     Map<String, dynamic> toJson() => {
-        "codigo": codigo,
-        "ap_paterno": apPaterno,
-        "ap_materno": apMaterno,
-        "nombre": nombre,
-        "ci": ci,
-        "origen": origen,
-        "direccion": direccion,
-        "telefono": telefono,
+        "codecli": codigo,
+        "lastname_father": apPaterno,
+        "name": nombre,
+        "id_card": ci,
+        "expedition": origen,
+        "address": direccion,
+        "cell_phone": telefono,
+        "email": email,
+        "password": password
     };
 }

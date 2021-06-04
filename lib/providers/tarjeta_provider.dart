@@ -1,4 +1,4 @@
-import 'package:country/services/tarjeta_service.dart';
+
 import 'package:flutter/material.dart';
 
 
@@ -6,6 +6,7 @@ class TarjetaProvider extends ChangeNotifier{
 
   int _optRecarga = 1;
   String _montoRecarga = '0';
+  String _modoPago = '1';
 
 
   set montoRecarga(String _montoRecarga){
@@ -15,6 +16,7 @@ class TarjetaProvider extends ChangeNotifier{
   String get montoRecarga{
     return this._montoRecarga;
   }
+
   set optRecarga(int _optRecarga){
     this._optRecarga = _optRecarga;
     notifyListeners();
@@ -23,11 +25,13 @@ class TarjetaProvider extends ChangeNotifier{
     return this._optRecarga;
   }
 
-  Future<String> cargarDinero(String codigoSocio) async {
-    final service = TarjetaService();
-    final respuesta = await service.obtenerSaldo(codigoSocio);
-    print(respuesta);
-    return respuesta;
+  set modoPago(String _modoPago){
+    this._modoPago = _modoPago;
+    notifyListeners();
   }
+  String get modoPago{
+    return this._modoPago;
+  }
+
 
 }
