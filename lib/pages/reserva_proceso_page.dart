@@ -1,6 +1,9 @@
 import 'dart:math';
 
+import 'package:country/helpers/preferencias_usuario.dart';
+import 'package:country/models/reserva_model.dart';
 import 'package:country/providers/reserva_provider.dart';
+import 'package:country/services/reserva_service.dart';
 import 'package:country/utils/form_validator.dart';
 import 'package:country/utils/show_snack_bar.dart';
 import 'package:country/widgets/app_bar_widget.dart';
@@ -74,16 +77,16 @@ class _Categoria extends StatelessWidget {
           ),
           icon: Icon(Icons.arrow_circle_down_outlined),
           isExpanded: true,
-          value: provider.codigoCat,
+          value: provider.codigoCab,
           items: [
-            DropdownMenuItem(child: Text('Evento 1', style: TextStyle(color: Colors.black),), value: '1',),
-            DropdownMenuItem(child: Text('Evento 2', style: TextStyle(color: Colors.black),), value: '2',),
-            // DropdownMenuItem(child: Text('+111'), value: '+111',),
-            // DropdownMenuItem(child: Text('+222'), value: '+222',),
-            // DropdownMenuItem(child: Text('+333'), value: '+333',),
+            DropdownMenuItem(child: Text('La Palmera', style: TextStyle(color: Colors.black),), value: '1',),
+            DropdownMenuItem(child: Text('Bar Asai', style: TextStyle(color: Colors.black),), value: '2',),
+            DropdownMenuItem(child: Text('El Caribeño', style: TextStyle(color: Colors.black),), value: '3',),
+            DropdownMenuItem(child: Text('Cabaña Sumuque', style: TextStyle(color: Colors.black),), value: '4',),
+            DropdownMenuItem(child: Text('Hoyo 19', style: TextStyle(color: Colors.black),), value: '5',),
           ],
           onChanged: (opt){
-            provider.codigoCat=opt;
+            provider.codigoCab=opt;
 
           },
         ),
@@ -155,6 +158,8 @@ class __FormularioReservasState extends State<_FormularioReservas> {
   @override 
   Widget build(BuildContext context) {
   final provider = Provider.of<ReservaProvider>(context);
+  final prefs = PreferenciasUsuario();
+  final reservaService = ReservaService();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
       child: Form(
@@ -168,7 +173,7 @@ class __FormularioReservasState extends State<_FormularioReservas> {
                 Expanded(
                   child: Column(
                     children: [
-                      Text('horas de la reservas'),
+                      Text('hora de la reserva'),
                       _HoraReserva(),
                     ],
                   ),
@@ -200,16 +205,26 @@ class __FormularioReservasState extends State<_FormularioReservas> {
             _RequerimientosExtras(),
             Center(
               child: ElevatedButton(
-                onPressed: (){
+                onPressed: ()async{
                   if (provider.fecha == '') {
                     mostrarSnackBar(context, 'elija una fecha');
                     return;
                   }
                   if (!formkey.currentState.validate()) return;
-                  provider.fecha='';
-                  print('fecha: ${provider.fecha } cantidad: ${provider.cantPersonas} req: ${provider.reqExtras} ');
+                  // provider.fecha='';
+                  final reserva = Reserva();
+                  reserva.codecli=prefs.codigoSocio;
+                  reserva.cabanaid = provider.codigoCab;
+                  reserva.fecha= provider.fecha;
+                  reserva.hora=provider.hora;
+                  reserva.cantidad=provider.cantPersonas;
+                  reserva.celular=provider.telefono;
+                  reserva.nombre = provider.nombre;
+                  reserva.requerimientos = provider.reqExtras;
 
-                  _mensajeExito();
+                  final respuesta = await reservaService.guardarReserva(reserva);
+
+                  // _mensajeExito();
                 }, 
                 child: Text('Hacer reserva', style: TextStyle(fontSize: 18.0),),
                 style: ElevatedButton.styleFrom(
@@ -332,11 +347,21 @@ class _HoraReserva extends StatelessWidget {
       TimeOfDay picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
-      helpText: 'Confirma tu hora'
+      helpText: 'Confirma tu hora',
+      initialEntryMode: TimePickerEntryMode.dial,
+      builder: (BuildContext context, Widget child){
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child,
+        );
+      }
     );
 
     if ( picked != null ) {
-      provider.hora = picked.format(context); 
+      final horas = ((picked.hour.toString().length < 2)  ? '0${picked.hour}' : picked.hour);
+      final minutos = ((picked.minute.toString().length < 2)  ? '0${picked.minute}' : picked.minute);
+      provider.hora = '$horas:$minutos'; 
+      // print(provider.hora);
     }
   }
 }
@@ -392,6 +417,7 @@ class _CelularContacto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ReservaProvider>(context);
     return TextFormField(
       keyboardType: TextInputType.phone,
       decoration: InputDecoration(
@@ -405,6 +431,9 @@ class _CelularContacto extends StatelessWidget {
         }
         return null;
       },
+      onChanged: (value){
+        provider.telefono = value;
+      },
     );
   }
 }
@@ -413,6 +442,7 @@ class _NombreContacto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ReservaProvider>(context);
     return TextFormField(
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
@@ -424,6 +454,9 @@ class _NombreContacto extends StatelessWidget {
           return "Ingrese un nombre";
         }
         return null;
+      },
+      onChanged: (value){
+        provider.nombre=value;
       },
     );
   }

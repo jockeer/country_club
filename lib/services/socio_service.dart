@@ -51,7 +51,6 @@ class SocioService{
 
     if (respuesta[0]["error"] != "") return null;
 
-
     final url2 = Uri.http('190.186.228.218', 'appmovil/api/Asociado/GetDataID/$codigoSocio');
     
     final decodedData = await _procesarInfo(url2);
@@ -67,7 +66,6 @@ class SocioService{
 
 
   }
-
   Future<Socio> loginSocio(String usuario, String pass) async {
 
     final prefs = PreferenciasUsuario();
@@ -77,10 +75,7 @@ class SocioService{
     if(n==null){
       return null;
     }
-
-    final url = Uri.https(constantes.dominio, 'laspalmas/oauth2/token');
-
-    
+    final url = Uri.https(constantes.dominio, 'laspalmas/oauth2/token'); 
     final respuesta = await http.post(
       url,
       body: {
@@ -90,8 +85,6 @@ class SocioService{
         "username": usuario
       }
     );
-
-
     final decodedData = jsonDecode(respuesta.body);
 
     if (decodedData.containsKey("access_token")) {
@@ -100,12 +93,10 @@ class SocioService{
       
       
       final socio = await obtenerDatosSocio();
-      return socio;
-      
+      return socio; 
       
     }
     else {
-      String error = decodedData["error"];
       return null;
     }
 

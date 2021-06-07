@@ -1,6 +1,5 @@
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/services/socio_service.dart';
-import 'package:country/services/token_service.dart';
 import 'package:country/utils/comprobar_conexion.dart';
 import 'package:country/widgets/no_internet_widget.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +21,6 @@ class _LoginPageState extends State<LoginPage> {
 
   bool indicator = false;
   final _socioProvider = new SocioService();
-  final _tokenService = TokenService();
   final colores = ColoresApp();
 
   @override

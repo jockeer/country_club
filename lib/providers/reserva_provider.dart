@@ -3,20 +3,36 @@ import 'package:flutter/material.dart';
 
 class ReservaProvider extends ChangeNotifier{
 
-  String _codigoCat = '1';
+  String _codigoCab = '1';
   String _codigoSubCat;
 
   String _fecha='';
   String _hora= "00:00";
   String _cantPersonas = '0';
   String _reqExtras='';
+  String _telefono = '';
+  String _nombre = '';
 
-  set codigoCat(String codigoCat){
-    this._codigoCat = codigoCat;
+  set nombre(String nombre){
+    this._nombre = nombre;
     notifyListeners();
   }
-  String get codigoCat{
-    return this._codigoCat;
+  String get nombre{
+    return this._nombre;
+  }
+  set telefono(String telefono){
+    this._telefono = telefono;
+    notifyListeners();
+  }
+  String get telefono{
+    return this._telefono;
+  }
+  set codigoCab(String codigoCab){
+    this._codigoCab = codigoCab;
+    notifyListeners();
+  }
+  String get codigoCab{
+    return this._codigoCab;
   }
 
   set codigoSubCat(String codigoSubCat){

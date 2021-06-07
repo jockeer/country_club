@@ -1,6 +1,8 @@
+import 'package:country/providers/reserva_provider.dart';
 import 'package:country/widgets/app_bar_widget.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class ReservasPage extends StatelessWidget {
@@ -50,8 +52,10 @@ class _OptCabana extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ReservaProvider>(context);
     return GestureDetector(
       onTap: (){
+        provider.codigoCab = this.subcat.toString();
         Navigator.pushNamed(context, 'reserva_proceso');
       },
       child: Container(
