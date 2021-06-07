@@ -1,6 +1,8 @@
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/services/socio_service.dart';
 import 'package:country/services/token_service.dart';
+import 'package:country/utils/comprobar_conexion.dart';
+import 'package:country/widgets/no_internet_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/helpers/preferencias_usuario.dart';
@@ -119,11 +121,23 @@ class _LoginPageState extends State<LoginPage> {
     final prefs = PreferenciasUsuario();
     if (!formkey.currentState.validate()) return;
 
-    final provider = Provider.of<LoginProvider>(context, listen: false);
-
     setState(() {
       indicator = true;
     });
+    final conectado = await comprobarInternet();
+
+    if (!conectado) {
+      showDialog(context: context, builder: (context){return NoInternetWidget();});
+      setState(() {
+        indicator = false;
+      });
+      return;
+      
+    }
+    
+
+    final provider = Provider.of<LoginProvider>(context, listen: false);
+
     // print(provider.usuario + provider.password);
     final socio = await _socioProvider.loginSocio(provider.usuario, provider.password);
 
@@ -146,8 +160,7 @@ class _LoginPageState extends State<LoginPage> {
     }else{
         // Navigator.pushNamed(context, 'main_menu');
       mostrarSnackBar(context, 'Datos Incorrectos');
-    }    
-     
+    }       
   }
 }
 
@@ -236,8 +249,7 @@ class _ContrasenaOlvidada extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        final tokenService = TokenService();
-        await tokenService.obtenerToken(); 
+        
         Navigator.pushNamed(context, 'recuperar_password');
       },
       child: Text('¿Olvidaste tu contraseña?', style: TextStyle( fontWeight: FontWeight.bold ),)

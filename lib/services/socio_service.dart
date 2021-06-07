@@ -158,11 +158,10 @@ class SocioService{
 
   }
 
-  Future<bool> recoverPassword(String email)async{
+  Future<Map<String,dynamic>> recoverPassword(String email)async{
 
     final prefs = PreferenciasUsuario();
     final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/customers/validate_email');
-
 
     try {
       final respuesta = await http.post(
@@ -172,10 +171,11 @@ class SocioService{
           "access_token": prefs.token
         }
       );
-      print(respuesta.body);
-      return true;
+      final decoded = json.decode(respuesta.body);
+      print(decoded["Message"]);
+      return decoded;
     } catch (e) {
-      return false;
+      return null;
     }
   }
 

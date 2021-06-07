@@ -13,6 +13,16 @@ class RegistroProvider extends ChangeNotifier{
   String _email = '';
   String _password = '';
 
+  bool _carga= false;
+
+  bool get carga{
+    return this._carga;
+  }
+
+  set carga(bool carga){
+    this._carga = carga;
+    notifyListeners();
+  }
   String get codigo{
     return this._codigo;
   }

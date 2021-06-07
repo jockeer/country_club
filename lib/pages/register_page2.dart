@@ -2,7 +2,10 @@ import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/models/socio_model.dart';
 import 'package:country/providers/registro_provider.dart';
 import 'package:country/services/socio_service.dart';
+import 'package:country/utils/comprobar_conexion.dart';
+import 'package:country/utils/form_validator.dart';
 import 'package:country/utils/show_snack_bar.dart';
+import 'package:country/widgets/no_internet_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/widgets/floating_button_widget.dart';
@@ -131,6 +134,17 @@ class _RegisterPage2State extends State<RegisterPage2> {
         setState(() {
           indicator = true;
         });
+
+        final conexion = await comprobarInternet();
+        if (!conexion) {
+          setState(() {
+            indicator = false;
+          });
+
+          showDialog(context: context, builder: (context){ return NoInternetWidget();});
+          
+          return;
+        }
 
         socio.telefono = provider.codtel + provider.telefono;
         socio.direccion = provider.direccion;
@@ -423,10 +437,15 @@ class __InputTelefonoState extends State<_InputTelefono> {
               provider.telefono=value;
             },
             validator: (value){
+              final formValidator = FormValidator();
               if (value.isEmpty) {
                 return 'ingrese un numero de telefono';
               } else {
-                return null;
+                if (!formValidator.isNumeric(value)) {
+                  return "Ingrese en telefono valido";
+                } else {
+                  return null;
+                }
               }
             },
           ),

@@ -1,6 +1,8 @@
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/services/token_service.dart';
+import 'package:country/utils/comprobar_conexion.dart';
+import 'package:country/widgets/no_internet_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/widgets/floating_button_widget.dart';
@@ -97,6 +99,14 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
           setState(() {
             this.indicator=true;
           });
+          final conexion = await comprobarInternet();
+          if (!conexion) {
+            setState(() {
+              this.indicator=false;
+            });
+            showDialog(context: context, builder: (context){ return NoInternetWidget();});
+            return;
+          } 
           final provider = Provider.of<RegistroProvider>(context, listen: false);
           final socio = await _socioProvider.getSocio(provider.codigo, provider.ci); //6038
           if(socio!=null){
