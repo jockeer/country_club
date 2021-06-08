@@ -17,7 +17,7 @@ class ReservaService{
   final prefs = PreferenciasUsuario();
   
 
-  Future<bool> guardarReserva(Reserva reserva) async {
+  Future<dynamic> guardarReserva(Reserva reserva) async {
     
 
     final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/customers/reserva');
@@ -31,9 +31,9 @@ class ReservaService{
         url,
         body: paremetros
       );
-
+      
       final decoded = jsonDecode(respuesta.body);
-      print(decoded);
+      return decoded;
       
     } catch (e) {
       print(e);

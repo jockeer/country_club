@@ -1,13 +1,16 @@
+
 import 'dart:math';
+import 'package:flutter/material.dart';
 
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/models/reserva_model.dart';
 import 'package:country/providers/reserva_provider.dart';
 import 'package:country/services/reserva_service.dart';
+import 'package:country/utils/comprobar_conexion.dart';
 import 'package:country/utils/form_validator.dart';
 import 'package:country/utils/show_snack_bar.dart';
 import 'package:country/widgets/app_bar_widget.dart';
-import 'package:flutter/material.dart';
+import 'package:country/widgets/no_internet_widget.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'show CalendarCarousel;
@@ -22,19 +25,21 @@ class ReservaProcesoPage extends StatefulWidget {
 class _ReservaProcesoPageState extends State<ReservaProcesoPage> {
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ReservaProvider>(context, listen: true);
     return Scaffold(
       appBar: appBarWidget(titulo: 'Reservas'),
       body: ModalProgressHUD(
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 20.0,),
               _Categoria(),
               _Calendar(),
-              _FormularioReservas()
+              _FormularioReservasState(contexto: context, )
             ],
           ),
         ),
-        inAsyncCall: false,
+        inAsyncCall: provider.carga,
       ),
       floatingActionButton: FloatingActionButton(
         child: Transform.rotate(child: Icon(Icons.priority_high_sharp,),angle: pi,),
@@ -47,7 +52,7 @@ class _ReservaProcesoPageState extends State<ReservaProcesoPage> {
     );
   }
 
-  void _mostrarAlerta( BuildContext context){
+  void _mostrarAlerta(BuildContext context){
     showDialog(
       context: context,
       barrierDismissible: true,
@@ -66,6 +71,7 @@ class _Categoria extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50.0),
       decoration: BoxDecoration(
+        color: Colors.white,
         borderRadius: BorderRadius.circular(20.0),
         border: Border.all(color: Colors.grey[400])
       ),
@@ -75,6 +81,7 @@ class _Categoria extends StatelessWidget {
           underline: Container(
             height: 0.0,
           ),
+          
           icon: Icon(Icons.arrow_circle_down_outlined),
           isExpanded: true,
           value: provider.codigoCab,
@@ -145,16 +152,22 @@ class __CalendarState extends State<_Calendar> {
   }
 }
 
-class _FormularioReservas extends StatefulWidget {
+
+class _FormularioReservasState extends StatefulWidget{
+  
+  final BuildContext contexto;
+
+  _FormularioReservasState({@required this.contexto });
 
   @override
-  __FormularioReservasState createState() => __FormularioReservasState();
+  __FormularioReservasStateState createState() => __FormularioReservasStateState(contexto: this.contexto);
 }
 
-class __FormularioReservasState extends State<_FormularioReservas> {
-  
+class __FormularioReservasStateState extends State<_FormularioReservasState> {
   final formkey = GlobalKey<FormState>();
-  
+  final BuildContext contexto;
+
+  __FormularioReservasStateState({@required this.contexto});
   @override 
   Widget build(BuildContext context) {
   final provider = Provider.of<ReservaProvider>(context);
@@ -207,10 +220,17 @@ class __FormularioReservasState extends State<_FormularioReservas> {
               child: ElevatedButton(
                 onPressed: ()async{
                   if (provider.fecha == '') {
-                    mostrarSnackBar(context, 'elija una fecha');
+                    mostrarSnackBar(this.contexto, 'elija una fecha');
                     return;
                   }
                   if (!formkey.currentState.validate()) return;
+                  provider.carga=true;
+                  final conexion = await comprobarInternet();
+                  if (!conexion) {
+                    provider.carga=true;
+                    showDialog(context: context, builder: (context){return NoInternetWidget();});
+                    return;
+                  }
                   // provider.fecha='';
                   final reserva = Reserva();
                   reserva.codecli=prefs.codigoSocio;
@@ -223,6 +243,14 @@ class __FormularioReservasState extends State<_FormularioReservas> {
                   reserva.requerimientos = provider.reqExtras;
 
                   final respuesta = await reservaService.guardarReserva(reserva);
+
+                    provider.carga=false;
+                  if (!respuesta["Status"]) {
+                    mostrarSnackBar(this.contexto, respuesta["Message"]);
+                  } else {
+                   _mensajeExito(this.contexto);
+                   provider.fecha ='';
+                  }
 
                   // _mensajeExito();
                 }, 
@@ -239,9 +267,10 @@ class __FormularioReservasState extends State<_FormularioReservas> {
       ),
     );
   }
-  void _mensajeExito(){
+
+  void _mensajeExito(BuildContext contextos){
     showDialog(
-      context: context,
+      context: contextos,
       barrierDismissible: true,
       builder: ( context ){
         return _DialogExito();
@@ -262,7 +291,9 @@ class _RequerimientosExtras extends StatelessWidget {
       maxLines: 8,
       decoration: InputDecoration(
         hintText: 'Requerimientos extras',
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        filled:true,
+        fillColor: Colors.white
       ),
       onChanged: (value){
         provider.reqExtras = value;
@@ -289,6 +320,8 @@ class _CantidadPersonas extends StatelessWidget {
         hintStyle: TextStyle(fontSize: 30.0),
         hintText: '0',
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        filled:true,
+        fillColor: Colors.white
       ),
       onChanged: (value){
         provider.cantPersonas = value;
@@ -309,9 +342,6 @@ class _CantidadPersonas extends StatelessWidget {
 class _HoraReserva extends StatelessWidget {
 
   final _inputFileTimeController = TextEditingController();
-
-
-
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ReservaProvider>(context,listen: true);
@@ -325,7 +355,9 @@ class _HoraReserva extends StatelessWidget {
         contentPadding: EdgeInsets.zero,
         hintStyle: TextStyle(fontSize: 30.0, color: Colors.black, fontWeight: FontWeight.bold,),
         hintText: provider.hora,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        filled:true,
+        fillColor: Colors.white
       ),
       onTap: (){
         FocusScope.of(context).requestFocus(FocusNode());
@@ -424,6 +456,8 @@ class _CelularContacto extends StatelessWidget {
         contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0)),
         hintText: "Celular de contacto",
+        filled:true,
+        fillColor: Colors.white
       ),
       validator: (value){
         if (value.isEmpty) {
@@ -448,6 +482,8 @@ class _NombreContacto extends StatelessWidget {
         contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0)),
         hintText: "Nombre de contacto",
+        filled:true,
+        fillColor: Colors.white
       ),
       validator: (value){
         if (value.isEmpty) {
@@ -479,7 +515,6 @@ class _DialogExito extends StatelessWidget {
           SizedBox(height: 20.0,),
           Image(image: AssetImage('assets/images/notificacion.png'),)
         ],
-      
       ),
       actions: [
         Center(
@@ -488,11 +523,10 @@ class _DialogExito extends StatelessWidget {
             child: ElevatedButton(
               onPressed: (){
                 Navigator.popAndPushNamed(context, 'main_menu');
-                // Navigator.pushNamedAndRemoveUntil(context, 'main_menu', (route) => false);
               }, 
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                child: Text('Aceptarss', style: TextStyle(fontSize: 18.0),),
+                child: Text('Aceptar', style: TextStyle(fontSize: 18.0),),
               ), 
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))

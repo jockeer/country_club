@@ -12,7 +12,15 @@ class ReservaProvider extends ChangeNotifier{
   String _reqExtras='';
   String _telefono = '';
   String _nombre = '';
+  bool _carga = false;
 
+  set carga(bool carga){
+    this._carga = carga;
+    notifyListeners();
+  }
+  bool get carga{
+    return this._carga;
+  }
   set nombre(String nombre){
     this._nombre = nombre;
     notifyListeners();
