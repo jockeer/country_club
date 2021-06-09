@@ -9,6 +9,25 @@ class PushNotificationService {
 
   static FirebaseMessaging messaging = FirebaseMessaging.instance;
   static String token;
+
+  static void initNotifications(){
+
+    messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+    messaging.setForegroundNotificationPresentationOptions(
+      alert: true, // Required to display a heads up notification
+      badge: true,
+      sound: true,
+    );
+
+  }
   
 
   static Future<void> _opbackgroundHandler(RemoteMessage message) async {
@@ -29,6 +48,7 @@ class PushNotificationService {
     // Push Notifications
 
     await Firebase.initializeApp();
+    initNotifications();
     token = await FirebaseMessaging.instance.getToken();
     final prefs = PreferenciasUsuario();
 
