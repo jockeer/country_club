@@ -39,7 +39,6 @@ class MenuLateralWidget extends StatelessWidget {
                                 )
                               ),
                               Container( width: phoneSize.width*0.5,child: Text('${prefs.correoSocio}', style: TextStyle(color: Colors.black45),textAlign: TextAlign.center, overflow: TextOverflow.ellipsis,)),
-                              Container( width: phoneSize.width*0.5,child: Text('${prefs.token}', style: TextStyle(color: Colors.black45),textAlign: TextAlign.center, overflow: TextOverflow.ellipsis,)),
                             ],
                           ),
                         )

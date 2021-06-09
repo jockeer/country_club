@@ -22,7 +22,7 @@ class GaleriaPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Container(width: double.infinity, height: phoneSize.width*0.25, alignment: Alignment.center , child: Text('Pagina ${provider.pagina} / 3 ',style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),)),
+              Container(width: double.infinity, height: phoneSize.width*0.25, alignment: Alignment.center , child: Text('Pagina ${provider.pagina} / 5 ',style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),)),
             ],
           ),
         ],
@@ -53,20 +53,21 @@ class _Gallery extends StatefulWidget {
 
 class __GalleryState extends State<_Gallery> {
   bool loading;
-  List<String> ids = ['0', '1' , '10'];
+  List<String> ids = ['1', '2' , '3', '4', '5'];
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GaleriaProvider>(context);
     return Container(
+      width: double.infinity,
     child: PhotoViewGallery.builder(
       scrollPhysics: const BouncingScrollPhysics(),
       builder: (BuildContext context, int index) {
         return PhotoViewGalleryPageOptions(
-          imageProvider: NetworkImage('https://picsum.photos/600/600?image=${ids[index]}'),
+          imageProvider: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/cabanas/${provider.galeria}${ids[index]}.png'),
           minScale: PhotoViewComputedScale.contained
         );
       },
-      itemCount: 3,
+      itemCount: 5,
       loadingBuilder: (context, event) => Center(
         child: Container(
           width: 20.0,
@@ -75,9 +76,7 @@ class __GalleryState extends State<_Gallery> {
           ),
         ),
       ),
-      // backgroundDecoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/backgrounds/fondo_blanco.png'))),
       backgroundDecoration: BoxDecoration(color: Colors.transparent),
-      // pageController: widget.pageController,
       onPageChanged: (valor){
         provider.pagina = (valor +1 ).toString();
       },

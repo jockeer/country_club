@@ -46,12 +46,12 @@ class _ListViewWidgetState extends State<ListViewWidget> {
           Container(
             width: phoneSize.width,
             height: phoneSize.height,
-            color: Color(0xff009D47),
+            child: Image(image: AssetImage('assets/backgrounds/fondo_inicio2.png'), fit: BoxFit.cover,),
           ),    
           Container(
             width: phoneSize.width,
             height: phoneSize.height,
-            color: Color(0xffFF8A00),
+            child: Image(image: AssetImage('assets/backgrounds/fondo_inicio3.png'), fit: BoxFit.cover,),
           ),           
         
         ],

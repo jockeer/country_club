@@ -1,3 +1,4 @@
+import 'package:country/providers/galeria_provider.dart';
 import 'package:country/providers/reserva_provider.dart';
 import 'package:country/widgets/app_bar_widget.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
@@ -30,11 +31,11 @@ class _MenuReservas extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
         children: [
-          _OptCabana(titulo: 'La palmera', img: 'La_palmera.png', subcat: 1,),
-          _OptCabana(titulo: 'Bar Asai',img: 'Bar_Asai.png', subcat: 2,),
-          _OptCabana(titulo: 'El Caribeño',img: 'El_Caribeño.png', subcat: 3,),
-          _OptCabana(titulo: 'Cabaña Sumuque',img: 'Cabaña_Sumuque.png', subcat: 4,),
-          _OptCabana(titulo: 'Hoyo 19',img: 'Hoyo_19.png', subcat: 5,),
+          _OptCabana(titulo: 'La palmera', img: 'La_palmera.png', subcat: 1,galeria: 'palmeras',),
+          _OptCabana(titulo: 'Bar Asai',img: 'Bar_Asai.png', subcat: 2,galeria: 'asai',),
+          _OptCabana(titulo: 'El Caribeño',img: 'El_Caribeño.png', subcat: 3, galeria: 'caribeno',),
+          _OptCabana(titulo: 'Cabaña Sumuque',img: 'Cabaña_Sumuque.png', subcat: 4,galeria: 'sumuque',),
+          _OptCabana(titulo: 'Hoyo 19',img: 'Hoyo_19.png', subcat: 5,galeria: 'hoyo19',),
         ],
       ); 
   }
@@ -45,14 +46,16 @@ class _OptCabana extends StatelessWidget {
   // final Image imagen;
   final String titulo;
   final String img;
+  final String galeria;
   final int subcat;
 
-  const _OptCabana({@required this.img ,@required this.titulo, @required this.subcat});
+  const _OptCabana({@required this.img ,@required this.titulo, @required this.subcat, this.galeria});
 
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ReservaProvider>(context);
+    final providerGaleria = Provider.of<GaleriaProvider>(context);
     return GestureDetector(
       onTap: (){
         provider.codigoCab = this.subcat.toString();
@@ -67,7 +70,10 @@ class _OptCabana extends StatelessWidget {
                 Column(
                   children: [
                     GestureDetector(
-                      onTap: ()=>Navigator.pushNamed(context, 'galeria'),
+                      onTap: (){
+                        providerGaleria.galeria=this.galeria;
+                        Navigator.pushNamed(context, 'galeria');
+                      },
                       child: Container(
                         width: double.infinity, 
                         padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
