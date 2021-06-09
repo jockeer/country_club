@@ -1,9 +1,16 @@
+import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/models/reserva_model.dart';
+import 'package:country/services/reserva_service.dart';
+import 'package:country/utils/comprobar_conexion.dart';
+import 'package:country/widgets/no_internet_widget.dart';
+import 'package:country/widgets/success_dialog_widget.dart';
 import 'package:flutter/material.dart';
 
 class ReservaWidget extends StatelessWidget {
 
   final List<Reserva> reservas;
+
+  
 
   ReservaWidget({@required this.reservas});
   
@@ -60,7 +67,7 @@ class ReservaWidget extends StatelessWidget {
                               SizedBox(height: 5.0,),
                               Text('Cantidad: ${reservas[index].cantidad} personas'),
                               SizedBox(height: 5.0,),
-                              Text('${reservas[index].fecha}, ${reservas[index].hora}'),
+                              Text('${reservas[index].fecha.substring(0,10)} , ${reservas[index].hora}'),
                               SizedBox(height: 10.0,),
                             ],
                           ),
@@ -78,16 +85,21 @@ class ReservaWidget extends StatelessWidget {
                               },
                             ),
                             SizedBox(width: 20.0,),
-                            ElevatedButton(style: ElevatedButton.styleFrom(primary: Colors.red, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))) ,child: Text('Cancelar Reserva'),
-                              onPressed: (){
-
+                            ElevatedButton(style: ElevatedButton.styleFrom(primary: Colors.red, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))) ,child: Text('Cancelar'),
+                              onPressed: ()async {
+                                final conexion = await comprobarInternet();
+                                if (!conexion) {
+                                  return showDialog(context: context, builder: (context){return NoInternetWidget();});
+                                }
+                                showDialog(context: context, builder: (context){return _Confirmar(cabana: reservas[index].nombreCab, idReserva: reservas[index].id,);});
+                                
                               }, 
                             ),
                           ])
                         : [
-                            ElevatedButton(style: ElevatedButton.styleFrom(primary: Color(0xff00472B), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))), child: Text('Visualizar Reserva'),
+                            ElevatedButton(style: ElevatedButton.styleFrom(primary: Color(0xff00472B), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))), child: Text('Visualizar'),
                               onPressed: (){
-                                
+
                               },
                             ),
                           ]    
@@ -100,6 +112,54 @@ class ReservaWidget extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _Confirmar extends StatelessWidget {
+  final String cabana;
+  final String idReserva;
+  final _reservaService = ReservaService();
+
+  final colores = ColoresApp();
+
+  _Confirmar({@required this.cabana, @required this.idReserva});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Reserva - ' + this.cabana),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Esta seguro que desea anular su reserva?'),
+            ],
+          ),
+          actions: [
+            ElevatedButton(
+              child: Text('No, Cancelar'),
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.red
+              ),
+            ),
+            ElevatedButton(
+              child: Text('Si, Estoy seguro', style: TextStyle(color: Colors.black54),),
+              onPressed: ()async{
+                await _reservaService.cancelarReserva(this.idReserva);
+                showDialog(context: context, builder: (context){
+                  return SuccessDialogWidget(mensaje: 'Su reserva fue anulada correctamente', ruta: 'main_menu',);
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.transparent,
+                elevation: 0.0
+              ),
+            ),
+          ],
     );
   }
 }
