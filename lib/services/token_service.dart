@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import "package:http/http.dart" as http;
 
@@ -7,12 +8,12 @@ import 'package:country/helpers/preferencias_usuario.dart';
 
 class TokenService{
 
-  final _tokenService = DatosConstantes();
+  final constantes = DatosConstantes();
   final prefs = PreferenciasUsuario();
   
   Future<String> obtenerToken() async {
 
-    final url = Uri.https(_tokenService.dominio, 'laspalmas/web/Token/Token');
+    final url = Uri.https(constantes.dominio, 'laspalmas/web/Token/Token');
     try {
       final respuesta = await http.post(
         url,
@@ -35,6 +36,31 @@ class TokenService{
       return "";
     }
     
+  }
+
+  Future<bool> registrarDeviceToken()async{
+    
+    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/Services/Notification');
+
+    try {
+      final respuesta = await http.post(
+        url,
+        body: {
+          "grant_type": "password",
+          "client_id": "LASPALMASApp",
+          "access_token": prefs.token,
+          "device_type": (Platform.isAndroid)?'ANDROID':'IOS',
+          "device_token": prefs.deviceToken
+        }
+      );
+      if (respuesta.statusCode==200) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+
   }
 
 }

@@ -8,9 +8,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 
-
-import 'dart:io' show Platform;
-
 class ReservaService{
 
   final constantes = DatosConstantes();
@@ -40,6 +37,19 @@ class ReservaService{
       return null;
     }
 
+  }
+  Future<List<Reserva>> obtenerReservas()async{
+    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/get_all_reservas?access_token=${prefs.token}');
+    // print(url); 
+    final respuesta = await http.get(url);
+
+    final decoded = jsonDecode(respuesta.body);
+
+    final reservas = Reservas.fromJsonList(decoded["Data"]);
+
+    return reservas.items;
+
+    // print(decoded);
   }
 
 

@@ -55,5 +55,14 @@ class PreferenciasUsuario {
     _prefs.setString('token', token);
   }
 
+  //GET Y SET del token del telefono
+  get deviceToken{
+    return _prefs.getString('deviceToken') ?? 'sin deviceToken';
+  }
+
+  set deviceToken(String deviceToken){
+    _prefs.setString('deviceToken', deviceToken);
+  }
+
   
 }

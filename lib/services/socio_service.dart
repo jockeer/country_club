@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
+import 'package:country/services/push_notificacion_service.dart';
+import 'package:country/services/token_service.dart';
 import 'package:http/http.dart' as http;
 
 import 'dart:convert';
@@ -15,6 +17,8 @@ class SocioService{
   String user = 'Loyalty';
   String password = 'L0ya1tyc1ub5*';
   final constantes = DatosConstantes();
+
+  final tokenDevice =  PushNotificationService();
   
 
   
@@ -91,9 +95,18 @@ class SocioService{
       print(decodedData);
       prefs.token = await decodedData["access_token"];
       
+      final _tokenService = TokenService();
       
-      final socio = await obtenerDatosSocio();
-      return socio; 
+      await tokenDevice.obtenerDeviceToken();
+      
+      final devideTokenguardado = await _tokenService.registrarDeviceToken();
+      if (devideTokenguardado) {
+        final socio = await obtenerDatosSocio();
+        return socio; 
+        
+      } else {
+        return null;
+      }
       
     }
     else {

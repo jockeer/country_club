@@ -1,5 +1,6 @@
 //2B:19:D6:16:ED:5C:98:4C:16:09:DD:D2:B0:21:25:9E:C5:E8:16:A0
 
+import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -29,7 +30,9 @@ class PushNotificationService {
 
     await Firebase.initializeApp();
     token = await FirebaseMessaging.instance.getToken();
-    print(token);
+    final prefs = PreferenciasUsuario();
+
+    prefs.deviceToken = token;
 
     //Handlers
     // FirebaseMessaging.onBackgroundMessage((message) => null)
@@ -38,6 +41,14 @@ class PushNotificationService {
     FirebaseMessaging.onMessageOpenedApp.listen(_onMessageOpenApp);
 
     // Local Notifications
+  }
+
+  Future<void> obtenerDeviceToken()async {
+    token = await FirebaseMessaging.instance.getToken();
+    print("desde el aca:" + token);
+    final prefs = PreferenciasUsuario();
+
+    prefs.deviceToken = token;
   }
 
 }
