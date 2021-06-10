@@ -29,14 +29,22 @@ class _ReservaProcesoPageState extends State<ReservaProcesoPage> {
     return Scaffold(
       appBar: appBarWidget(titulo: 'Reservas'),
       body: ModalProgressHUD(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 20.0,),
-              _Categoria(),
-              _Calendar(),
-              _FormularioReservasState(contexto: context, )
-            ],
+        child: GestureDetector(
+          onTap: (){
+            final FocusScopeNode focus = FocusScope.of(context);
+            if (!focus.hasPrimaryFocus && focus.hasFocus) {
+              FocusManager.instance.primaryFocus.unfocus();
+            }
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 20.0,),
+                _Categoria(),
+                _Calendar(),
+                _FormularioReservasState(contexto: context, )
+              ],
+            ),
           ),
         ),
         inAsyncCall: provider.carga,
