@@ -51,11 +51,16 @@ class _HistorialLista extends StatelessWidget {
     return FutureBuilder(
       future: reservasSevice.obtenerReservas(),
       builder: (BuildContext context,AsyncSnapshot<List<Reserva>> snapshot){
+     
         if (snapshot.hasData) {
           if (snapshot.data.isEmpty) {
             return Center(child: Text('No tiene ninguna reserva programada'),);
           } else {
-            return ReservaWidget(reservas: snapshot.data);
+            if (snapshot.data[0] == null) {
+              return Center(child: Text('No tiene Conexion a internet'),);
+            } else {
+              return ReservaWidget(reservas: snapshot.data);
+            }
           }
         } else {
           return Center(child: CircularProgressIndicator());
