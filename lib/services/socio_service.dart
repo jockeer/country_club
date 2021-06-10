@@ -42,8 +42,9 @@ class SocioService{
 
   Future<Socio> getSocio(String codigoSocio, String ci) async {
     final n = num.tryParse(codigoSocio);
+    final ns = num.tryParse(ci);
 
-    if(n == null){
+    if(n == null || ns == null){
       return null;
     }
 

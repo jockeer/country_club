@@ -16,3 +16,32 @@ class ColoresApp{
   Color boton = Color(0xff01954C);
 
 }
+
+class EstilosApp{
+
+
+  InputDecoration inputDecoration({@required String hintText, double padingTop = 0.0}){
+    return InputDecoration(
+      contentPadding: EdgeInsets.symmetric(vertical: padingTop, horizontal: 15.0),
+      hintText: hintText,
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+      filled:true,
+      fillColor: Colors.white
+    );
+  }
+
+  Padding inputLabel({@required String label}){
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: 10.0,
+        horizontal: 15.0
+      ), 
+      child: Text(label, 
+        style: TextStyle(
+          fontWeight: FontWeight.bold
+        ),
+      ),
+    );
+  }
+
+}

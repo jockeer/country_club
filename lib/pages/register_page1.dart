@@ -25,21 +25,29 @@ class _RegisterPage1State extends State<RegisterPage1> {
 
 
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
-            SingleChildScrollView( //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
-              child: Column(
-                children: [
-                  // Image(image: AssetImage('')),
-                  SizedBox(height: 80.0,),
-                  Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.85,),
-                  _formulario(socio),
-                ],
+      body: GestureDetector(
+        onTap: (){
+          final FocusScopeNode focus = FocusScope.of(context);
+          if (!focus.hasPrimaryFocus && focus.hasFocus) {
+            FocusManager.instance.primaryFocus.unfocus();
+          }
+        },
+        child: SafeArea(
+          child: Stack(
+            children: [
+              _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
+              SingleChildScrollView( //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
+                child: Column(
+                  children: [
+                    // Image(image: AssetImage('')),
+                    SizedBox(height: 80.0,),
+                    Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.85,),
+                    _formulario(socio),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingButtonWidget(color: Colors.black,),

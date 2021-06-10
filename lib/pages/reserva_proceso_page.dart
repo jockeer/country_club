@@ -126,7 +126,7 @@ class __CalendarState extends State<_Calendar> {
       todayTextStyle: TextStyle(color: Colors.black),
       locale: 'es',
       onDayPressed: (DateTime date, List events) {
-        print(DateTime(date.year,date.month,date.day));
+        // print(DateTime(date.year,date.month,date.day));
         provider.fecha = DateTime(date.year,date.month,date.day).toString(); 
         setState(() {
           _currentDate=DateTime(date.year,date.month,date.day);

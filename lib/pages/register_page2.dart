@@ -33,29 +33,37 @@ class _RegisterPage2State extends State<RegisterPage2> {
     return Scaffold(
       body: ModalProgressHUD(
         child: SafeArea(
-          child: Stack(
-            children: [
-              _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
-              SingleChildScrollView( //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
-                child: Column(
-                  children: [
-                    SizedBox(height: 60.0,),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
-                      child:Column(
-                        children: [
-                          Text('INGRESA INFORMACION ADICIONAL', style: TextStyle(fontWeight: FontWeight.w900,fontSize: 16.0 ), textAlign: TextAlign.center,),
-                          SizedBox(height: 10.0,),
-                          Text('Vamos a necesitar alguna informacion tuya para continuar con el registro', style: TextStyle(), textAlign: TextAlign.center,)
-                        ],
+          child: GestureDetector(
+            onTap: (){
+              final FocusScopeNode focus = FocusScope.of(context);
+              if (!focus.hasPrimaryFocus && focus.hasFocus) {
+                FocusManager.instance.primaryFocus.unfocus();
+              }
+            },
+            child: Stack(
+              children: [
+                _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
+                SingleChildScrollView( //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
+                  child: Column(
+                    children: [
+                      SizedBox(height: 60.0,),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
+                        child:Column(
+                          children: [
+                            Text('INGRESA INFORMACION ADICIONAL', style: TextStyle(fontWeight: FontWeight.w900,fontSize: 16.0 ), textAlign: TextAlign.center,),
+                            SizedBox(height: 10.0,),
+                            Text('Vamos a necesitar alguna informacion tuya para continuar con el registro', style: TextStyle(), textAlign: TextAlign.center,)
+                          ],
+                        ),
                       ),
-                    ),
-                    _formulario(socio),
-                    Image(image: AssetImage('assets/icons/logo.png'), width: 250.0,),
-                  ],
+                      _formulario(socio),
+                      Image(image: AssetImage('assets/icons/logo.png'), width: 250.0,),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         inAsyncCall: indicator,

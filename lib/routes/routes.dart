@@ -1,3 +1,4 @@
+import 'package:country/pages/reserva_reprogramar_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/pages/welcome_page.dart';
@@ -43,5 +44,6 @@ Map<String, WidgetBuilder> getAplicationRoutes(){
     'handicap': ( _ ) => HandicapPage(),
     'tarjeta_recarga': ( _ ) => RecargaTarjetaPage(), 
     'metodo_pago':( _ ) => MetodoPagoPage(),
+    'reserva_repro':( _ ) => ReservaReproPage(),
   };
 }

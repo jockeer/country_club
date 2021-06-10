@@ -33,21 +33,29 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ModalProgressHUD(
-        child: SafeArea(
-          child: Stack(
-            children: [
-              _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
-              SingleChildScrollView( //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
-                child: Column(
-                  children: [
-                    // Image(image: AssetImage('')),
-                    SizedBox(height: 80.0,),
-                    Image(image: AssetImage('assets/icons/logo.png'),),
-                    _formulario(),
-                  ],
+        child: GestureDetector(
+          onTap: (){
+            final FocusScopeNode focus = FocusScope.of(context);
+            if (!focus.hasPrimaryFocus && focus.hasFocus) {
+              FocusManager.instance.primaryFocus.unfocus();
+            }
+          },
+          child: SafeArea(
+            child: Stack(
+              children: [
+                _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
+                SingleChildScrollView( //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
+                  child: Column(
+                    children: [
+                      // Image(image: AssetImage('')),
+                      SizedBox(height: 80.0,),
+                      Image(image: AssetImage('assets/icons/logo.png'),),
+                      _formulario(),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       inAsyncCall: indicator,
