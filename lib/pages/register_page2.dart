@@ -162,7 +162,6 @@ class _RegisterPage2State extends State<RegisterPage2> {
           mostrarSnackBar(context, resultado["Message"]);
         } else {
           showDialog(context: context,barrierDismissible: false, builder: (context){return _DialogInfo(message: resultado["Message"],);});
-          print('True papa');
         }
         setState(() {
           indicator = false;
@@ -208,6 +207,7 @@ class _DialogInfo extends StatelessWidget {
             onPressed: (){
               Navigator.of(context).pop();
               Navigator.pushNamed(context, 'login');
+              FocusScope.of(context).unfocus();
             },
             style: ElevatedButton.styleFrom(
               padding: EdgeInsets.symmetric(horizontal: 50.0),
@@ -428,7 +428,7 @@ class __InputTelefonoState extends State<_InputTelefono> {
           width: phoneSize.width*0.4,
           child: TextFormField(
             
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.phone,
             // obscureText: true,
             decoration: InputDecoration(
 

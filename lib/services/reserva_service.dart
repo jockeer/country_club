@@ -70,6 +70,27 @@ class ReservaService{
 
     // print(decoded);
   }
+  Future<bool> actualizarReserva(Reserva reserva)async{
+    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/actualizar_reserva');
+
+    final parametros = reserva.toJson();
+
+    parametros["access_token"]= prefs.token;
+    parametros["id_reserva"] = reserva.id;
+
+    // print(url); 
+    final respuesta = await http.post(
+      url,
+      body: parametros
+    );
+
+    final decoded = jsonDecode(respuesta.body);
+
+    print(decoded);
+    return decoded["Status"];
+
+    // print(decoded);
+  }
 
 
 

@@ -1,3 +1,7 @@
+import 'package:country/helpers/preferencias_usuario.dart';
+import 'package:country/models/compra_model.dart';
+import 'package:country/services/tarjeta_service.dart';
+import 'package:country/widgets/compra_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/widgets/menu_lateral_widget.dart';
@@ -59,6 +63,9 @@ class _Tarjeta extends StatelessWidget {
 
 class _UltimasTransacciones extends StatelessWidget {
 
+  final _tarjetaService = TarjetaService();
+  final prefs = PreferenciasUsuario();
+
   @override
   Widget build(BuildContext context) {
     final phoneSize = MediaQuery.of(context).size;
@@ -74,50 +81,20 @@ class _UltimasTransacciones extends StatelessWidget {
           ),
         ),
         Container(
-          height: phoneSize.height*0.5,
-          child: ListView(
-            padding: EdgeInsets.all(0.0),
-            children: [
-              ListTile(
-                title: Text('Almuerzo Familiar'),
-                subtitle: Text('30/09/2020 - Comprobante N 450313'),
-                trailing: Text('Bs. 150', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),),
-              ),
-              Divider(color: Colors.black45,),
-              ListTile(
-                title: Text('Reserva cancha de tenis'),
-                subtitle: Text('30/09/2020 - Comprobante N 450313'),
-                trailing: Text('Bs. 350', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),),
-              ),
-              Divider(color: Colors.black45,),
-              ListTile(
-                title: Text('Reserva Cabaña hoyo 19'),
-                subtitle: Text('30/09/2020 - Comprobante N 450313'),
-                trailing: Text('Bs. 450', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),),
-              ),
-              Divider(color: Colors.black45,),
-              ListTile(
-                title: Text('Almuerzo Familiar'),
-                subtitle: Text('30/09/2020 - Comprobante N 450313'),
-                trailing: Text('Bs. 150', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),),
-              ),
-              Divider(color: Colors.black45,),
-              ListTile(
-                title: Text('Almuerzo Familiar'),
-                subtitle: Text('30/09/2020 - Comprobante N 450313'),
-                trailing: Text('Bs. 150', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),),
-              ),
-              Divider(color: Colors.black45,),
-              ListTile(
-                title: Text('Almuerzo Familiar'),
-                subtitle: Text('30/09/2020 - Comprobante N 450313'),
-                trailing: Text('Bs. 150', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),),
-              ),
-              Divider(color: Colors.black45,),
-              
-            ],
+          height: phoneSize.height*0.45,
+          child: FutureBuilder(
+            future: _tarjetaService.obtenerHistoricoCompras(prefs.codigoSocio),
+            builder: (BuildContext context, AsyncSnapshot<List<Compra>> snapshot ){
+              if (snapshot.hasData) {
+                return CompraWidget(compras: snapshot.data);
+              }
+              else{
+                return Center(child: CircularProgressIndicator(),);
+              }
+            },
           ),
         )
+        
       ],
     );
   }

@@ -251,8 +251,12 @@ class __FormularioReservasStateState extends State<_FormularioReservasState> {
                   reserva.requerimientos = provider.reqExtras;
 
                   final respuesta = await reservaService.guardarReserva(reserva);
+                  provider.carga=false;
 
-                    provider.carga=false;
+                  if (respuesta == null) {
+                     mostrarSnackBar(this.contexto, 'Error con el servidor');
+                    return;
+                  }
                   if (!respuesta["Status"]) {
                     mostrarSnackBar(this.contexto, respuesta["Message"]);
                   } else {

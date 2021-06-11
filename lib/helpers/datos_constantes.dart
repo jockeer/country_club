@@ -38,7 +38,7 @@ class EstilosApp{
       ), 
       child: Text(label, 
         style: TextStyle(
-          fontWeight: FontWeight.bold
+          fontWeight: FontWeight.w500
         ),
       ),
     );

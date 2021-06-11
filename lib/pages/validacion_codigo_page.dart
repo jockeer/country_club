@@ -125,6 +125,7 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
             }else{
               // prefs.token = 
               Navigator.pushNamed(context, 'register_page_1', arguments: socio);
+              FocusScope.of(context).unfocus();
             }
           }else{
             mostrarSnackBar(context, 'Los datos del socio no son validos por favor actualice su informacion');

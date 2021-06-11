@@ -159,6 +159,7 @@ class _LoginPageState extends State<LoginPage> {
         prefs.codigoSocio = '${socio.codigo}';
 
         Navigator.pushNamed(context, 'main_menu');
+        FocusScope.of(context).unfocus();
     
         setState((){
           this.indicator=false;

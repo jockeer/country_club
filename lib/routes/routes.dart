@@ -1,3 +1,4 @@
+import 'package:country/pages/detalle_compra_page.dart';
 import 'package:country/pages/reserva_reprogramar_page.dart';
 import 'package:flutter/material.dart';
 
@@ -45,5 +46,6 @@ Map<String, WidgetBuilder> getAplicationRoutes(){
     'tarjeta_recarga': ( _ ) => RecargaTarjetaPage(), 
     'metodo_pago':( _ ) => MetodoPagoPage(),
     'reserva_repro':( _ ) => ReservaReproPage(),
+    'detalle_compra':( _ ) => DetalleCompraPage(),
   };
 }

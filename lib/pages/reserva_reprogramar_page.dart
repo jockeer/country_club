@@ -2,11 +2,15 @@ import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/models/reserva_model.dart';
 import 'package:country/providers/reserva_provider.dart';
+import 'package:country/services/reserva_service.dart';
 import 'package:country/utils/comprobar_conexion.dart';
 import 'package:country/utils/form_validator.dart';
+import 'package:country/utils/show_snack_bar.dart';
 import 'package:country/widgets/no_internet_widget.dart';
+import 'package:country/widgets/success_dialog_widget.dart';
 
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
 class ReservaReproPage extends StatefulWidget {
@@ -16,30 +20,43 @@ class ReservaReproPage extends StatefulWidget {
 }
 
 class _ReservaReproPageState extends State<ReservaReproPage> {
+  final reservaFormState = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ReservaProvider>(context);
 
     final Reserva reserva = ModalRoute.of(context).settings.arguments;
 
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          _crearAppBar( reserva ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                SizedBox(height: 10.0,),
-                _formulario(reserva),
-              ]
+    return ModalProgressHUD(
+      inAsyncCall: provider.carga,
+      child: GestureDetector(
+        onTap: (){
+          final FocusScopeNode focus = FocusScope.of(context);
+            if (!focus.hasPrimaryFocus && focus.hasFocus) {
+              FocusManager.instance.primaryFocus.unfocus();
+            }
+        },
+        child: Scaffold(
+            body: CustomScrollView(
+              slivers: [
+                _crearAppBar( reserva ),
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      SizedBox(height: 10.0,),
+                      _formulario(reserva),
+                    ]
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
       ),
     );
   }
 
   Widget _formulario(Reserva reserva){
-    return (reserva.status=='1')?_Formulario(reserva: reserva,):_Datos(reserva: reserva,);
+    return (reserva.status=='1')?_Formulario(reserva: reserva, reservaFormState:reservaFormState):_Datos(reserva: reserva,);
   }
 
   Widget _crearAppBar(Reserva reserva) {
@@ -69,96 +86,44 @@ class _ReservaReproPageState extends State<ReservaReproPage> {
 
 class _Formulario extends StatelessWidget {
 
-  final Reserva reserva;
-  final prefs = PreferenciasUsuario();
 
+  final Reserva reserva;
   final estilos = EstilosApp();
   final colores = ColoresApp();
+  final GlobalKey<FormState> reservaFormState;  
 
-  _Formulario({@required this.reserva});
+  _Formulario({@required this.reserva, @required this.reservaFormState});
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ReservaProvider>(context);
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Form(
+    return Form(
+      key: this.reservaFormState,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Modificacion de la reserva - ' + this.reserva.nombreCab, style: TextStyle(fontSize: 20.0, color: colores.verdeOscuro, fontWeight: FontWeight.bold ),),
+            Text('Modificacion de la reserva - '+ this.reserva.nombreCab, style: TextStyle(color: colores.verdeOscuro, fontSize: 20.0, fontWeight: FontWeight.w500), ),
             Divider(),
             estilos.inputLabel(label: 'Fecha de la reserva'),
             _Fecha(),
-            
             Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      estilos.inputLabel(label: 'Hora de la reserva'),
-                      _HoraReserva()
-                    ],
-                  ),
-                ),
+              children: [               
+                _HoraReserva(),
                 SizedBox(width: 20.0,),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      estilos.inputLabel(label: 'Cantidad de personas'),
-                      _CantidadPersonas()
-                    ],
-                  ),
-                ),
+                _CantidadPersonas(),  
               ],
             ),
-            estilos.inputLabel(label: 'Celular de contacto'),
-            TextFormField(
-              initialValue: this.reserva.celular,
-              decoration: estilos.inputDecoration(hintText: "Celular de contacto"),
-            ),
-            estilos.inputLabel(label: 'Nombre de contacto'),
-            TextFormField(
-              initialValue: this.reserva.nombre,
-              decoration: estilos.inputDecoration(hintText: "Nombre de contacto"),
-            ),
+            estilos.inputLabel(label: 'Nombre de Contacto'),
+            _NombreContacto(),
+            estilos.inputLabel(label: "Telefono de contacto"),
+            _CelularContacto(),
             estilos.inputLabel(label: 'Requerimientos extras'),
-            TextFormField(
-              keyboardType: TextInputType.multiline,
-              maxLines: 8,
-              initialValue: this.reserva.requerimientos,
-              decoration: estilos.inputDecoration(hintText: "Requerimientos extras", padingTop: 15.0),
-            ),
+            _Requerimientos(),
             Divider(),
-            Center(
-              child: ElevatedButton(
-                onPressed: ()async {
-                  final conexion = await comprobarInternet();
-                  if (!conexion) {
-                    return showDialog(context: context, builder: (context){return NoInternetWidget();});
-                  }
-                  final reserva = Reserva();
-                  reserva.codecli=prefs.codigoSocio;
-                  reserva.cabanaid = provider.codigoCab;
-                  reserva.fecha= provider.fecha;
-                  reserva.hora=provider.hora;
-                  reserva.cantidad=provider.cantPersonas;
-                  reserva.celular=provider.telefono;
-                  reserva.nombre = provider.nombre;
-                  reserva.requerimientos = provider.reqExtras;
-
-                  //final respuesta = await reservaService.guardarReserva(reserva);
-                }, 
-                child: Padding(padding: EdgeInsets.symmetric(vertical: 15.0,horizontal: 20.0),child: Text('Guardar Cambios'),),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.0)
-                  )
-                )
-              ),
-            )
+            Center(child: _ButtonGuardarCambios(reservaFormState: reservaFormState, reservaId: this.reserva.id)),
+            SizedBox(height: 10.0,),
+            Center(child: Image(image: AssetImage('assets/icons/logo.png'),width: 200.0,))
           ],
         ),
       ),
@@ -166,38 +131,148 @@ class _Formulario extends StatelessWidget {
   }
 }
 
+class _NombreContacto extends StatelessWidget {
+
+  final estilos = EstilosApp();
+  @override
+  Widget build(BuildContext context) {
+  final provider = Provider.of<ReservaProvider>(context);
+    return TextFormField(
+      initialValue: provider.nombre,
+      decoration: estilos.inputDecoration(hintText: 'Nombre de contacto'),
+      onChanged: (value)=> provider.nombre = value,
+      validator: (value){
+        if (value.isEmpty) return "El nombre no puede estar vacio";
+        return null;
+      },
+    );
+  }
+}
+
+class _CelularContacto extends StatelessWidget {
+
+  final estilos = EstilosApp();
+  final validar = FormValidator(); 
+  @override
+  Widget build(BuildContext context) {
+  final provider = Provider.of<ReservaProvider>(context);
+    return TextFormField(
+      initialValue: provider.telefono,
+      decoration: estilos.inputDecoration(hintText: 'Telefono de contacto'),
+      onChanged: (value)=> provider.telefono = value,
+      validator: (value){
+        if (value.isEmpty) return "El nombre no puede estar vacio";
+        if(!validar.isNumeric(value)) return "El numero de telefono no puede tener letras u otros caracteres especiales";
+        return null; 
+      },
+    );
+  }
+}
+class _Requerimientos extends StatelessWidget {
+
+  final estilos = EstilosApp();
+  final validar = FormValidator(); 
+  @override
+  Widget build(BuildContext context) {
+  final provider = Provider.of<ReservaProvider>(context);
+    return TextFormField(
+      keyboardType: TextInputType.multiline,
+      maxLines: 8,
+      initialValue: provider.reqExtras,
+      decoration: estilos.inputDecoration(hintText: 'Requerimientos extras', padingTop: 15.0),
+      onChanged: (value)=> provider.reqExtras = value,
+    );
+  }
+}
+
+class _ButtonGuardarCambios extends StatelessWidget {
+  final GlobalKey<FormState>reservaFormState;
+  final String reservaId;
+  final colores = ColoresApp();
+  final prefs = PreferenciasUsuario();
+  final _reservaService = ReservaService();
+
+  _ButtonGuardarCambios({ @required this.reservaFormState, @required this.reservaId });
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<ReservaProvider>(context);
+    return ElevatedButton(
+      child: Text('Actualizar Reserva'),
+      style: ElevatedButton.styleFrom(
+        primary: colores.boton,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))
+      ),
+      onPressed: () async {
+        if(!this.reservaFormState.currentState.validate()) return;
+        provider.carga = true;
+        final conexion = await comprobarInternet();
+        if (!conexion) {
+          provider.carga = false;
+          return showDialog(context: context, builder: (context){return NoInternetWidget();});
+        }
+        final reserva = Reserva();
+        reserva.id=this.reservaId;
+        reserva.codecli=prefs.codigoSocio;
+        reserva.cabanaid = provider.codigoCab;
+        reserva.fecha= provider.fecha;
+        reserva.hora=provider.hora;
+        reserva.cantidad=provider.cantPersonas;
+        reserva.celular=provider.telefono;
+        reserva.nombre = provider.nombre;
+        reserva.requerimientos = provider.reqExtras;
+        final respuesta = await _reservaService.actualizarReserva(reserva);
+        provider.carga = false;
+        if (respuesta) {
+          showDialog(context: context, builder: (context){return SuccessDialogWidget(mensaje: 'Su reserva fue actualizada correctamente', ruta: 'main_menu',);});
+        } else {
+          mostrarSnackBar(context, 'error al actualizar su reserva ');
+        }
+      },
+    );
+  }
+}
+
 class _HoraReserva extends StatelessWidget {
 
   final _inputFileTimeController = TextEditingController();
+  final estilos = EstilosApp();
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ReservaProvider>(context,listen: true);
-    return TextFormField(
-
-      enableInteractiveSelection: false,
-      controller: _inputFileTimeController,
-      textAlign: TextAlign.center,
-      
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.zero,
-        hintStyle: TextStyle(fontSize: 30.0, color: Colors.black, fontWeight: FontWeight.bold,),
-        hintText: provider.hora,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-        filled:true,
-        fillColor: Colors.white
+    return Expanded(
+      child: Column(
+        children: [
+          estilos.inputLabel(label: 'Hora de la reserva'),
+          TextFormField(
+    
+            enableInteractiveSelection: false,
+            controller: _inputFileTimeController,
+            textAlign: TextAlign.center,
+            
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.zero,
+              hintStyle: TextStyle(fontSize: 30.0, color: Colors.black, fontWeight: FontWeight.bold,),
+              hintText: provider.hora,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+              filled:true,
+              fillColor: Colors.white
+            ),
+            onTap: (){
+              FocusScope.of(context).requestFocus(FocusNode());
+              _selectTime(context);
+            },
+            validator: (value){
+              if(provider.hora == '00:00'){
+                return 'La hora debe ser elegida';
+              }else{
+                return null;
+              }
+            },
+          ),
+        ],
       ),
-      onTap: (){
-        FocusScope.of(context).requestFocus(FocusNode());
-        _selectTime(context);
-      },
-      validator: (value){
-        if(provider.hora == '00:00'){
-          return 'La hora debe ser elegida';
-        }else{
-          return null;
-        }
-      },
     );
   }
 
@@ -226,38 +301,45 @@ class _HoraReserva extends StatelessWidget {
 }
 
 class _CantidadPersonas extends StatelessWidget {
-
+  final estilos = EstilosApp();
   @override
   Widget build(BuildContext context) {
 
     final provider = Provider.of<ReservaProvider>(context);
 
-    return TextFormField(
-      // initialValue: '0',
-      style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
-      textAlign: TextAlign.center,
-      keyboardType: TextInputType.phone,
-      initialValue: provider.cantPersonas,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.zero,
-        hintStyle: TextStyle(fontSize: 30.0),
-        hintText: '0',
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-        filled:true,
-        fillColor: Colors.white
+    return Expanded(
+      child: Column(
+        children: [
+          estilos.inputLabel(label: 'Cantidad de personas'),
+          TextFormField(
+            // initialValue: '0',
+            style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+            keyboardType: TextInputType.phone,
+            initialValue: provider.cantPersonas,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.zero,
+              hintStyle: TextStyle(fontSize: 30.0),
+              hintText: '0',
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+              filled:true,
+              fillColor: Colors.white
+            ),
+            onChanged: (value){
+              provider.cantPersonas = value;
+            },
+            validator: (value){
+              final formValdidator = FormValidator();
+              if ( value.isEmpty ) return 'La cantidad debe ser un numero';
+              if (formValdidator.isNumeric(value)) {
+                return null;
+              } else {
+                return 'El valor debe ser un numero';
+              }
+            },
+          ),
+        ],
       ),
-      onChanged: (value){
-        provider.cantPersonas = value;
-      },
-      validator: (value){
-        final formValdidator = FormValidator();
-        if ( value.isEmpty ) return 'La cantidad debe ser un numero';
-        if (formValdidator.isNumeric(value)) {
-          return null;
-        } else {
-          return 'El valor debe ser un numero';
-        }
-      },
     );
   }
 }
@@ -273,6 +355,7 @@ class _Fecha extends StatelessWidget {
       enableInteractiveSelection: false,
       controller: _inputFiledDateController,
       decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20.0)
         ),

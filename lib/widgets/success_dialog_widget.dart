@@ -14,7 +14,7 @@ class SuccessDialogWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Image(image: AssetImage('assets/icons/success.gif'), width:100.0 ),
-          Text(this.mensaje, style: TextStyle(fontWeight: FontWeight.bold),)
+          Text(this.mensaje, style: TextStyle(fontWeight: FontWeight.bold),textAlign: TextAlign.center,)
         ],
       ),
       actions: [

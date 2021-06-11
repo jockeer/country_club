@@ -67,6 +67,7 @@ class Reserva{
     );
 
     Map<String, dynamic> toJson() => {
+        // "id_reserva": id,
         "cabanaid": cabanaid,
         "fecha": fecha,
         "hora": hora,

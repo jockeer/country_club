@@ -119,6 +119,7 @@ class _RegisterPage1State extends State<RegisterPage1> {
         socio.password = provider.password;
         // print('desde provider: ' + socio.email + " password: " + socio.password);
         Navigator.pushNamed(context, 'register_page_2', arguments: socio);
+        FocusScope.of(context).unfocus();
       },
       child: Text('Siguiente', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),),
       style: ElevatedButton.styleFrom(
@@ -244,6 +245,7 @@ class _InputEmail extends StatelessWidget {
         provider.email = value;
       },
       validator: (value){
+        provider.email = value;
         if (value.isEmpty) {
           return 'El correo no puede quedar Vacio';
         }else{
