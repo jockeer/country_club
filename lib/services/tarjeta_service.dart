@@ -1,8 +1,10 @@
 
 import 'dart:convert';
 
+import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/models/compra_model.dart';
 import 'package:country/models/detalle_compra_model.dart';
+import 'package:country/models/pagos_model.dart';
 import 'package:country/utils/comprobar_conexion.dart';
 import "package:http/http.dart" as http;
 
@@ -10,6 +12,7 @@ class TarjetaService {
 
   String user = 'Loyalty';
   String password = 'L0ya1tyc1ub5*';
+  final prefs = PreferenciasUsuario();
 
 
   String basicAuthenticationHeader(String username, String password) {
@@ -77,6 +80,28 @@ class TarjetaService {
      if(respuesta == null)return null;
 
       final detalles = Detalles.fromJsonList(respuesta);
+
+      return detalles.items;
+
+    // return compras.items;
+  
+  }
+  Future<List<Pago>> obtenerHistoricoPagos() async{
+      print('consulta Historial pagos');
+
+      final conexion = await comprobarInternet();
+
+    if (!conexion) {
+      return [null];
+    }
+
+      final url = Uri.http('190.186.228.218', 'appmovil/api/Pagos/GetPaymentHistoryID/${prefs.codigoSocio}');
+
+      final respuesta = await _procesarInfo(url);
+    
+     if(respuesta == null)return null;
+
+      final detalles = Pagos.fromJsonList(respuesta);
 
       return detalles.items;
 

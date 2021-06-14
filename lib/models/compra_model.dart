@@ -46,15 +46,7 @@ class Compra {
     );
 
     Map<String, dynamic> toJson() => {
-        // "codecli": codigo,
-        // "lastname_father": apPaterno,
-        // "name": nombre,
-        // "id_card": ci,
-        // "expedition": origen,
-        // "address": direccion,
-        // "cell_phone": telefono,
-        // "email": email,
-        // "password": password
+
     };
 }
 
