@@ -1,3 +1,4 @@
+import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/providers/registro_provider.dart';
 import 'package:country/services/socio_service.dart';
 import 'package:country/services/token_service.dart';
@@ -116,8 +117,9 @@ class _ButtonRecoverPass extends StatelessWidget {
 
   final GlobalKey<FormState> keyForm;
   final BuildContext contexto;
+  final estilos = EstilosApp();
 
-  const _ButtonRecoverPass({@required this.keyForm, @required this.contexto});
+  _ButtonRecoverPass({@required this.keyForm, @required this.contexto});
   
 
   @override
@@ -126,14 +128,8 @@ class _ButtonRecoverPass extends StatelessWidget {
       onPressed: (){
         _submit(context);
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 15.0),
-        child: Text('Enviar', style: TextStyle(fontSize: 20.0),),
-      ),
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
-        primary: Color(0xff01954C)
-      ),
+      child: estilos.buttonChild(texto: 'Enviar'),
+      style: estilos.buttonStyle(),
     );
   }
 

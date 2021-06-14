@@ -22,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   bool indicator = false;
   final _socioProvider = new SocioService();
   final colores = ColoresApp();
+  final estilos = EstilosApp();
 
   @override
   Widget build(BuildContext context) {
@@ -110,15 +111,8 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: ()async{
        _submit();
       },
-      child: Text('Ingresar', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),),
-      style: ElevatedButton.styleFrom(
-        elevation: 5.0,
-        padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 50.0),
-        primary: colores.boton,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0)
-        )
-      ),
+      child: estilos.buttonChild(texto: 'Ingresar'),
+      style: estilos.buttonStyle(),
     );
   
   }

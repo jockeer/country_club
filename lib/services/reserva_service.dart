@@ -31,8 +31,14 @@ class ReservaService{
         body: paremetros
       );
       
-      final decoded = jsonDecode(respuesta.body);
-      return decoded;
+      final decoded = await jsonDecode(respuesta.body);
+
+      if (respuesta.statusCode==200) {
+        return decoded;
+      }
+      if (decoded.containsKey("error")) {
+        return respuesta;
+      }
       
     } catch (e) {
       print(e);

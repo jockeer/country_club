@@ -26,6 +26,7 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
   final _socioProvider = new SocioService();
   bool indicator = false;
   final colores = ColoresApp();
+  final estilos = EstilosApp();
   final prefs = PreferenciasUsuario();
 
 
@@ -134,15 +135,8 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
             this.indicator=false;
           });
       },
-      child: Text('Validar', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),),
-      style: ElevatedButton.styleFrom(
-        elevation: 5.0,
-        padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 50.0),
-        primary: colores.boton,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0)
-        )
-      ),
+      child: estilos.buttonChild(texto: 'Validar'),
+      style: estilos.buttonStyle(),
     );
   
 

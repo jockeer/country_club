@@ -16,6 +16,7 @@ class RegisterPage1 extends StatefulWidget {
 class _RegisterPage1State extends State<RegisterPage1> {
  final formState = GlobalKey<FormState>();
  final colores = ColoresApp();
+ final estilos = EstilosApp();
   @override
   Widget build(BuildContext context) {
 
@@ -109,7 +110,6 @@ class _RegisterPage1State extends State<RegisterPage1> {
   
   Widget _buttonNext(Socio socio){
   
-
     return ElevatedButton(
       onPressed: (){
         if (!formState.currentState.validate()) return;
@@ -122,17 +122,9 @@ class _RegisterPage1State extends State<RegisterPage1> {
         Navigator.pushNamed(context, 'register_page_2', arguments: socio);
         FocusScope.of(context).unfocus();
       },
-      child: Text('Siguiente', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),),
-      style: ElevatedButton.styleFrom(
-        elevation: 5.0,
-        padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 50.0),
-        primary: colores.boton,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0)
-        )
-      ),
+      child: estilos.buttonChild(texto: 'Siguiente'),
+      style: estilos.buttonStyle(),
     );
-  
 
   }
 }

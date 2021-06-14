@@ -113,6 +113,7 @@ class _Formulario extends StatelessWidget {
                   _InputTelefono(telefono: this.socio.telefono),
                   estilos.inputLabel(label: 'Celular', obligatorio: true),
                   _Celular(celular: this.socio.celular,),
+                  SizedBox(height: 20.0,),
                   Center(child: _BotonRegistrarSocio(formState: this.formState,socio: this.socio,)),
                   Center(child: Image(image: AssetImage('assets/icons/logo.png'), width: 250.0,))
                 ],
@@ -120,7 +121,7 @@ class _Formulario extends StatelessWidget {
             ),
           )
         ],
-      );;
+      );
   }
 }
 
@@ -299,7 +300,7 @@ class _Celular extends StatelessWidget {
 class _BotonRegistrarSocio extends StatelessWidget {
   final GlobalKey<FormState> formState;
   final Socio socio;
-  final colores =ColoresApp();
+  final estilos =EstilosApp();
 
   _BotonRegistrarSocio({@required this.formState, @required this.socio});
   
@@ -308,13 +309,8 @@ class _BotonRegistrarSocio extends StatelessWidget {
     final provider = Provider.of<RegistroProvider>(context);
     final socioService = SocioService();
     return ElevatedButton(
-      child: Text('Registrar'),
-      style: ElevatedButton.styleFrom(
-        primary: colores.boton,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
-        )
-      ),
+      child: estilos.buttonChild(texto: 'Registrar'),
+      style: estilos.buttonStyle(),
       onPressed: ()async{
         if (!this.formState.currentState.validate()) return;
         provider.carga=true;
@@ -331,7 +327,18 @@ class _BotonRegistrarSocio extends StatelessWidget {
         final respuesta = await socioService.registrarSocio(socio);
         provider.carga=false;
         if (respuesta != null) {
-          showDialog(context: context, builder: (context){return SuccessDialogWidget(mensaje: 'Socio Registrado Correctamente', ruta: 'login');});
+          if (respuesta.containsKey("error")) {
+            mostrarSnackBar(context, 'Su tiempo de registro expiro intentelo nuevamente');
+            Navigator.pushNamed(context, 'codigo');
+            return;
+          }
+          if (respuesta["Status"]) {
+            showDialog(context: context, builder: (context){return SuccessDialogWidget(mensaje: 'Socio Registrado Correctamente', ruta: 'login');});
+            
+          }else{
+            mostrarSnackBar(context, respuesta["Message"]);
+
+          }
         }else{
           mostrarSnackBar(context, 'Error al registrar el socio');
         }

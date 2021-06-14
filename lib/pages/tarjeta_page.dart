@@ -151,23 +151,16 @@ class _UltimasTransacciones extends StatelessWidget {
 
 class _ButtonRecargar extends StatelessWidget {
 
+  final estilos = EstilosApp();
+
   @override
   Widget build(BuildContext context) {
-    final colores = ColoresApp();
     return ElevatedButton(
       onPressed: ()async{
-        
        Navigator.pushNamed(context, 'tarjeta_recarga');
       },
-      child: Text('Recargar', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),),
-      style: ElevatedButton.styleFrom(
-        elevation: 5.0,
-        padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 50.0),
-        primary: colores.boton,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0)
-        )
-      ),
+      child: estilos.buttonChild(texto: 'Recargar'),
+      style: estilos.buttonStyle(),
     );
   }
 }

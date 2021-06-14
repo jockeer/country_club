@@ -73,7 +73,8 @@ class ReservaWidget extends StatelessWidget {
                               SizedBox(height: 10.0,),
                             ],
                           ),
-                          Icon(Icons.arrow_forward_ios)
+                          Container()
+                          // Icon(Icons.arrow_forward_ios)
                         ],
                       ),
                       // Expanded(child: Container(),),

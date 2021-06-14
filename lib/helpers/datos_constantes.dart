@@ -43,12 +43,21 @@ class EstilosApp{
            Text((obligatorio)?' *':'',style: TextStyle(fontWeight: FontWeight.w500,color: Colors.red),),
         ],
       )
-      // child: Text(label, 
-      //   style: TextStyle(
-      //     fontWeight: FontWeight.w500
-      //   ),
-      // ),
     );
   }
 
+  Padding buttonChild({@required String texto}){
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+        child: Text(texto,style: TextStyle(fontSize: 18.0),),
+    );
+  }
+  ButtonStyle buttonStyle(){
+    return ElevatedButton.styleFrom(
+        primary: ColoresApp().boton,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0),
+        )
+      );
+  }
 }

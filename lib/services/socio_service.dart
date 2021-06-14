@@ -121,7 +121,7 @@ class SocioService{
     final prefs = PreferenciasUsuario();
 
     final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/get_customer?access_token=${prefs.token}');
-
+    
     final respuesta = await http.get(url);
 
     final decodedData = jsonDecode(respuesta.body);
@@ -130,9 +130,6 @@ class SocioService{
 
     return socio;
 
-
-    // print(decodedData["Data"]);
-    // 
   }
  
 
@@ -146,31 +143,20 @@ class SocioService{
 
     parametros["access_token"] = await prefs.token;
     parametros["type"] = (Platform.isAndroid)?"ANDROID":"IOS";
-    
-    
-    print(parametros);
+    // print(parametros);
     try {
       final respuesta = await http.post(
         url,
         body: parametros
       );
 
-      if (respuesta.statusCode == 200) {
-        final resp = await json.decode(respuesta.body);
-        return resp;
-        
-      }
-      return null;
+    final resp = await json.decode(respuesta.body);
+    return resp;
 
       
     } catch (e) {
       return null;
     }
-
-    // print(resp["Status"]);
-    // print(resp["Message"]);
-    // print(parametros);
-    // return null;
 
   }
 
@@ -188,13 +174,11 @@ class SocioService{
         }
       );
       final decoded = json.decode(respuesta.body);
-      print(decoded["Message"]);
       return decoded;
     } catch (e) {
       return null;
     }
   }
-
 
 }
 
