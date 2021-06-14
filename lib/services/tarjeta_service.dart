@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:country/models/compra_model.dart';
 import 'package:country/models/detalle_compra_model.dart';
+import 'package:country/utils/comprobar_conexion.dart';
 import "package:http/http.dart" as http;
 
 class TarjetaService {
@@ -41,6 +42,12 @@ class TarjetaService {
   Future<List<Compra>> obtenerHistoricoCompras(String codigoSocio) async{
     print('consulta a la bd');
 
+    final conexion = await comprobarInternet();
+
+    if (!conexion) {
+      return [null];
+    }
+
     final url = Uri.http('190.186.228.218', 'appmovil/api/Tarjeta/GetCardHistoryID/$codigoSocio');
 
     final respuesta = await _procesarInfo(url);
@@ -52,12 +59,20 @@ class TarjetaService {
     return compras.items;
   
   }
+
+
   Future<List<DetalleCompra>> obtenerDetalleCompra(String idVenta) async{
-    print('consulta a la bd');
+      print('consulta a la bd');
 
-    final url = Uri.http('190.186.228.218', 'appmovil/api/Tarjeta/GetCardHistoryDetailID/$idVenta');
+      final conexion = await comprobarInternet();
 
-    final respuesta = await _procesarInfo(url);
+    if (!conexion) {
+      return [null];
+    }
+
+      final url = Uri.http('190.186.228.218', 'appmovil/api/Tarjeta/GetCardHistoryDetailID/$idVenta');
+
+      final respuesta = await _procesarInfo(url);
     
      if(respuesta == null)return null;
 

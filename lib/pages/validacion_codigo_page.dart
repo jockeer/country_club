@@ -118,12 +118,12 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
           final provider = Provider.of<RegistroProvider>(context, listen: false);
           final socio = await _socioProvider.getSocio(provider.codigo, provider.ci); //6038
           if(socio!=null){
-            print(socio.apMaterno);
+
             final message = await _tokenService.obtenerToken();
             if (message.isEmpty) {
               mostrarSnackBar(context, "Error con el servidor");
             }else{
-              // prefs.token = 
+              socio.codigo=provider.codigo;
               Navigator.pushNamed(context, 'register_page_1', arguments: socio);
               FocusScope.of(context).unfocus();
             }

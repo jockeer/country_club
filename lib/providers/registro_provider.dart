@@ -9,6 +9,7 @@ class RegistroProvider extends ChangeNotifier{
   String _direccion= '';
   String _codtel = '+591';
   String _telefono = '';
+  String _celular = '';
 
   String _email = '';
   String _password = '';
@@ -79,6 +80,14 @@ class RegistroProvider extends ChangeNotifier{
 
   set telefono(String telefono){
     this._telefono = telefono;
+    notifyListeners();
+  }
+  String get celular{
+    return this._celular;
+  }
+
+  set celular(String celular){
+    this._celular = celular;
     notifyListeners();
   }
 

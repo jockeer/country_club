@@ -117,6 +117,7 @@ class _RegisterPage1State extends State<RegisterPage1> {
         final provider = Provider.of<RegistroProvider>(context, listen: false);
         socio.email= provider.email;
         socio.password = provider.password;
+        provider.celular = socio.celular;
         // print('desde provider: ' + socio.email + " password: " + socio.password);
         Navigator.pushNamed(context, 'register_page_2', arguments: socio);
         FocusScope.of(context).unfocus();

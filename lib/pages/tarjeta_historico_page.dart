@@ -86,6 +86,9 @@ class _UltimasTransacciones extends StatelessWidget {
             future: _tarjetaService.obtenerHistoricoCompras(prefs.codigoSocio),
             builder: (BuildContext context, AsyncSnapshot<List<Compra>> snapshot ){
               if (snapshot.hasData) {
+                if (snapshot.data[0]==null) {
+                  return Center(child: Text('no tiene conexion a internet'),);
+                }
                 return CompraWidget(compras: snapshot.data);
               }
               else{

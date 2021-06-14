@@ -148,18 +148,29 @@ class SocioService{
     parametros["type"] = (Platform.isAndroid)?"ANDROID":"IOS";
     
     
-    //print(parametros);
-    final respuesta = await http.post(
-      url,
-      body: parametros
-    );
+    print(parametros);
+    try {
+      final respuesta = await http.post(
+        url,
+        body: parametros
+      );
 
-    final resp = await json.decode(respuesta.body);
+      if (respuesta.statusCode == 200) {
+        final resp = await json.decode(respuesta.body);
+        return resp;
+        
+      }
+      return null;
+
+      
+    } catch (e) {
+      return null;
+    }
 
     // print(resp["Status"]);
     // print(resp["Message"]);
     // print(parametros);
-    return resp;
+    // return null;
 
   }
 

@@ -18,6 +18,9 @@ class DetalleCompraPage extends StatelessWidget {
         future: _tarjetaService.obtenerDetalleCompra(idVenta["idVenta"]),
         builder: (context , AsyncSnapshot<List<DetalleCompra>> snapshot){
           if (snapshot.hasData) {
+            if (snapshot.data[0]==null) {
+              return Center(child: Text('Revise su conexion a internet'),);
+            }
             return _DetalleCompra(compras: snapshot.data, area: idVenta["nombre"], totalVenta: idVenta["total"] );
           } else {
             return Center(child: CircularProgressIndicator() );
@@ -61,7 +64,7 @@ class _DetalleCompra extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(Icons.attach_money_outlined, color: Colors.black,),
-          trailing: Text('Total:' +  this.totalVenta.toStringAsFixed(2), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
+          trailing: Text('Total: ' +  this.totalVenta.toStringAsFixed(2) + ' Bs.', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
         )
       ],
     );

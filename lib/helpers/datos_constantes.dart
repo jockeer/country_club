@@ -24,23 +24,30 @@ class EstilosApp{
     return InputDecoration(
       contentPadding: EdgeInsets.symmetric(vertical: padingTop, horizontal: 15.0),
       hintText: hintText,
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0)),
+      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black45),borderRadius: BorderRadius.circular(50.0)),
       filled:true,
       fillColor: Colors.white
     );
   }
 
-  Padding inputLabel({@required String label}){
+  Padding inputLabel({@required String label, bool obligatorio = false}){
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: 10.0,
         horizontal: 15.0
       ), 
-      child: Text(label, 
-        style: TextStyle(
-          fontWeight: FontWeight.w500
-        ),
-      ),
+      child: Row(
+        children: [
+          Text(label,style: TextStyle(fontWeight: FontWeight.w500),),
+           Text((obligatorio)?' *':'',style: TextStyle(fontWeight: FontWeight.w500,color: Colors.red),),
+        ],
+      )
+      // child: Text(label, 
+      //   style: TextStyle(
+      //     fontWeight: FontWeight.w500
+      //   ),
+      // ),
     );
   }
 
