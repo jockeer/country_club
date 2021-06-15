@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/models/compra_model.dart';
 import 'package:country/models/detalle_compra_model.dart';
+import 'package:country/models/deudas_model.dart';
 import 'package:country/models/pagos_model.dart';
 import 'package:country/utils/comprobar_conexion.dart';
 import "package:http/http.dart" as http;
@@ -30,7 +31,7 @@ class TarjetaService {
 
 
   Future<String> obtenerSaldo(String codigoSocio) async{
-    print('consulta a la bd');
+    // print('consulta a la bd');
 
     final url = Uri.http('190.186.228.218', 'appmovil/api/Tarjeta/GetCreditCardID/$codigoSocio');
 
@@ -43,7 +44,7 @@ class TarjetaService {
     // return "450";
   }
   Future<List<Compra>> obtenerHistoricoCompras(String codigoSocio) async{
-    print('consulta a la bd');
+    // print('consulta a la bd');
 
     final conexion = await comprobarInternet();
 
@@ -65,7 +66,7 @@ class TarjetaService {
 
 
   Future<List<DetalleCompra>> obtenerDetalleCompra(String idVenta) async{
-      print('consulta a la bd');
+      // print('consulta a la bd');
 
       final conexion = await comprobarInternet();
 
@@ -87,9 +88,10 @@ class TarjetaService {
   
   }
   Future<List<Pago>> obtenerHistoricoPagos() async{
-      print('consulta Historial pagos');
+      // print('consulta Historial pagos');
 
       final conexion = await comprobarInternet();
+      
 
     if (!conexion) {
       return [null];
@@ -104,6 +106,29 @@ class TarjetaService {
       final detalles = Pagos.fromJsonList(respuesta);
 
       return detalles.items;
+
+    // return compras.items;
+  
+  }
+
+  Future<List<Deuda>> obtenerHistoricoDeudas() async{
+    // print('consulta Historial deudas');
+
+    final conexion = await comprobarInternet();
+      
+    if (!conexion) {
+      return [null];
+    }
+
+    final url = Uri.http('190.186.228.218', 'appmovil/api/Deudas/GetDebtsHistoryID/${prefs.codigoSocio}');
+
+    final respuesta = await _procesarInfo(url);
+    
+    if(respuesta == null)return null;
+
+    final detalles = Deudas.fromJsonList(respuesta);
+
+    return detalles.items;
 
     // return compras.items;
   

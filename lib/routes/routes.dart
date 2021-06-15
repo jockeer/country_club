@@ -1,4 +1,5 @@
 import 'package:country/pages/detalle_compra_page.dart';
+import 'package:country/pages/detalle_pago_membresia_page.dart';
 import 'package:country/pages/reserva_reprogramar_page.dart';
 import 'package:flutter/material.dart';
 
@@ -47,5 +48,6 @@ Map<String, WidgetBuilder> getAplicationRoutes(){
     'metodo_pago':( _ ) => MetodoPagoPage(),
     'reserva_repro':( _ ) => ReservaReproPage(),
     'detalle_compra':( _ ) => DetalleCompraPage(),
+    'detalle_pago_membresia':( _ ) => DetallePagoMembresia(),
   };
 }

@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
         initialRoute: 'welcome',
         routes: getAplicationRoutes(),
         theme: ThemeData(
-          primarySwatch: Colors.green
+          primarySwatch: Colors.green,
         ),
         
       ),
