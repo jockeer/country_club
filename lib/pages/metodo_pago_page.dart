@@ -92,20 +92,24 @@ class _Opciones extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<TarjetaProvider>(context);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        RadioListTile(title: Text('Puntos'),value: '1', groupValue: provider.modoPago, onChanged: (value){ provider.modoPago=value;}),
-        RadioListTile(title: Text('Efectivo'),value: '2', groupValue: provider.modoPago, onChanged: (value){provider.modoPago=value;}),
-        RadioListTile(title: Text('Transferencia Bancaria'),value: '3', groupValue: provider.modoPago, onChanged: (value){provider.modoPago=value;}),
-        RadioListTile(title: Text('Tigo Money'),value: '4', groupValue: provider.modoPago, onChanged: (value){provider.modoPago=value;}),
-        RadioListTile(title: Text('Pagos Net'),value: '5', groupValue: provider.modoPago, onChanged: (value){provider.modoPago=value;}),
-        RadioListTile(title: Text('ATC'),value: '6', groupValue: provider.modoPago, onChanged: (value){provider.modoPago=value;}),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text('Tarjeta Debito / Credito', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16.0),),
+        ),
+        Divider(),
+        // RadioListTile(title: Text('Puntos'),value: '1', groupValue: provider.modoPago, onChanged: (value){ provider.modoPago=value;}),
+        RadioListTile(title: Text('LINKSER'),value: '1', groupValue: provider.modoPago, onChanged: (value){provider.modoPago=value;}),
+        RadioListTile(title: Text('ATC'),value: '2', groupValue: provider.modoPago, onChanged: (value){provider.modoPago=value;}),
+        Divider(),
+
       ],
     );
   }
 }
 
 class _ButtonNext extends StatelessWidget {
-
 
   @override
   Widget build(BuildContext context) {

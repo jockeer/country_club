@@ -10,7 +10,6 @@ class DetallePagoMembresia extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   final Deuda deuda = ModalRoute.of(context).settings.arguments;
-  final phoneSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarWidget(titulo: 'Detalle Transaccion'),
