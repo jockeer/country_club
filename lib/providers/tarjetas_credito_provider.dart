@@ -2,7 +2,7 @@ import 'package:country/models/credit_card_model.dart';
 import 'package:country/services/database_service.dart';
 import 'package:flutter/material.dart';
 
-class TarjetasCreditoProvider extends ChangeNotifier{
+class TarjetasCreditoProvider with ChangeNotifier{
   List<TarjetaCredito> tarjetas = [];
 
   String _cardNumber="";
@@ -12,8 +12,37 @@ class TarjetasCreditoProvider extends ChangeNotifier{
   String _brand="";
   bool _showBackView=false;
 
+  int _tarjetaSeleccionada = 0;
 
 
+  cargarTarjetas()async{
+    final tarjetas = await DBService.db.getAllTarjetas();
+
+    this.tarjetas = [...tarjetas];
+    notifyListeners();
+    // return this.tarjetas;
+
+  }
+
+  //  List<TarjetaCredito> get tarjetas{
+  //   return this._tarjetas;
+  // }
+  // set tarjetas(List<TarjetaCredito> tarjetas){
+  //   this._tarjetas = tarjetas;
+  //   notifyListeners();
+  // }
+
+
+  
+
+  int get tarjetaSeleccionada{
+    return this._tarjetaSeleccionada;
+  }
+
+  set tarjetaSeleccionada(int tarjetaSeleccionada){
+    this._tarjetaSeleccionada = tarjetaSeleccionada;
+    notifyListeners();
+  }
   bool get showBackView{
     return this._showBackView;
   }
@@ -68,14 +97,7 @@ class TarjetasCreditoProvider extends ChangeNotifier{
   }
 
   
-  cargarTarjetas()async{
-    final tarjetas = await DBService.db.getAllTarjetas();
-
-    this.tarjetas = [...tarjetas];
-    notifyListeners();
-    return this.tarjetas;
-
-  }
+  
 
   
 }

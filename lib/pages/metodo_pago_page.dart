@@ -115,7 +115,9 @@ class _ButtonNext extends StatelessWidget {
   Widget build(BuildContext context) {
     final colores = ColoresApp();
     return ElevatedButton(
-      onPressed: (){}, 
+      onPressed: (){
+        Navigator.pushNamed(context, 'tarjeta_recarga');
+      }, 
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text('Siguiente', style: TextStyle(fontSize: 18.0),),

@@ -30,6 +30,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colores = ColoresApp();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown
+    ]);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: colores.verdeOscuro,
@@ -41,13 +45,13 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
 
       providers: [
-        ChangeNotifierProvider(create: (_)  => RegistroProvider(),),
-        ChangeNotifierProvider(create: (_)  => LoginProvider(),),
-        ChangeNotifierProvider(create: (_)  => ReservaProvider(),),
-        ChangeNotifierProvider(create: (_)  => TarjetaProvider(),),
-        ChangeNotifierProvider(create: (_)  => GaleriaProvider(),),
-        ChangeNotifierProvider(create: (_)  => NotificacionesProvider(),),
-        ChangeNotifierProvider(create: (_)  => TarjetasCreditoProvider(),),
+        ChangeNotifierProvider(create: (context)  => RegistroProvider(),),
+        ChangeNotifierProvider(create: (context)  => LoginProvider(),),
+        ChangeNotifierProvider(create: (context)  => ReservaProvider(),),
+        ChangeNotifierProvider(create: (context)  => TarjetaProvider(),),
+        ChangeNotifierProvider(create: (context)  => GaleriaProvider(),),
+        ChangeNotifierProvider(create: (context)  => NotificacionesProvider(),),
+        ChangeNotifierProvider(create: (context)  => TarjetasCreditoProvider(),),
       ],
 
       child: MaterialApp(

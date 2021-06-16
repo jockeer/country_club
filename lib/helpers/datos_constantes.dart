@@ -30,6 +30,17 @@ class EstilosApp{
       fillColor: Colors.white
     );
   }
+  InputDecoration inputTarjetaDecoration({@required String hintText, @required String labelText, double padingTop = 0.0}){
+    return InputDecoration(
+      contentPadding: EdgeInsets.symmetric(vertical: padingTop, horizontal: 15.0),
+      hintText: hintText,
+      labelText: labelText,
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0),borderSide: BorderSide(color: Colors.black45)),
+      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black45),borderRadius: BorderRadius.circular(50.0)),
+      filled:true,
+      fillColor: Colors.white
+    );
+  }
 
   Padding inputLabel({@required String label, bool obligatorio = false}){
     return Padding(

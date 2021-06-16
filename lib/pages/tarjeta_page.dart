@@ -157,7 +157,8 @@ class _ButtonRecargar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: ()async{
-       Navigator.pushNamed(context, 'tarjeta_recarga');
+       Navigator.pushNamed(context, 'metodo_pago');
+      //  Navigator.pushNamed(context, 'tarjeta_recarga');
       },
       child: estilos.buttonChild(texto: 'Recargar'),
       style: estilos.buttonStyle(),

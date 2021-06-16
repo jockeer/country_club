@@ -10,6 +10,7 @@ String tarjetaModelToJson(TarjetaCredito data) => json.encode(data.toJson());
 class TarjetaCredito {
 
   TarjetaCredito({
+    this.id,
     @required this.cardNumberHidden,
     @required this.cardNumber,
     @required this.brand,
@@ -18,6 +19,7 @@ class TarjetaCredito {
     @required this.cardHolderName
   });
 
+  int id;
   String cardNumberHidden;
   String cardNumber;
   String brand;
@@ -27,6 +29,7 @@ class TarjetaCredito {
  
 
   factory TarjetaCredito.fromJson(Map<String, dynamic> json) => TarjetaCredito(
+      id: json['id'],
       cardNumberHidden: json['cardNumberHidden'],
       cardNumber: json['cardNumber'],
       brand: json['brand'],

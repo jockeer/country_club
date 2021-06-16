@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class TarjetaProvider extends ChangeNotifier{
 
   int _optRecarga = 1;
-  String _montoRecarga = '0';
+  String _montoRecarga = '10.00';
   String _modoPago = '1';
   /*Ultimo pago*/
 
