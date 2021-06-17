@@ -3,9 +3,12 @@
 import 'dart:io';
 
 import 'package:country/models/credit_card_model.dart';
-// import 'package:flutter/material.dart';
+import 'package:country/providers/tarjetas_credito_provider.dart';
+
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class  DBService{
@@ -67,9 +70,27 @@ class  DBService{
     final db = await database;
 
     final res = await db.query('tarjetas');
-    print('Respuesta db');
+    // print('Respuesta db');
 
     return res.isNotEmpty ? res.map((tarjeta)=> TarjetaCredito.fromJson(tarjeta)).toList() :[];
+  }
+  Future<List<TarjetaCredito>>getAllTarjetasPrueba(BuildContext context) async{
+    final db = await database;
+    final provider = Provider.of<TarjetasCreditoProvider>(context, listen:false);
+
+    final res = await db.query('tarjetas');
+    // print('Respuesta db');
+    final datos = res.isNotEmpty ? res.map((tarjeta)=> TarjetaCredito.fromJson(tarjeta)).toList() :[null];
+  
+    provider.tarjetas = datos;
+    return datos;
+  }
+
+   Future<int> deleteTarjeta( int id ) async {
+
+    final db  = await database;
+    final res = await db.delete('tarjetas', where: 'id = ?', whereArgs: [id]);
+    return res;
   }
 
   Future<int> deleteAll() async {

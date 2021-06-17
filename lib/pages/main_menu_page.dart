@@ -1,12 +1,21 @@
+import 'package:country/helpers/preferencias_usuario.dart';
+import 'package:country/models/mensaje_model.dart';
+import 'package:country/services/inbox_servide.dart';
 import 'package:flutter/material.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
 
 class MainMenuPage extends StatelessWidget {
+  final prefs = PreferenciasUsuario();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    
+    if (prefs.notificacionEnCola.length==0) {
+      print('vacio');
+      print(prefs.notificacionEnCola.length);
+    } else {
+      cargarNotificacion();
+    }
     return Scaffold(
       key: _scaffoldKey,
       drawer: MenuLateralWidget(),
@@ -30,6 +39,15 @@ class MainMenuPage extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );  
+  }
+
+  cargarNotificacion()async{
+    final mensaje = MensajeInbox();
+    mensaje.idNotificacion = prefs.notificacionEnCola[0];
+    mensaje.titulo = prefs.notificacionEnCola[1];
+    mensaje.mensaje = prefs.notificacionEnCola[2];
+    mensaje.fecha = prefs.notificacionEnCola[3];
+    await DBInboxService.db.nuevoMensaje(mensaje);
   }
 }
 

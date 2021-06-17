@@ -14,7 +14,7 @@ class TarjetaCreditoWidget extends StatelessWidget {
     return Container(
       width: phoneSize.width,
       height: phoneSize.height*0.3,
-      child: (provider.tarjetas.length==0)
+      child: (provider.tarjetas[0]==null)
       ?Center(child: Text('Registre una tarjeta para continuar', style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),),)
       :
       
@@ -49,7 +49,7 @@ class _Tarjeta extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
-          boxShadow: (provider.tarjetaSeleccionada == index+1)
+          boxShadow: (provider.tarjetaSeleccionada == tarjeta.id)
           ?[
             BoxShadow(
               color: Colors.green.withOpacity(0.35),

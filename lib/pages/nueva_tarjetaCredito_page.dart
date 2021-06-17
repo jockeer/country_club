@@ -131,6 +131,8 @@ class _BotonAgregarTareta extends StatelessWidget {
             final respuesta = await DBService.db.nuevaTarjeta(tarjeta);
             if (respuesta!=null) {
               Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.pop(context);
               Navigator.pushNamed(context, 'tarjeta_recarga');
             }
           },

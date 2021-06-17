@@ -1,9 +1,9 @@
 import 'package:country/models/credit_card_model.dart';
-import 'package:country/services/database_service.dart';
+// import 'package:country/services/database_service.dart';
 import 'package:flutter/material.dart';
 
 class TarjetasCreditoProvider with ChangeNotifier{
-  List<TarjetaCredito> tarjetas = [];
+  List<TarjetaCredito> _tarjetas = [];
 
   String _cardNumber="";
   String _expiryDate="";
@@ -15,22 +15,22 @@ class TarjetasCreditoProvider with ChangeNotifier{
   int _tarjetaSeleccionada = 0;
 
 
-  cargarTarjetas()async{
-    final tarjetas = await DBService.db.getAllTarjetas();
+  // cargarTarjetas()async{
+  //   final tarjetas = await DBService.db.getAllTarjetas();
 
-    this.tarjetas = [...tarjetas];
-    notifyListeners();
-    // return this.tarjetas;
-
-  }
-
-  //  List<TarjetaCredito> get tarjetas{
-  //   return this._tarjetas;
-  // }
-  // set tarjetas(List<TarjetaCredito> tarjetas){
-  //   this._tarjetas = tarjetas;
+  //   this.tarjetas = [...tarjetas];
   //   notifyListeners();
+  //   // return this.tarjetas;
+
   // }
+
+   List<TarjetaCredito> get tarjetas{
+    return this._tarjetas;
+  }
+  set tarjetas(List<TarjetaCredito> tarjetas){
+    this._tarjetas = tarjetas;
+    notifyListeners();
+  }
 
 
   

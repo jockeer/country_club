@@ -1,4 +1,5 @@
 import 'package:country/helpers/datos_constantes.dart';
+import 'package:country/models/credit_card_model.dart';
 import 'package:country/providers/tarjetas_credito_provider.dart';
 import 'package:country/services/database_service.dart';
 import 'package:country/utils/form_validator.dart';
@@ -19,8 +20,7 @@ class RecargaTarjetaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final phoneSize = MediaQuery.of(context).size;
-    final provider = Provider.of<TarjetasCreditoProvider>(context, listen: false);
-    provider.cargarTarjetas();
+
     return Scaffold(
       backgroundColor: Colors.white,
       key: _scaffoldKey,
@@ -46,6 +46,7 @@ class RecargaTarjetaPage extends StatelessWidget {
               SizedBox(height: 30.0,),
               GestureDetector(
                 onTap: (){
+                  Provider.of<TarjetasCreditoProvider>(context,listen: false).tarjetaSeleccionada=0;
                   Navigator.pushNamed(context, 'administrar_tarjetas');
                 },
                 child: Row(
@@ -57,7 +58,19 @@ class RecargaTarjetaPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10.0,),
-              TarjetaCreditoWidget(),
+              FutureBuilder(
+                future: DBService.db.getAllTarjetasPrueba(context),
+                builder: (_,AsyncSnapshot<List<TarjetaCredito>> snapshot){
+                  if (snapshot.hasData) {
+                    if (snapshot.data[0] == null) {
+                      return Center(child: Text('No tiene tarjetas registradas'),);
+                    } 
+                    return TarjetaCreditoWidget();
+                  }
+                  return Center(child: CircularProgressIndicator());
+                },
+              ),
+              // TarjetaCreditoWidget(),
               SizedBox(height: 30.0,),
               _CorreoBoton(),
               SizedBox(height: 30.0,),
