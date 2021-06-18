@@ -80,7 +80,7 @@ class ReservaWidget extends StatelessWidget {
                       // Expanded(child: Container(),),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: (reservas[index].status == "2" || reservas[index].status == "1")
+                        children: (reservas[index].status == "1")
                         ? ([
                             ElevatedButton(style: ElevatedButton.styleFrom(primary: Color(0xff00472B), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))), child: Text('Reprogramar'),
                               onPressed: (){

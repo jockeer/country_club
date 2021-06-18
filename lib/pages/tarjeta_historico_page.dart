@@ -19,7 +19,7 @@ class HistoricoTarjetaPage extends StatelessWidget {
           children: [
             _Tarjeta(),
             _UltimasTransacciones(),
-            Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.5,),
+            Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.6,),
           ],
         ),
       ),

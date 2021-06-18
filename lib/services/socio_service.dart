@@ -137,6 +137,7 @@ class SocioService{
     final prefs = PreferenciasUsuario();
 
     final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/customers/customers');
+    // final urlCountry = Uri.https('190.186.228.218', 'appmovil/api/Asociado/SetTelCelDirID/${socio.codigo}/${socio.telefono}/${socio.celular}/${socio.direccion}/${socio.email}');
 
 
     final parametros = socio.toJson();
@@ -149,9 +150,12 @@ class SocioService{
         url,
         body: parametros
       );
+      // final registroCountry = await _procesarInfo(url);
 
-    final resp = await json.decode(respuesta.body);
-    return resp;
+      // print(registroCountry);
+
+      final resp = await json.decode(respuesta.body);
+      return resp;
 
       
     } catch (e) {

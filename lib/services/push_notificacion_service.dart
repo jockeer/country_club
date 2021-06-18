@@ -87,6 +87,8 @@ class PushNotificationService {
     FirebaseMessaging.onMessageOpenedApp.listen(_onMessageOpenApp);
 
     // Local Notifications  
+
+  
   }
 
   Future<void> obtenerDeviceToken()async {

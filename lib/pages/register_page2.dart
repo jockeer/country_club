@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/models/socio_model.dart';
 import 'package:country/providers/registro_provider.dart';
@@ -7,11 +11,8 @@ import 'package:country/utils/form_validator.dart';
 import 'package:country/utils/show_snack_bar.dart';
 import 'package:country/widgets/no_internet_widget.dart';
 import 'package:country/widgets/success_dialog_widget.dart';
-import 'package:flutter/material.dart';
-
 import 'package:country/widgets/floating_button_widget.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:provider/provider.dart';
+
 
 class RegisterPage2 extends StatefulWidget {
 
@@ -280,7 +281,7 @@ class _Celular extends StatelessWidget {
             validator: (value){
               provider.celular=value;
               final formValidator = FormValidator();
-              if (value.isEmpty) {
+              if (value.isEmpty || value =='0') {
                 return 'ingrese un numero de telefono';
               } else {
                 if (!formValidator.isNumeric(value)) {

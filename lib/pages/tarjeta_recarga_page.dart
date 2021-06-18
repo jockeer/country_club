@@ -20,7 +20,7 @@ class RecargaTarjetaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final phoneSize = MediaQuery.of(context).size;
-
+    final provider = Provider.of<TarjetaProvider>(context,listen: false);
     return Scaffold(
       backgroundColor: Colors.white,
       key: _scaffoldKey,
@@ -40,9 +40,20 @@ class RecargaTarjetaPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 20.0,horizontal: 40.0),
                 child: Text("Monto", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
               ),
-              _MontosFijos(),
-              SizedBox(height: 30.0,),
-              _OtroMonto(),
+              Container(
+                child: (provider.tipoPago==1)
+                ? Column(
+                  children: [
+                    _MontosFijos(),
+                    SizedBox(height: 30.0,),
+                    _OtroMonto(),
+
+                  ],
+                ) 
+                : Text(provider.montoRecarga + ' Bs.', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),)
+              ),
+              
+              
               SizedBox(height: 30.0,),
               GestureDetector(
                 onTap: (){
@@ -72,9 +83,11 @@ class RecargaTarjetaPage extends StatelessWidget {
               ),
               // TarjetaCreditoWidget(),
               SizedBox(height: 30.0,),
+              Text('Seleccione una tarjeta para continuar'),
+              SizedBox(height: 10.0,),
               _CorreoBoton(),
               SizedBox(height: 30.0,),
-              Center(child: Image(image: AssetImage('assets/icons/logo.png'),width: phoneSize.width*0.5, ))
+              Center(child: Image(image: AssetImage('assets/icons/logo.png'),width: phoneSize.width*0.6, ))
             ],
           ),
         ),

@@ -10,6 +10,7 @@ class InboxPage extends StatelessWidget {
   final colores =ColoresApp();
   @override
   Widget build(BuildContext context) {
+    final phoneSize = MediaQuery.of(context).size;
     final provider = Provider.of<NotificacionesProvider>(context);
     provider.cargarNotificaciones();
     return Scaffold(
@@ -73,7 +74,7 @@ class InboxPage extends StatelessWidget {
               },
             )
           ),
-          Image(image: AssetImage('assets/icons/logo.png'),width: 200.0,)
+          Image(image: AssetImage('assets/icons/logo.png'),width: phoneSize.width*0.6,)
         ],
       ),
     );

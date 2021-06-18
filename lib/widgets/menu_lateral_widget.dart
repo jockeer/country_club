@@ -17,7 +17,7 @@ class MenuLateralWidget extends StatelessWidget {
             DrawerHeader(
               child: Column(
                 children: [
-                  Text('BIENVENIDO', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20.0 )),
+                  Text('BIENVENID@', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20.0 )),
                   Expanded(
                     child: Row(
                       // mainAxisAlignment: MainAxisAlignment.center,
@@ -60,9 +60,17 @@ class MenuLateralWidget extends StatelessWidget {
             _OpcionMenu(icono: Icon(Icons.topic, color:Colors.black), titulo: 'Menu', ruta: 'menu'),
             _OpcionMenu(icono: Icon(Icons.topic, color:Colors.black), titulo: 'Ranking', ruta: 'handicap'),
             _OpcionMenu(icono: Icon(Icons.topic, color:Colors.black), titulo: 'Inbox', ruta: 'inbox'),
-            _OpcionMenu(icono: Icon(Icons.topic, color:Colors.black), titulo: 'Contactanos', ruta: 'menu'),
+            _OpcionMenu(icono: Icon(Icons.support_agent, color:Colors.black), titulo: 'Contactanos', ruta: 'menu'),
             _OpcionMenu(icono: Icon(Icons.lock, color:Colors.black), titulo: 'Politica de privacidad', ruta: 'menu'),
             _OpcionMenu(icono: Icon(Icons.info_outline, color:Colors.black), titulo: 'Acerca de Country Clubs', ruta: 'menu'),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.logout, color:Colors.black),
+              title: Text('Cerrar Sesion'),
+              onTap: () => {
+                Navigator.popUntil(context, ModalRoute.withName('login'))
+              },
+            ),
           ],
         ),
       ),
@@ -86,7 +94,7 @@ class _OpcionMenu extends StatelessWidget {
       leading: this.icono,
       title: Text(this.titulo),
       onTap: () => {
-         Navigator.pop(context),
+         Navigator.popUntil(context, ModalRoute.withName('main_menu')),
          Navigator.pushNamed(context, this.ruta)
       },
     );

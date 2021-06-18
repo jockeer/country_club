@@ -1,11 +1,11 @@
+import 'package:flutter/material.dart';
+
 import 'package:country/pages/adminitrar_tarjetas_page.dart';
 import 'package:country/pages/detalle_compra_page.dart';
 import 'package:country/pages/detalle_pago_membresia_page.dart';
 import 'package:country/pages/detalle_recarga_page.dart';
 import 'package:country/pages/nueva_tarjetaCredito_page.dart';
 import 'package:country/pages/reserva_reprogramar_page.dart';
-import 'package:flutter/material.dart';
-
 import 'package:country/pages/welcome_page.dart';
 import 'package:country/pages/login_page.dart';
 import 'package:country/pages/register_page1.dart';

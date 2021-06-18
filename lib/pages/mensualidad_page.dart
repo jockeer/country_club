@@ -1,6 +1,7 @@
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/models/deudas_model.dart';
 import 'package:country/models/pagos_model.dart';
+import 'package:country/providers/tarjeta_provider.dart';
 
 import 'package:country/services/tarjeta_service.dart';
 import 'package:country/widgets/app_bar_widget.dart';
@@ -9,6 +10,7 @@ import 'package:country/widgets/pago_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/widgets/menu_lateral_widget.dart';
+import 'package:provider/provider.dart';
 
 
 class MensualidadPage extends StatelessWidget {
@@ -102,6 +104,7 @@ class _DeudasHistorico extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final phoneSize = MediaQuery.of(context).size;
+    final provider = Provider.of<TarjetaProvider>(context, listen: false);
     
     return SizedBox(
       height: phoneSize.height*0.3,
@@ -119,7 +122,12 @@ class _DeudasHistorico extends StatelessWidget {
                       subtitle: Text('${snapshot.data[0].fecha.substring(0,10)} - Bs. ${snapshot.data[0].total.toStringAsFixed(2)}', style: TextStyle(color: Colors.white,fontWeight: FontWeight.w300)),
                       trailing: ElevatedButton(
                         onPressed: (){
-                          Navigator.pushNamed(context, 'detalle_pago_membresia', arguments: snapshot.data[0]);
+                          // Navigator.pushNamed(context, 'detalle_pago_membresia', arguments: snapshot.data[0]);
+                          provider.tipoPago = 2;
+                          provider.montoRecarga= snapshot.data[0].total.toStringAsFixed(2);
+                          provider.optRecarga= 5;
+                          provider.deuda= snapshot.data[0];
+                          Navigator.pushNamed(context, 'metodo_pago');
                         }, 
                         child: estilos.buttonChild(texto: 'Pagar'),
                         style: ElevatedButton.styleFrom(

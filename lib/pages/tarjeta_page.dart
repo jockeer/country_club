@@ -1,9 +1,11 @@
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
+import 'package:country/providers/tarjeta_provider.dart';
 
 import 'package:country/services/tarjeta_service.dart';
 import 'package:flutter/material.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
+import 'package:provider/provider.dart';
 
 
 class TarjetaPage extends StatefulWidget {
@@ -18,7 +20,7 @@ class _TarjetaPageState extends State<TarjetaPage> {
 
   @override
   Widget build(BuildContext context) {
-    
+    final phoneSize = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldKey,
       drawer: MenuLateralWidget(),
@@ -33,7 +35,7 @@ class _TarjetaPageState extends State<TarjetaPage> {
               Text('Puedes recargar tu tarjeta', style: TextStyle(color: Colors.black45), ),
               SizedBox(height: 10.0,),
               _ButtonRecargar(),
-              Image(image: AssetImage('assets/icons/logo.png'), width: 250.0,),
+              Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.6,),
             ],
           )
         ),
@@ -155,9 +157,13 @@ class _ButtonRecargar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<TarjetaProvider>(context, listen: false);
     return ElevatedButton(
       onPressed: ()async{
-       Navigator.pushNamed(context, 'metodo_pago');
+        provider.tipoPago=1;
+        provider.optRecarga=1;
+        provider.montoRecarga='10.00';
+        Navigator.pushNamed(context, 'metodo_pago');
       //  Navigator.pushNamed(context, 'tarjeta_recarga');
       },
       child: estilos.buttonChild(texto: 'Recargar'),

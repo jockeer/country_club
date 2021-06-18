@@ -1,4 +1,5 @@
 
+import 'package:country/models/deudas_model.dart';
 import 'package:flutter/material.dart';
 
 
@@ -14,7 +15,18 @@ class TarjetaProvider extends ChangeNotifier{
   String _idDeuda="";
   String _totalDeuda="";
   String _tipoDeuda="";
+  int _tipoPago = 0;
+  
+  Deuda _deuda;
 
+
+  set deuda(Deuda _deuda){
+    this._deuda = _deuda;
+    notifyListeners();
+  }
+  Deuda get deuda{
+    return this._deuda;
+  }
 
   set montoRecarga(String _montoRecarga){
     this._montoRecarga = _montoRecarga;
@@ -24,6 +36,13 @@ class TarjetaProvider extends ChangeNotifier{
     return this._montoRecarga;
   }
 
+  set tipoPago(int _tipoPago){
+    this._tipoPago = _tipoPago;
+    notifyListeners();
+  }
+  int get tipoPago{
+    return this._tipoPago;
+  }
   set optRecarga(int _optRecarga){
     this._optRecarga = _optRecarga;
     notifyListeners();
