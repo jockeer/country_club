@@ -1,6 +1,7 @@
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/models/mensaje_model.dart';
 import 'package:country/services/inbox_servide.dart';
+import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
 
@@ -24,7 +25,7 @@ class MainMenuPage extends StatelessWidget {
           child: Column(
             children: [
               _Menu(),
-              Image(image: AssetImage('assets/icons/logo.png'), width: 250.0,),
+              PieLogoWidget()
             ],
           ),
         ),

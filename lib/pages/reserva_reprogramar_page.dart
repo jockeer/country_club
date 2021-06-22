@@ -7,6 +7,7 @@ import 'package:country/utils/comprobar_conexion.dart';
 import 'package:country/utils/form_validator.dart';
 import 'package:country/utils/show_snack_bar.dart';
 import 'package:country/widgets/no_internet_widget.dart';
+import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:country/widgets/success_dialog_widget.dart';
 
 import 'package:flutter/material.dart';
@@ -123,7 +124,7 @@ class _Formulario extends StatelessWidget {
             Divider(),
             Center(child: _ButtonGuardarCambios(reservaFormState: reservaFormState, reservaId: this.reserva.id)),
             SizedBox(height: 10.0,),
-            Center(child: Image(image: AssetImage('assets/icons/logo.png'),width: 200.0,))
+            Center(child: PieLogoWidget())
           ],
         ),
       ),

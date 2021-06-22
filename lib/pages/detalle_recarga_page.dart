@@ -3,6 +3,7 @@ import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/models/credit_card_model.dart';
 import 'package:country/providers/tarjeta_provider.dart';
 import 'package:country/widgets/app_bar_widget.dart';
+import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +14,6 @@ class DetalleRecargaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
     final TarjetaCredito tarjeta = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -45,7 +45,7 @@ class DetalleRecargaPage extends StatelessWidget {
               ),
               
               Expanded(child: Container()),
-              Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.6,)
+              PieLogoWidget()
               
             ],
           ),

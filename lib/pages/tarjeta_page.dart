@@ -3,6 +3,7 @@ import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/providers/tarjeta_provider.dart';
 
 import 'package:country/services/tarjeta_service.dart';
+import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,7 @@ class _TarjetaPageState extends State<TarjetaPage> {
 
   @override
   Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: MenuLateralWidget(),
@@ -35,7 +36,7 @@ class _TarjetaPageState extends State<TarjetaPage> {
               Text('Puedes recargar tu tarjeta', style: TextStyle(color: Colors.black45), ),
               SizedBox(height: 10.0,),
               _ButtonRecargar(),
-              Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.6,),
+              PieLogoWidget()
             ],
           )
         ),

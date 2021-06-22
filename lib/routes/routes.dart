@@ -1,3 +1,4 @@
+import 'package:country/pages/pdf_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/pages/adminitrar_tarjetas_page.dart';
@@ -55,5 +56,6 @@ Map<String, WidgetBuilder> getAplicationRoutes(){
     'detalle_recarga':( _ ) => DetalleRecargaPage(),
     'administrar_tarjetas':( _ ) => AdministrarTarjetasPage(),
     'nueva_tarjeta_credito':( _ ) => NuevaTarjetaCreditoPage(),
+    'pdf':( _ ) => PdfPage(),
   };
 }

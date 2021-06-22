@@ -5,6 +5,7 @@ import 'package:country/services/database_service.dart';
 import 'package:country/utils/form_validator.dart';
 import 'package:country/utils/show_snack_bar.dart';
 import 'package:country/widgets/floating_button_widget.dart';
+import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:country/widgets/tarjeta_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,7 @@ class RecargaTarjetaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
+
     final provider = Provider.of<TarjetaProvider>(context,listen: false);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -87,7 +88,7 @@ class RecargaTarjetaPage extends StatelessWidget {
               SizedBox(height: 10.0,),
               _CorreoBoton(),
               SizedBox(height: 30.0,),
-              Center(child: Image(image: AssetImage('assets/icons/logo.png'),width: phoneSize.width*0.6, ))
+              PieLogoWidget()
             ],
           ),
         ),

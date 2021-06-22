@@ -2,6 +2,7 @@ import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/models/compra_model.dart';
 import 'package:country/services/tarjeta_service.dart';
 import 'package:country/widgets/compra_widget.dart';
+import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/widgets/menu_lateral_widget.dart';
@@ -10,7 +11,7 @@ class HistoricoTarjetaPage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: MenuLateralWidget(),
@@ -19,7 +20,7 @@ class HistoricoTarjetaPage extends StatelessWidget {
           children: [
             _Tarjeta(),
             _UltimasTransacciones(),
-            Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.6,),
+            PieLogoWidget()
           ],
         ),
       ),

@@ -25,7 +25,7 @@ class _HandicapPageState extends State<HandicapPage> {
     return Scaffold(
       appBar: appBarWidget(titulo: 'Handicap'),
       body: WebView(
-        initialUrl: "http://www.golfbolivia.com",
+        initialUrl: "http://www.golfbolivia.com/handicap/",
         javascriptMode: JavascriptMode.unrestricted,
       ),
          

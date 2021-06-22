@@ -2,6 +2,7 @@ import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/providers/notificacion_provider.dart';
 import 'package:country/widgets/app_bar_widget.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
+import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +11,7 @@ class InboxPage extends StatelessWidget {
   final colores =ColoresApp();
   @override
   Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
+
     final provider = Provider.of<NotificacionesProvider>(context);
     provider.cargarNotificaciones();
     return Scaffold(
@@ -74,7 +75,7 @@ class InboxPage extends StatelessWidget {
               },
             )
           ),
-          Image(image: AssetImage('assets/icons/logo.png'),width: phoneSize.width*0.6,)
+          PieLogoWidget()
         ],
       ),
     );
