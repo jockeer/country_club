@@ -64,5 +64,11 @@ class PreferenciasUsuario {
     _prefs.setString('deviceToken', deviceToken);
   }
 
-  
+  /* para las notificaciones de usuario*/
+  get notificacionEnCola{
+    return _prefs.getStringList('notificacion') ?? [] ;
+  }
+  set notificacionEnCola(List<String> notificacionEnCola){
+    _prefs.setStringList('notificacion',notificacionEnCola);
+  }
 }

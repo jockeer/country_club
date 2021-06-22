@@ -2,6 +2,7 @@ import 'package:country/providers/galeria_provider.dart';
 import 'package:country/providers/reserva_provider.dart';
 import 'package:country/widgets/app_bar_widget.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
+import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,7 @@ class ReservasPage extends StatelessWidget {
         child: Column(
           children: [
             _MenuReservas(),
-            Image(image: AssetImage('assets/icons/logo.png'), width: 250.0,),
+            PieLogoWidget()
           ],
         ),
       ),

@@ -14,6 +14,7 @@ class Socio {
         this.origen,
         this.direccion,
         this.telefono,
+        this.celular,
         this.email
     });
 
@@ -25,6 +26,7 @@ class Socio {
     String origen;
     String direccion;
     String telefono;
+    String celular;
 
     String email = '';
     String password = '';
@@ -39,6 +41,7 @@ class Socio {
         origen: json["origen"],
         direccion: json["direccion"],
         telefono: json["telefono"],
+        celular: json["celular"],
         email: json["email"],
     );
 
@@ -49,7 +52,8 @@ class Socio {
         "id_card": ci,
         "expedition": origen,
         "address": direccion,
-        "cell_phone": telefono,
+        "cell_phone": celular,
+        "phone": telefono,
         "email": email,
         "password": password
     };

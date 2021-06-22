@@ -1,51 +1,99 @@
+import 'package:country/helpers/datos_constantes.dart';
+import 'package:country/models/credit_card_model.dart';
+import 'package:country/providers/tarjetas_credito_provider.dart';
+import 'package:country/services/database_service.dart';
+import 'package:country/utils/form_validator.dart';
+import 'package:country/utils/show_snack_bar.dart';
+import 'package:country/widgets/floating_button_widget.dart';
+import 'package:country/widgets/pie_logo_widget.dart';
+import 'package:country/widgets/tarjeta_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:country/providers/tarjeta_provider.dart';
-import 'package:country/widgets/menu_lateral_widget.dart';
 
 
 class RecargaTarjetaPage extends StatelessWidget {
   
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
+  final colores = ColoresApp();
+
   @override
   Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
-    return Scaffold(
-      key: _scaffoldKey,
-      drawer: MenuLateralWidget(),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _Tarjeta(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0,horizontal: 40.0),
-              child: Text("Corte", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
-            ),
-            _MontosFijos(),
-            SizedBox(height: 30.0,),
-            _OtroMonto(),
-            SizedBox(height: 30.0,),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 40.0),
-              child: Text("Correo electronico", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
-            ),
 
-            _CorreoBoton(),
-            SizedBox(height: 30.0,),
-            Center(child: Image(image: AssetImage('assets/icons/logo.png'),width: phoneSize.width*0.5, ))
-          ],
+    final provider = Provider.of<TarjetaProvider>(context,listen: false);
+    return Scaffold(
+      backgroundColor: Colors.white,
+      key: _scaffoldKey,
+      body: GestureDetector(
+        onTap: (){
+          final FocusScopeNode focus = FocusScope.of(context);
+          if (!focus.hasPrimaryFocus && focus.hasFocus) {
+            FocusManager.instance.primaryFocus.unfocus();
+          }
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _Tarjeta(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0,horizontal: 40.0),
+                child: Text("Monto", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
+              ),
+              Container(
+                child: (provider.tipoPago==1)
+                ? Column(
+                  children: [
+                    _MontosFijos(),
+                    SizedBox(height: 30.0,),
+                    _OtroMonto(),
+
+                  ],
+                ) 
+                : Text(provider.montoRecarga + ' Bs.', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),)
+              ),
+              
+              
+              SizedBox(height: 30.0,),
+              GestureDetector(
+                onTap: (){
+                  Provider.of<TarjetasCreditoProvider>(context,listen: false).tarjetaSeleccionada=0;
+                  Navigator.pushNamed(context, 'administrar_tarjetas');
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Administrar Tarjetas',style: TextStyle(fontWeight: FontWeight.w600),),
+                    Icon(Icons.credit_card, color: colores.verdeOscuro),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10.0,),
+              FutureBuilder(
+                future: DBService.db.getAllTarjetasPrueba(context),
+                builder: (_,AsyncSnapshot<List<TarjetaCredito>> snapshot){
+                  if (snapshot.hasData) {
+                    if (snapshot.data[0] == null) {
+                      return Center(child: Text('No tiene tarjetas registradas'),);
+                    } 
+                    return TarjetaCreditoWidget();
+                  }
+                  return Center(child: CircularProgressIndicator());
+                },
+              ),
+              // TarjetaCreditoWidget(),
+              SizedBox(height: 30.0,),
+              Text('Seleccione una tarjeta para continuar'),
+              SizedBox(height: 10.0,),
+              _CorreoBoton(),
+              SizedBox(height: 30.0,),
+              PieLogoWidget()
+            ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        elevation: 0.0,
-        backgroundColor: Colors.transparent,
-        child: Icon(Icons.menu, color: Colors.white,),
-        onPressed: (){
-          _scaffoldKey.currentState.openDrawer();
-        },
-      ),
+      floatingActionButton: FloatingButtonWidget(color: Colors.white,),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
@@ -73,23 +121,26 @@ class _OtroMonto extends StatelessWidget {
           SizedBox(
             width: phoneSize.width*0.3,
             child: TextField(
-              
-              decoration: InputDecoration(
-                hintText: 'Otro monto',
-                contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-                border: OutlineInputBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(5.0), bottomRight: Radius.circular(5.0)), borderSide: BorderSide(color: Colors.black26)),
-                enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.only(topRight: Radius.circular(5.0), bottomRight: Radius.circular(5.0)) ),
-                filled: true,
-                fillColor: Colors.white
+                keyboardType: TextInputType.phone,
+                decoration: InputDecoration(
+                  hintText: 'Otro monto',
+                  contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(5.0), bottomRight: Radius.circular(5.0)), borderSide: BorderSide(color: Colors.black26)),
+                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.only(topRight: Radius.circular(5.0), bottomRight: Radius.circular(5.0)) ),
+                  filled: true,
+                  fillColor: Colors.white
+                ),
+
+                onTap: (){
+                  provider.montoRecarga='00.00';
+                  provider.optRecarga=0;
+                },
+                onChanged: (value){
+                  provider.montoRecarga=value;
+                },
+                
               ),
-              onTap: (){
-                provider.optRecarga=0;
-              },
-              onChanged: (value){
-                provider.montoRecarga=value;
-              },
-            ),
-          ),
+            )
         ],
       ),
     );
@@ -151,7 +202,7 @@ class _MontoButon extends StatelessWidget {
     return TextButton(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 20.0,horizontal: 0.0),
-        child: Text('Bs${this.monto}', style: TextStyle(fontSize: 14.0,),),
+        child: Text('Bs ${this.monto}.00', style: TextStyle(fontSize: 14.0,),),
       ),
       onPressed: (){
         provider.optRecarga = this.opt;
@@ -165,43 +216,37 @@ class _MontoButon extends StatelessWidget {
     );
   }
 }
-class _CorreoBoton extends StatelessWidget {
 
+class _CorreoBoton extends StatelessWidget {
+  final estilos = EstilosApp();
+  final formValidator = FormValidator();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50.0),
-          child: TextField(
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              hintText: "E-mail del destinatario",
-              contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
-              enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
-              filled: true,
-              fillColor: Colors.white
-            ),
-          ),
-        ),
-        SizedBox(height: 50.0,),
-        ElevatedButton(
-          onPressed: (){
-            Navigator.pushNamed(context, 'metodo_pago');
-          }, 
-          child: Text('Comprar', style: TextStyle(fontSize: 20.0),),
-          style: ElevatedButton.styleFrom(
-             elevation: 5.0,
-          padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-          primary: Color(0xff009D47),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50.0)
-          )
-          ),
-        )
+    final provider = Provider.of<TarjetasCreditoProvider>(context);
+    final providerB = Provider.of<TarjetaProvider>(context);
+    return ElevatedButton(
+      onPressed:(provider.tarjetaSeleccionada==0)
+      ?null 
+      : () async {
+        if (provider.tarjetaSeleccionada == 0) return mostrarSnackBar(context, 'Seleccione una tarjeta para continuar');
+          //await DBService.db.deleteAll();
+        if (providerB.montoRecarga.isEmpty||providerB.montoRecarga=='00.00') return mostrarSnackBar(context, 'Seleccione o ingrese un monto');
+      
+        if (!formValidator.isNumeric(providerB.montoRecarga)) return mostrarSnackBar(context, 'Ingrese un monto valido');
 
-      ],
+        // await DBService.db.deleteAll();
+        // provider.tarjetaSeleccionada=0;
+        final tarjeta = provider.tarjetas.where((element){
+          return provider.tarjetaSeleccionada == element.id;
+        });
+        print(tarjeta);
+        print('tarjeta seleccionada :' + tarjeta.first.id.toString());
+        
+        Navigator.pushNamed(context, 'detalle_recarga',arguments: tarjeta.first);
+
+      }, 
+      child: estilos.buttonChild(texto: 'Siguiente'),
+      style: estilos.buttonStyle(),
     );
   }
 }

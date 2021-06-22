@@ -1,5 +1,12 @@
+import 'package:country/pages/pdf_page.dart';
 import 'package:flutter/material.dart';
 
+import 'package:country/pages/adminitrar_tarjetas_page.dart';
+import 'package:country/pages/detalle_compra_page.dart';
+import 'package:country/pages/detalle_pago_membresia_page.dart';
+import 'package:country/pages/detalle_recarga_page.dart';
+import 'package:country/pages/nueva_tarjetaCredito_page.dart';
+import 'package:country/pages/reserva_reprogramar_page.dart';
 import 'package:country/pages/welcome_page.dart';
 import 'package:country/pages/login_page.dart';
 import 'package:country/pages/register_page1.dart';
@@ -43,5 +50,12 @@ Map<String, WidgetBuilder> getAplicationRoutes(){
     'handicap': ( _ ) => HandicapPage(),
     'tarjeta_recarga': ( _ ) => RecargaTarjetaPage(), 
     'metodo_pago':( _ ) => MetodoPagoPage(),
+    'reserva_repro':( _ ) => ReservaReproPage(),
+    'detalle_compra':( _ ) => DetalleCompraPage(),
+    'detalle_pago_membresia':( _ ) => DetallePagoMembresia(),
+    'detalle_recarga':( _ ) => DetalleRecargaPage(),
+    'administrar_tarjetas':( _ ) => AdministrarTarjetasPage(),
+    'nueva_tarjeta_credito':( _ ) => NuevaTarjetaCreditoPage(),
+    'pdf':( _ ) => PdfPage(),
   };
 }

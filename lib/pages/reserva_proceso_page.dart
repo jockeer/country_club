@@ -1,5 +1,6 @@
 
 import 'dart:math';
+import 'package:country/helpers/datos_constantes.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/helpers/preferencias_usuario.dart';
@@ -29,14 +30,22 @@ class _ReservaProcesoPageState extends State<ReservaProcesoPage> {
     return Scaffold(
       appBar: appBarWidget(titulo: 'Reservas'),
       body: ModalProgressHUD(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 20.0,),
-              _Categoria(),
-              _Calendar(),
-              _FormularioReservasState(contexto: context, )
-            ],
+        child: GestureDetector(
+          onTap: (){
+            final FocusScopeNode focus = FocusScope.of(context);
+            if (!focus.hasPrimaryFocus && focus.hasFocus) {
+              FocusManager.instance.primaryFocus.unfocus();
+            }
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 20.0,),
+                _Categoria(),
+                _Calendar(),
+                _FormularioReservasState(contexto: context, )
+              ],
+            ),
           ),
         ),
         inAsyncCall: provider.carga,
@@ -126,7 +135,7 @@ class __CalendarState extends State<_Calendar> {
       todayTextStyle: TextStyle(color: Colors.black),
       locale: 'es',
       onDayPressed: (DateTime date, List events) {
-        print(DateTime(date.year,date.month,date.day));
+        // print(DateTime(date.year,date.month,date.day));
         provider.fecha = DateTime(date.year,date.month,date.day).toString(); 
         setState(() {
           _currentDate=DateTime(date.year,date.month,date.day);
@@ -166,6 +175,7 @@ class _FormularioReservasState extends StatefulWidget{
 class __FormularioReservasStateState extends State<_FormularioReservasState> {
   final formkey = GlobalKey<FormState>();
   final BuildContext contexto;
+  final estilos = EstilosApp();
 
   __FormularioReservasStateState({@required this.contexto});
   @override 
@@ -202,20 +212,14 @@ class __FormularioReservasStateState extends State<_FormularioReservasState> {
                 )
               ],
             ),
-            SizedBox(height: 30.0,),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 5.0),
-              child: Text('Celular de contacto'),
-            ),
-            _CelularContacto(),
             SizedBox(height: 20.0,),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 5.0),
-              child: Text('Nombre de contacto'),
-            ),
+            estilos.inputLabel(label: 'Celular de Contacto'),
+            _CelularContacto(),
+            estilos.inputLabel(label: 'Nombre de Contacto'),
             _NombreContacto(),
-            SizedBox(height: 40.0,),
+            estilos.inputLabel(label: 'Requerimientos extras'),
             _RequerimientosExtras(),
+            SizedBox(height: 20.0,),
             Center(
               child: ElevatedButton(
                 onPressed: ()async{
@@ -243,8 +247,17 @@ class __FormularioReservasStateState extends State<_FormularioReservasState> {
                   reserva.requerimientos = provider.reqExtras;
 
                   final respuesta = await reservaService.guardarReserva(reserva);
+                  provider.carga=false;
 
-                    provider.carga=false;
+                  if (respuesta == null) {
+                     mostrarSnackBar(this.contexto, 'Error con el servidor');
+                    return;
+                  }
+                  if (respuesta.containsKey("error")) {
+                    mostrarSnackBar(context, "Su sesion expiro inicie sesion nuevamente");
+                    Navigator.pushNamed(context, 'login');
+                    return;
+                  }
                   if (!respuesta["Status"]) {
                     mostrarSnackBar(this.contexto, respuesta["Message"]);
                   } else {
@@ -254,11 +267,8 @@ class __FormularioReservasStateState extends State<_FormularioReservasState> {
 
                   // _mensajeExito();
                 }, 
-                child: Text('Hacer reserva', style: TextStyle(fontSize: 18.0),),
-                style: ElevatedButton.styleFrom(
-                  primary: Color(0xff009D47),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0))
-                ),
+                child: estilos.buttonChild(texto: 'Realizar Reserva'),
+                style: estilos.buttonStyle(),
               ),
             ),
             SizedBox(height: 20.0,)
@@ -304,6 +314,7 @@ class _RequerimientosExtras extends StatelessWidget {
 }
 
 class _CantidadPersonas extends StatelessWidget {
+  final estilos = EstilosApp();
 
   @override
   Widget build(BuildContext context) {
@@ -311,18 +322,10 @@ class _CantidadPersonas extends StatelessWidget {
     final provider = Provider.of<ReservaProvider>(context);
 
     return TextFormField(
-      // initialValue: '0',
       style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
       textAlign: TextAlign.center,
       keyboardType: TextInputType.phone,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.zero,
-        hintStyle: TextStyle(fontSize: 30.0),
-        hintText: '0',
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-        filled:true,
-        fillColor: Colors.white
-      ),
+      decoration: estilos.inputDecoration(hintText: '0'),
       onChanged: (value){
         provider.cantPersonas = value;
       },
@@ -349,7 +352,6 @@ class _HoraReserva extends StatelessWidget {
       enableInteractiveSelection: false,
       controller: _inputFileTimeController,
       textAlign: TextAlign.center,
-      // initialValue: 'hola',
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.zero,
@@ -446,19 +448,13 @@ class _DialogInfo extends StatelessWidget {
 }
 
 class _CelularContacto extends StatelessWidget {
-
+  final estilos = EstilosApp();
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ReservaProvider>(context);
     return TextFormField(
       keyboardType: TextInputType.phone,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0)),
-        hintText: "Celular de contacto",
-        filled:true,
-        fillColor: Colors.white
-      ),
+      decoration: estilos.inputDecoration(hintText: 'Celular de contacto'),
       validator: (value){
         if (value.isEmpty) {
           return "Digite un numero de contacto";
@@ -473,18 +469,12 @@ class _CelularContacto extends StatelessWidget {
 }
 
 class _NombreContacto extends StatelessWidget {
-
+  final estilos = EstilosApp();
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ReservaProvider>(context);
     return TextFormField(
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0)),
-        hintText: "Nombre de contacto",
-        filled:true,
-        fillColor: Colors.white
-      ),
+      decoration: estilos.inputDecoration(hintText: 'Nombre de contacto'),
       validator: (value){
         if (value.isEmpty) {
           return "Ingrese un nombre";

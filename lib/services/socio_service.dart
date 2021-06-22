@@ -42,8 +42,9 @@ class SocioService{
 
   Future<Socio> getSocio(String codigoSocio, String ci) async {
     final n = num.tryParse(codigoSocio);
+    final ns = num.tryParse(ci);
 
-    if(n == null){
+    if(n == null || ns == null){
       return null;
     }
 
@@ -120,7 +121,7 @@ class SocioService{
     final prefs = PreferenciasUsuario();
 
     final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/get_customer?access_token=${prefs.token}');
-
+    
     final respuesta = await http.get(url);
 
     final decodedData = jsonDecode(respuesta.body);
@@ -129,9 +130,6 @@ class SocioService{
 
     return socio;
 
-
-    // print(decodedData["Data"]);
-    // 
   }
  
 
@@ -139,26 +137,30 @@ class SocioService{
     final prefs = PreferenciasUsuario();
 
     final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/customers/customers');
+    // final urlCountry = Uri.https('190.186.228.218', 'appmovil/api/Asociado/SetTelCelDirID/${socio.codigo}/${socio.telefono}/${socio.celular}/${socio.direccion}/${socio.email}');
 
 
     final parametros = socio.toJson();
 
     parametros["access_token"] = await prefs.token;
     parametros["type"] = (Platform.isAndroid)?"ANDROID":"IOS";
-    
-    
-    //print(parametros);
-    final respuesta = await http.post(
-      url,
-      body: parametros
-    );
-
-    final resp = await json.decode(respuesta.body);
-
-    // print(resp["Status"]);
-    // print(resp["Message"]);
     // print(parametros);
-    return resp;
+    try {
+      final respuesta = await http.post(
+        url,
+        body: parametros
+      );
+      // final registroCountry = await _procesarInfo(url);
+
+      // print(registroCountry);
+
+      final resp = await json.decode(respuesta.body);
+      return resp;
+
+      
+    } catch (e) {
+      return null;
+    }
 
   }
 
@@ -176,13 +178,11 @@ class SocioService{
         }
       );
       final decoded = json.decode(respuesta.body);
-      print(decoded["Message"]);
       return decoded;
     } catch (e) {
       return null;
     }
   }
-
 
 }
 

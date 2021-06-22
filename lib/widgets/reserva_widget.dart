@@ -1,16 +1,17 @@
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/models/reserva_model.dart';
+import 'package:country/providers/reserva_provider.dart';
 import 'package:country/services/reserva_service.dart';
 import 'package:country/utils/comprobar_conexion.dart';
 import 'package:country/widgets/no_internet_widget.dart';
 import 'package:country/widgets/success_dialog_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ReservaWidget extends StatelessWidget {
 
   final List<Reserva> reservas;
 
-  
 
   ReservaWidget({@required this.reservas});
   
@@ -18,6 +19,7 @@ class ReservaWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final phoneSize = MediaQuery.of(context).size;
+    final provider =Provider.of<ReservaProvider>(context);
     return ListView.builder(
       itemCount: reservas.length,
       itemBuilder: (BuildContext context,int index){
@@ -71,17 +73,26 @@ class ReservaWidget extends StatelessWidget {
                               SizedBox(height: 10.0,),
                             ],
                           ),
-                          Icon(Icons.arrow_forward_ios)
+                          Container()
+                          // Icon(Icons.arrow_forward_ios)
                         ],
                       ),
                       // Expanded(child: Container(),),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: (reservas[index].status == "2" || reservas[index].status == "1")
+                        children: (reservas[index].status == "1")
                         ? ([
                             ElevatedButton(style: ElevatedButton.styleFrom(primary: Color(0xff00472B), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))), child: Text('Reprogramar'),
                               onPressed: (){
-                                
+                                provider.hora=reservas[index].hora;
+                                provider.fecha = reservas[index].fecha;
+                                provider.cantPersonas = reservas[index].cantidad;
+                                provider.codigoCab=reservas[index].cabanaid;
+                                provider.telefono= reservas[index].celular;
+                                provider.nombre=reservas[index].nombre;
+                                provider.reqExtras=reservas[index].requerimientos;
+                                Navigator.pop(context);
+                                Navigator.pushNamed(context, 'reserva_repro', arguments: reservas[index]);
                               },
                             ),
                             SizedBox(width: 20.0,),
@@ -99,7 +110,7 @@ class ReservaWidget extends StatelessWidget {
                         : [
                             ElevatedButton(style: ElevatedButton.styleFrom(primary: Color(0xff00472B), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))), child: Text('Visualizar'),
                               onPressed: (){
-
+                               Navigator.pushNamed(context, 'reserva_repro', arguments: reservas[index]);
                               },
                             ),
                           ]    

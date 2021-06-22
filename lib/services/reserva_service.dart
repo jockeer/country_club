@@ -13,6 +13,7 @@ class ReservaService{
 
   final constantes = DatosConstantes();
   final prefs = PreferenciasUsuario();
+  bool cargar = false;
   
 
   Future<dynamic> guardarReserva(Reserva reserva) async {
@@ -30,8 +31,14 @@ class ReservaService{
         body: paremetros
       );
       
-      final decoded = jsonDecode(respuesta.body);
-      return decoded;
+      final decoded = await jsonDecode(respuesta.body);
+
+      if (respuesta.statusCode==200) {
+        return decoded;
+      }
+      if (decoded.containsKey("error")) {
+        return respuesta;
+      }
       
     } catch (e) {
       print(e);
@@ -41,7 +48,7 @@ class ReservaService{
   }
   Future<List<Reserva>> obtenerReservas()async{
     final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/get_all_reservas?access_token=${prefs.token}');
-    // print(url); 
+    //print(url); 
 
     final conexion = await comprobarInternet();
     if (!conexion) {
@@ -51,16 +58,37 @@ class ReservaService{
 
     final decoded = jsonDecode(respuesta.body);
 
+    
     final reservas = Reservas.fromJsonList(decoded["Data"]);
 
     return reservas.items;
 
-    // print(decoded);
   }
   Future<bool> cancelarReserva(String idReserva)async{
     final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/get_cancelar_reserva?access_token=${prefs.token}&id_reserva=${int.parse(idReserva)}');
     // print(url); 
     final respuesta = await http.get(url);
+
+    final decoded = jsonDecode(respuesta.body);
+
+    print(decoded);
+    return decoded["Status"];
+
+    // print(decoded);
+  }
+  Future<bool> actualizarReserva(Reserva reserva)async{
+    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/actualizar_reserva');
+
+    final parametros = reserva.toJson();
+
+    parametros["access_token"]= prefs.token;
+    parametros["id_reserva"] = reserva.id;
+
+    // print(url); 
+    final respuesta = await http.post(
+      url,
+      body: parametros
+    );
 
     final decoded = jsonDecode(respuesta.body);
 

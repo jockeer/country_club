@@ -13,8 +13,14 @@ class RegisterPage1 extends StatefulWidget {
 }
 
 class _RegisterPage1State extends State<RegisterPage1> {
+<<<<<<< HEAD
   final formState = GlobalKey<FormState>();
   final colores = ColoresApp();
+=======
+ final formState = GlobalKey<FormState>();
+ final colores = ColoresApp();
+ final estilos = EstilosApp();
+>>>>>>> 6f97f50eb103f77756bb75326511832b4df73544
   @override
   Widget build(BuildContext context) {
     final Socio socio = ModalRoute.of(context).settings.arguments;
@@ -22,6 +28,7 @@ class _RegisterPage1State extends State<RegisterPage1> {
     final phoneSize = MediaQuery.of(context).size;
 
     return Scaffold(
+<<<<<<< HEAD
       body: SafeArea(
         child: Stack(
           children: [
@@ -40,9 +47,31 @@ class _RegisterPage1State extends State<RegisterPage1> {
                   ),
                   _formulario(socio),
                 ],
+=======
+      body: GestureDetector(
+        onTap: (){
+          final FocusScopeNode focus = FocusScope.of(context);
+          if (!focus.hasPrimaryFocus && focus.hasFocus) {
+            FocusManager.instance.primaryFocus.unfocus();
+          }
+        },
+        child: SafeArea(
+          child: Stack(
+            children: [
+              _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
+              SingleChildScrollView( //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
+                child: Column(
+                  children: [
+                    // Image(image: AssetImage('')),
+                    SizedBox(height: 80.0,),
+                    Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.85,),
+                    _formulario(socio),
+                  ],
+                ),
+>>>>>>> 6f97f50eb103f77756bb75326511832b4df73544
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingButtonWidget(
@@ -134,8 +163,14 @@ class _RegisterPage1State extends State<RegisterPage1> {
       ),
     );
   }
+<<<<<<< HEAD
 
   Widget _buttonNext(Socio socio) {
+=======
+  
+  Widget _buttonNext(Socio socio){
+  
+>>>>>>> 6f97f50eb103f77756bb75326511832b4df73544
     return ElevatedButton(
       onPressed: () {
         if (!formState.currentState.validate()) return;
@@ -143,9 +178,12 @@ class _RegisterPage1State extends State<RegisterPage1> {
         final provider = Provider.of<RegistroProvider>(context, listen: false);
         socio.email = provider.email;
         socio.password = provider.password;
+        provider.celular = socio.celular;
         // print('desde provider: ' + socio.email + " password: " + socio.password);
         Navigator.pushNamed(context, 'register_page_2', arguments: socio);
+        FocusScope.of(context).unfocus();
       },
+<<<<<<< HEAD
       child: Text(
         'Siguiente',
         style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
@@ -157,6 +195,12 @@ class _RegisterPage1State extends State<RegisterPage1> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50.0))),
     );
+=======
+      child: estilos.buttonChild(texto: 'Siguiente'),
+      style: estilos.buttonStyle(),
+    );
+
+>>>>>>> 6f97f50eb103f77756bb75326511832b4df73544
   }
 }
 
@@ -267,7 +311,12 @@ class _InputEmail extends StatelessWidget {
       onChanged: (value) {
         provider.email = value;
       },
+<<<<<<< HEAD
       validator: (value) {
+=======
+      validator: (value){
+        provider.email = value;
+>>>>>>> 6f97f50eb103f77756bb75326511832b4df73544
         if (value.isEmpty) {
           return 'El correo no puede quedar Vacío';
         } else {
