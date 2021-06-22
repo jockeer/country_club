@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:country/helpers/datos_constantes.dart';
@@ -8,18 +9,24 @@ import 'package:path_provider/path_provider.dart';
 class PdfService{
   final constantes = DatosConstantes();
   
-  Future<String> loadPDF(String pdf)async{
+  Future<File> loadPDF(String pdf)async{
 
-    final conexion = comprobarInternet();
+    final conexion = await comprobarInternet();
     if (!conexion) {
       return null;
     }
-    final url = Uri.https(constantes.dominio, pdf);
-    final respuesta = await http.get(url);
-    final dir = await getTemporaryDirectory();
-    File file = new File(dir.path + "/data.pdf");
-
-    await file.writeAsBytes(respuesta.bodyBytes, flush: true);
-    return file.path;
+    Completer<File> completer = Completer();
+    try {
+      final filename = pdf.substring(pdf.lastIndexOf("/") + 1);
+      var request = await http.get(Uri.parse(pdf));
+      var bytes = request.bodyBytes;
+      var dir = await getApplicationDocumentsDirectory();
+      File file = File("${dir.path}/$filename");
+      await file.writeAsBytes(bytes, flush: true);
+      completer.complete(file);
+    } catch (e) {
+      throw Exception('Error al descargar el archivo!');
+    }
+    return completer.future;
   }
 }

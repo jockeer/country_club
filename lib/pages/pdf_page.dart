@@ -15,12 +15,14 @@ class PdfPage extends StatelessWidget {
     return Scaffold(
       appBar: appBarWidget(titulo: 'Evento'),
       body: FutureBuilder(
-        future: _pdfService.loadPDF(url.substring(36)),
-        builder: (context,AsyncSnapshot<String> snapshot){
+        future: _pdfService.loadPDF(url),
+        builder: (context,AsyncSnapshot snapshot){
+          print(snapshot.data);
           if (snapshot.hasData) {
             return Container(
               child: PDFView(
-                filePath: snapshot.data,
+                filePath: snapshot.data.path,
+                swipeHorizontal: true,
               ),
             );
           }
