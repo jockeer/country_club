@@ -32,27 +32,8 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ModalProgressHUD(
-<<<<<<< HEAD
-        child: SafeArea(
-          child: Stack(
-            children: [
-              _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
-              SingleChildScrollView(
-                //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
-                child: Column(
-                  children: [
-                    // Image(image: AssetImage('')),
-                    SizedBox(
-                      height: 80.0,
-                    ),
-                    Image(
-                      image: AssetImage('assets/icons/logo.png'),
-                    ),
-                    _formulario(),
-                  ],
-=======
         child: GestureDetector(
-          onTap: (){
+          onTap: () {
             final FocusScopeNode focus = FocusScope.of(context);
             if (!focus.hasPrimaryFocus && focus.hasFocus) {
               FocusManager.instance.primaryFocus.unfocus();
@@ -62,16 +43,20 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
             child: Stack(
               children: [
                 _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
-                SingleChildScrollView( //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
+                SingleChildScrollView(
+                  //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
                   child: Column(
                     children: [
                       // Image(image: AssetImage('')),
-                      SizedBox(height: 80.0,),
-                      Image(image: AssetImage('assets/icons/logo.png'),),
+                      SizedBox(
+                        height: 80.0,
+                      ),
+                      Image(
+                        image: AssetImage('assets/icons/logo.png'),
+                      ),
                       _formulario(),
                     ],
                   ),
->>>>>>> 6f97f50eb103f77756bb75326511832b4df73544
                 ),
               ],
             ),
@@ -144,37 +129,39 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
         final conexion = await comprobarInternet();
         if (!conexion) {
           setState(() {
-<<<<<<< HEAD
-            this.indicator = false;
-=======
-            this.indicator=true;
+            this.indicator = true;
           });
           final conexion = await comprobarInternet();
           if (!conexion) {
             setState(() {
-              this.indicator=false;
+              this.indicator = false;
             });
-            showDialog(context: context, builder: (context){ return NoInternetWidget();});
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return NoInternetWidget();
+                });
             return;
-          } 
-          final provider = Provider.of<RegistroProvider>(context, listen: false);
-          final socio = await _socioProvider.getSocio(provider.codigo, provider.ci); //6038
-          if(socio!=null){
-
+          }
+          final provider =
+              Provider.of<RegistroProvider>(context, listen: false);
+          final socio = await _socioProvider.getSocio(
+              provider.codigo, provider.ci); //6038
+          if (socio != null) {
             final message = await _tokenService.obtenerToken();
             if (message.isEmpty) {
               mostrarSnackBar(context, "Error con el servidor");
-            }else{
-              socio.codigo=provider.codigo;
+            } else {
+              socio.codigo = provider.codigo;
               Navigator.pushNamed(context, 'register_page_1', arguments: socio);
               FocusScope.of(context).unfocus();
             }
-          }else{
-            mostrarSnackBar(context, 'Los datos del socio no son validos por favor actualice su informacion');
-          }     
-          setState((){
-            this.indicator=false;
->>>>>>> 6f97f50eb103f77756bb75326511832b4df73544
+          } else {
+            mostrarSnackBar(context,
+                'Los datos del socio no son validos por favor actualice su informacion');
+          }
+          setState(() {
+            this.indicator = false;
           });
           showDialog(
               context: context,
@@ -203,21 +190,8 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
           this.indicator = false;
         });
       },
-<<<<<<< HEAD
-      child: Text(
-        'Validar',
-        style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
-      ),
-      style: ElevatedButton.styleFrom(
-          elevation: 5.0,
-          padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 50.0),
-          primary: colores.boton,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50.0))),
-=======
       child: estilos.buttonChild(texto: 'Validar'),
       style: estilos.buttonStyle(),
->>>>>>> 6f97f50eb103f77756bb75326511832b4df73544
     );
   }
 }
