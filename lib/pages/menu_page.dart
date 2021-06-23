@@ -85,14 +85,6 @@ class MenuPage extends StatelessWidget {
                   Center(child: _Postres(),),
                   Center(child: _Masitas(),),
                   Center(child: _Bebidas(),),
-              
-                ],
-              ),
-            )
-          ],
-        ),
-      )
->>>>>>> 6f97f50eb103f77756bb75326511832b4df73544
     );
   }
 }

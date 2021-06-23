@@ -137,12 +137,7 @@ class _ButtonRecoverPass extends StatelessWidget {
   final BuildContext contexto;
   final estilos = EstilosApp();
 
-<<<<<<< HEAD
-  const _ButtonRecoverPass({@required this.keyForm, @required this.contexto});
-=======
   _ButtonRecoverPass({@required this.keyForm, @required this.contexto});
-  
->>>>>>> 6f97f50eb103f77756bb75326511832b4df73544
 
   @override
   Widget build(BuildContext context) {
@@ -150,22 +145,8 @@ class _ButtonRecoverPass extends StatelessWidget {
       onPressed: () {
         _submit(context);
       },
-<<<<<<< HEAD
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 15.0),
-        child: Text(
-          'Enviar',
-          style: TextStyle(fontSize: 20.0),
-        ),
-      ),
-      style: ElevatedButton.styleFrom(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
-          primary: Color(0xff01954C)),
-=======
       child: estilos.buttonChild(texto: 'Enviar'),
       style: estilos.buttonStyle(),
->>>>>>> 6f97f50eb103f77756bb75326511832b4df73544
     );
   }
 
