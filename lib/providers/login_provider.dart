@@ -6,7 +6,17 @@ class LoginProvider extends ChangeNotifier{
 
   String _password = '';
 
+  String _mensajeAyuda = '';
 
+
+  String get mensajeAyuda{
+    return this._mensajeAyuda;
+  }
+
+  set mensajeAyuda(String mensajeAyuda){
+    this._mensajeAyuda = mensajeAyuda;
+    notifyListeners();
+  }
   String get usuario{
     return this._usuario;
   }

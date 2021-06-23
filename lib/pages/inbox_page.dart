@@ -1,4 +1,5 @@
 import 'package:country/helpers/datos_constantes.dart';
+import 'package:country/models/mensaje_model.dart';
 import 'package:country/providers/notificacion_provider.dart';
 import 'package:country/widgets/app_bar_widget.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
@@ -62,7 +63,7 @@ class InboxPage extends StatelessWidget {
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))
                                 ),
                                 onPressed: (){
-
+                                  showDialog(context: context, builder: (context){return _Dialog(mensaje: provider.mensajes[index],);});
                                 }, 
                               ),
                             ],
@@ -78,6 +79,37 @@ class InboxPage extends StatelessWidget {
           PieLogoWidget()
         ],
       ),
+    );
+  }
+}
+
+class _Dialog extends StatelessWidget {
+  final MensajeInbox mensaje;
+  final estilos = EstilosApp();
+  _Dialog({@required this.mensaje});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(mensaje.titulo),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(mensaje.fecha),
+          Text(mensaje.mensaje),
+          
+          
+        ],
+      ),
+      actions: [
+        ElevatedButton(
+          onPressed: (){
+            Navigator.pop(context);
+          }, 
+          child:estilos.buttonChild(texto: 'Aceptar'),
+          style: estilos.buttonStyle(), 
+        )
+      ],
     );
   }
 }

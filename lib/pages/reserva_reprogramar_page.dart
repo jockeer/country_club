@@ -450,13 +450,13 @@ class _Datos extends StatelessWidget {
           ),
           ListTile(
             title: Text('Requerimientos',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
-            subtitle: Text(this.reserva.requerimientos),
+            subtitle: Text((this.reserva.requerimientos.isEmpty)?'No tiene requerimientos':this.reserva.requerimientos),
             leading: Icon(Icons.notes, color: colores.verdeOscuro,),
             tileColor: Colors.white,
           ),
           ListTile(
             title: Text('Notas',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
-            subtitle: Text('Estas notas seran cuando haya un motivo del rechazo de la reserva o alguna nota de parte del Country Club'),
+            subtitle: Text(this.reserva.obs),
             leading: Icon(Icons.note_sharp, color: colores.verdeOscuro,),
             tileColor: Colors.white,
           ),

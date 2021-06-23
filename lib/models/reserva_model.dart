@@ -32,6 +32,7 @@ class Reserva{
         this.celular,
         this.nombre,
         this.requerimientos,
+        this.obs,
         this.status,
         this.estado,
         this.nombreCab
@@ -47,6 +48,7 @@ class Reserva{
     String celular;
     String nombre;
     String requerimientos;
+    String obs;
     String status;
     String estado;
     String nombreCab;
@@ -62,6 +64,7 @@ class Reserva{
         nombre: json["nombreCustomer"],
         requerimientos: json["requerimient"],
         status: json["status"],
+        obs: json["obs"],
         nombreCab: json["nombreCabana"],
         estado: json["estado"],
     );

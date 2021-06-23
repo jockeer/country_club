@@ -74,7 +74,7 @@ class _Evento extends StatelessWidget {
           height: 150.0,
           child: Stack(
                 children: [
-                  Center(child: FadeInImage(placeholder: AssetImage('assets/icons/logo.png'), image: NetworkImage(img),fit: BoxFit.cover)),
+                  Center(child: FadeInImage(placeholder: AssetImage('assets/icons/logo.png'), image: NetworkImage(img),fit: BoxFit.cover, width: double.infinity, height: double.infinity,)),
                   // Image(image: NetworkImage(img), fit: BoxFit.fill, width: double.infinity, height: double.infinity,),
                   Column(
                     children: [
