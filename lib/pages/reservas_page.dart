@@ -1,7 +1,6 @@
 import 'package:country/providers/galeria_provider.dart';
 import 'package:country/providers/reserva_provider.dart';
 import 'package:country/widgets/app_bar_widget.dart';
-import 'package:country/widgets/menu_lateral_widget.dart';
 import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +12,6 @@ class ReservasPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarWidget(titulo: 'Reservas'),
-      drawer: MenuLateralWidget(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -87,7 +85,7 @@ class _OptCabana extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
                       color: Colors.black38,
                       width: double.infinity, 
-                      child: Text(this.titulo, style: TextStyle(color: Colors.white,fontWeight: FontWeight.w900, fontSize: 16.0),)
+                      child: Text(this.titulo, style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontSize: 16.0),)
                     )
                   ],
                 )

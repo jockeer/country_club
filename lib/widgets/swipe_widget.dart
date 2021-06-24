@@ -10,32 +10,24 @@ class ListViewWidget extends StatefulWidget {
 }
 
 class _ListViewWidgetState extends State<ListViewWidget> {
-  int _currentPage = 0;
 
-  PageController _controladorPageView = new PageController(initialPage: 0);
+  PageController _controladorPageView;
   @override
   void initState() {
     super.initState();
-  
-
-    Timer.periodic(new Duration(seconds: 3), (Timer timer) {
-      if (_currentPage <= 1) {
-        _currentPage++;
-      } else {
-        _currentPage = 0;
-      }
-      _controladorPageView.animateToPage(_currentPage,
-          duration: Duration(milliseconds: 300), curve: Curves.easeIn);
-    });
+    _controladorPageView = new PageController();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _animateSlider());
+    
 
   }
   @override
   Widget build(BuildContext context) {
     
     final phoneSize = MediaQuery.of(context).size;
-  
+   
     return PageView(
-        controller: _controladorPageView,
+      controller: _controladorPageView,
+        
         children: <Widget>[
           Container(
             width: phoneSize.width,
@@ -56,5 +48,24 @@ class _ListViewWidgetState extends State<ListViewWidget> {
         
         ],
       );
+  }
+
+  void _animateSlider() {
+    if (_controladorPageView.hasClients) {
+      
+    Future.delayed(Duration(seconds: 3))
+      .then((_) {
+        int nextPage = _controladorPageView.page.round() + 1;
+
+        if (nextPage == 3) {
+          nextPage = 0;
+        }
+
+        _controladorPageView.animateToPage(nextPage, duration: Duration(milliseconds: 300), curve: Curves.linear).then((_) => _animateSlider());
+      });
+    }else{
+      // ignore: unnecessary_statements
+      _controladorPageView.initialPage;
+    }
   }
 }

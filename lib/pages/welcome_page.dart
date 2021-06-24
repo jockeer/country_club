@@ -60,7 +60,7 @@ class _Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      child: Text(this.label , style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900), ),
+      child: Text(this.label , style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold), ),
       onPressed: (){
         Navigator.pushNamed(context, this.ruta);
       },

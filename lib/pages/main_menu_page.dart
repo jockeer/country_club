@@ -78,7 +78,7 @@ class _Menu extends StatelessWidget {
                         color: Colors.black38,
                         width: double.infinity, 
                         alignment: Alignment.centerRight,
-                        child: Text('Tarjeta de Consumo', style: TextStyle(color: Colors.white,fontWeight: FontWeight.w900),)
+                        child: Text('Tarjeta de Consumo', style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)
                       )
                     ],
                   )
@@ -160,7 +160,7 @@ class _ButtonMenu extends StatelessWidget {
                       color: Colors.black38,
                       width: double.infinity, 
                       alignment: Alignment.centerRight,
-                      child: Text(this.titulo, style: TextStyle(color: Colors.white,fontWeight: FontWeight.w900),)
+                      child: Text(this.titulo, style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)
                     )
                   ],
                 )

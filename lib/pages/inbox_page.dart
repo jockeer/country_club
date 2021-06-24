@@ -2,7 +2,6 @@ import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/models/mensaje_model.dart';
 import 'package:country/providers/notificacion_provider.dart';
 import 'package:country/widgets/app_bar_widget.dart';
-import 'package:country/widgets/menu_lateral_widget.dart';
 import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +16,6 @@ class InboxPage extends StatelessWidget {
     provider.cargarNotificaciones();
     return Scaffold(
       appBar: appBarWidget(titulo: 'Inbox'),
-      drawer: MenuLateralWidget(),
       // backgroundColor:Colors.white,
       body: Column(
         children: [

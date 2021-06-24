@@ -2,7 +2,7 @@
 import 'package:country/models/reserva_model.dart';
 import 'package:country/services/reserva_service.dart';
 import 'package:country/widgets/app_bar_widget.dart';
-import 'package:country/widgets/menu_lateral_widget.dart';
+
 import 'package:country/widgets/reserva_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +14,6 @@ class ReservaHistorialPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarWidget(titulo: 'Reservas'),
-      drawer: MenuLateralWidget(),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(

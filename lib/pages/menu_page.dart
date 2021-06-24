@@ -2,8 +2,6 @@ import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:country/widgets/menu_lateral_widget.dart';
-
 class MenuPage extends StatelessWidget {
   final categorias =['Desayunos','Sopas','Ensaladas','Pastas','Aves','Res','Pescado & Mariscos','Tipicos','Sandwichs','Hamburguesas','Milanesas','Postres','Masitas','Bebidas'];
   final colores = ColoresApp();
@@ -12,7 +10,6 @@ class MenuPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarWidget(titulo: 'Menu'),
-      drawer: MenuLateralWidget(),
       body: DefaultTabController(
         length: categorias.length,
         child: Column(

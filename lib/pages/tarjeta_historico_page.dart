@@ -5,8 +5,6 @@ import 'package:country/widgets/compra_widget.dart';
 import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:country/widgets/menu_lateral_widget.dart';
-
 class HistoricoTarjetaPage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
@@ -14,7 +12,6 @@ class HistoricoTarjetaPage extends StatelessWidget {
 
     return Scaffold(
       key: _scaffoldKey,
-      drawer: MenuLateralWidget(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -27,9 +24,9 @@ class HistoricoTarjetaPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
-        child: Icon(Icons.menu, color: Colors.white,),
+        child: Icon(Icons.arrow_back, color: Colors.white,),
         onPressed: (){
-          _scaffoldKey.currentState.openDrawer();
+          Navigator.pop(context);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,

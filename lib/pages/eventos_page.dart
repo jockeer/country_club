@@ -83,7 +83,7 @@ class _Evento extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
                         color: Colors.black38,
                         width: double.infinity, 
-                        child: Text(this.titulo, style: TextStyle(color: Colors.white,fontWeight: FontWeight.w900, fontSize: 16.0),)
+                        child: Text(this.titulo, style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontSize: 16.0),)
                       )
                     ],
                   )

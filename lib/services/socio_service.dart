@@ -95,6 +95,10 @@ class SocioService{
     if (decodedData.containsKey("access_token")) {
       print(decodedData);
       prefs.token = await decodedData["access_token"];
+
+      // final fecha = DateTime.now();
+
+      // prefs.fechaExpiracion = fecha;
       
       final _tokenService = TokenService();
       
@@ -142,7 +146,7 @@ class SocioService{
 
     final parametros = socio.toJson();
 
-    parametros["access_token"] = await prefs.token;
+    parametros["access_token"] = await prefs.tokenReg;
     parametros["type"] = (Platform.isAndroid)?"ANDROID":"IOS";
     // print(parametros);
     try {

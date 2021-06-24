@@ -9,7 +9,6 @@ import 'package:country/widgets/deuda_widget.dart';
 import 'package:country/widgets/pago_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:country/widgets/menu_lateral_widget.dart';
 import 'package:provider/provider.dart';
 
 
@@ -23,7 +22,6 @@ class MensualidadPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarWidget(titulo: "Mensualidad"),
-      drawer: MenuLateralWidget(),
       body: Column(
         children: [
           Container(

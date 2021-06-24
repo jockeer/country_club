@@ -5,7 +5,7 @@ import 'package:country/providers/tarjeta_provider.dart';
 import 'package:country/services/tarjeta_service.dart';
 import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:country/widgets/menu_lateral_widget.dart';
+
 import 'package:provider/provider.dart';
 
 
@@ -24,7 +24,6 @@ class _TarjetaPageState extends State<TarjetaPage> {
 
     return Scaffold(
       key: _scaffoldKey,
-      drawer: MenuLateralWidget(),
       body: RefreshIndicator(
         onRefresh: _refreshPuntos,
         child: SingleChildScrollView(
@@ -44,9 +43,9 @@ class _TarjetaPageState extends State<TarjetaPage> {
       floatingActionButton: FloatingActionButton(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
-        child: Icon(Icons.menu, color: Colors.white,),
+        child: Icon(Icons.arrow_back, color: Colors.white,),
         onPressed: (){
-          _scaffoldKey.currentState.openDrawer();
+          Navigator.pop(context);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,

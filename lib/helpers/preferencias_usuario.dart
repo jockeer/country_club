@@ -48,11 +48,19 @@ class PreferenciasUsuario {
 
   //GET Y SET del Token de usuario
   get token{
-    return _prefs.getString('token') ?? 'sin token';
+    return _prefs.getString('token') ?? '';
   }
 
   set token(String token){
     _prefs.setString('token', token);
+  }
+  //GET Y SET del Token de usuario
+  get tokenReg{
+    return _prefs.getString('tokenReg') ?? 'sin token';
+  }
+
+  set tokenReg(String token){
+    _prefs.setString('tokenReg', token);
   }
 
   //GET Y SET del token del telefono

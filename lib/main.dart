@@ -29,6 +29,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final prefs = PreferenciasUsuario();
+
     final colores = ColoresApp();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -57,10 +59,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Country Club',
-        initialRoute: 'welcome',
+        initialRoute: (prefs.token==''||prefs.token==null)?'welcome':'main_menu',
         routes: getAplicationRoutes(),
         theme: ThemeData(
           primarySwatch: Colors.green,
+          fontFamily: 'Montserrat'
         ),
         
       ),
