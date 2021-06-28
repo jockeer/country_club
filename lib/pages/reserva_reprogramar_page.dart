@@ -117,7 +117,7 @@ class _Formulario extends StatelessWidget {
             ),
             estilos.inputLabel(label: 'Nombre de Contacto'),
             _NombreContacto(),
-            estilos.inputLabel(label: "Telefono de contacto"),
+            estilos.inputLabel(label: "Teléfono de contacto"),
             _CelularContacto(),
             estilos.inputLabel(label: 'Requerimientos extras'),
             _Requerimientos(),
@@ -180,7 +180,12 @@ class _Requerimientos extends StatelessWidget {
       keyboardType: TextInputType.multiline,
       maxLines: 8,
       initialValue: provider.reqExtras,
-      decoration: estilos.inputDecoration(hintText: 'Requerimientos extras', padingTop: 15.0),
+      decoration: InputDecoration(
+        hintText: 'Requerimientos extras',
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        filled:true,
+        fillColor: Colors.white
+      ),
       onChanged: (value)=> provider.reqExtras = value,
     );
   }
@@ -244,7 +249,7 @@ class _HoraReserva extends StatelessWidget {
     return Expanded(
       child: Column(
         children: [
-          estilos.inputLabel(label: 'Hora de la reserva'),
+          estilos.inputLabel(label: 'Hora'),
           TextFormField(
     
             enableInteractiveSelection: false,
@@ -310,8 +315,9 @@ class _CantidadPersonas extends StatelessWidget {
 
     return Expanded(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          estilos.inputLabel(label: 'Cantidad de personas'),
+          estilos.inputLabel(label: 'Cantidad'),
           TextFormField(
             // initialValue: '0',
             style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),

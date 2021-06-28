@@ -42,7 +42,7 @@ class _RegisterPage1State extends State<RegisterPage1> {
                   children: [
                     // Image(image: AssetImage('')),
                     SizedBox(height: 80.0,),
-                    Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.85,),
+                    Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.70,),
                     _formulario(socio),
                   ],
                 ),
@@ -70,32 +70,15 @@ class _RegisterPage1State extends State<RegisterPage1> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
-                  child: Text('NOMBRES(S)', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
-                ),
+                estilos.inputLabel(label: 'Nombre(s)', obligatorio: true),
                 _InputFirstName(nombreSocio: socio.nombre,), //INPUT DONDE ESTA EL NOMBRE DE USUARIO
-                SizedBox(height: 20.0,),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
-                  child: Text('APELLIDO(S)', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                ),
+                estilos.inputLabel(label: 'Apellido(s)',obligatorio: true),
                 _InputLastName(apellidoPaterno: socio.apPaterno, apellidoMaterno: socio.apMaterno,),
-                SizedBox(height: 20.0,), // INPUT PARA EL PASSWORD
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
-                  child: Text('CORREO ELECTRONICO', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
-                ),
+                estilos.inputLabel(label: 'Correo electrónico', obligatorio: true),
                 _InputEmail(email: socio.email,), //INPUT DONDE ESTA EL NOMBRE DE USUARIO
-                SizedBox(height: 20.0,),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
-                  child: Text('CONTRASEÑA', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
-                ),
-                _InputPassword(), //INPUT DONDE ESTA EL NOMBRE DE USUARIO
-                SizedBox(height: 20.0,),
-                // SizedBox(height: 50.0,),
-               
+                estilos.inputLabel(label: 'Contraseña',obligatorio: true),
+                _InputPassword(), //INPUT DONDE ESTA EL NOMBRE DE USUARIO           
+                SizedBox(height: 30.0,),  
               ],
             ),
           ),

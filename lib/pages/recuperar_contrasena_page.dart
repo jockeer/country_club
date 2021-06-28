@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 class RecuperarPassPage extends StatelessWidget {
 
   final formstate = GlobalKey<FormState>();
+  final estilos = EstilosApp();
   
   @override
   Widget build(BuildContext context) {
@@ -30,12 +31,13 @@ class RecuperarPassPage extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(height: phoneSize.height*.2,),
-                    Text("CONTRASEÑA OLVIDADA", style: TextStyle(fontWeight: FontWeight.w900, fontSize: phoneSize.width*0.05),),
+                    Text("CONTRASEÑA OLVIDADA", style: TextStyle(fontWeight: FontWeight.bold, fontSize: phoneSize.width*0.05),),
                     SizedBox(height: 50.0,),
+                    Padding(padding: EdgeInsets.symmetric(horizontal: 50.0), child: estilos.inputLabel(label: 'Correo electrónico',obligatorio: true)),
                     Form( key: formstate ,child: _Formulario()),
                     SizedBox(height: 50.0,),
                     _ButtonRecoverPass(keyForm: formstate, contexto: context,),
-                    SizedBox(height: phoneSize.height*0.3,),
+                    SizedBox(height: 50.0,),
                     Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.5,),
                     SizedBox(height: 20.0,),
                     
@@ -147,17 +149,17 @@ class _ButtonRecoverPass extends StatelessWidget {
       final tokenService = TokenService();
       await tokenService.obtenerToken();
       final respuesta = await socioService.recoverPassword(provider.email);
+      provider.carga=false;
       if (respuesta == null) {
-        return;
+        return mostrarSnackBar(contexto, 'Error con el servidor');
       }
       if (respuesta["Status"]==false) {
-        provider.carga=false;
         return mostrarSnackBar(contexto, respuesta["Message"]);
         
       }
       else{
         provider.carga=false;
-        showDialog(context: contexto, builder: (context){return  SuccessDialogWidget(mensaje: 'Revise su correo electronico', ruta: 'login',);});
+        showDialog(context: contexto, builder: (context){return  SuccessDialogWidget(mensaje: 'Revise su correo electrónico', ruta: 'login',);});
       
       }
   }

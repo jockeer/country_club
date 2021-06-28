@@ -39,7 +39,7 @@ class ButtonsBottom extends StatelessWidget {
               child: _Button(label: 'Ingresa', color: colores.naranja, ruta: 'login') 
             ),
             Expanded(
-              child: _Button(label: 'Registrate', color: colores.verdeOscuro, ruta: 'codigo') 
+              child: _Button(label: 'Regístrate', color: colores.verdeOscuro, ruta: 'codigo') 
             ),
             SizedBox(width: 10.0,),
           ],

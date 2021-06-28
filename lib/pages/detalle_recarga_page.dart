@@ -88,7 +88,7 @@ class _Detalle extends StatelessWidget {
                   text: TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
-                      TextSpan(text: 'Codigo del Socio: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                      TextSpan(text: 'Código del socio: ', style: TextStyle(fontWeight: FontWeight.bold)),
                       TextSpan(text: prefs.codigoSocio, style: TextStyle(fontSize: 18))
                     ]
                   ),
@@ -124,7 +124,7 @@ class _Detalle extends StatelessWidget {
                 text: TextSpan(
                   style: TextStyle(color: Colors.black),
                   children: [
-                    TextSpan(text: 'Numero Tarjeta: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                    TextSpan(text: 'Número de Tarjeta: ', style: TextStyle(fontWeight: FontWeight.bold)),
                     TextSpan(text: '**** **** **** '+tarjeta.cardNumber.substring(tarjeta.cardNumber.length-4))
                   ]
                 ),

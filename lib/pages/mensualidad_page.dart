@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 
 class MensualidadPage extends StatelessWidget {
 
-  final colores =ColoresApp();
+  final colores = ColoresApp();
 
   @override
   Widget build(BuildContext context) {
@@ -22,30 +22,30 @@ class MensualidadPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarWidget(titulo: "Mensualidad"),
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            color: colores.gris,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('Pagos realizados', style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+      body:DefaultTabController(
+        length: 2,
+        child: Column(
+          children: [
+            TabBar(
+              indicatorColor: colores.verdeOscuro,
+              indicatorWeight: 4.0,
+              labelColor: Colors.black,
+              tabs: [
+                Tab(child: Text('Pagos Pendientes', style: TextStyle(fontWeight: FontWeight.bold),),),
+                Tab(child: Text('Pagos Realizados', style: TextStyle(fontWeight: FontWeight.bold),),),
+              ],
             ),
-          ),
-          _PagosHistorico(),        
-          Container(
-            width: double.infinity,
-            color: colores.naranja,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('Pagos pendientes', style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
-            ),
-          ),
-          _DeudasHistorico(),
-
-          
-        ],
-      )
+            Expanded(
+              child: TabBarView(
+                children: [
+                  _DeudasHistorico(),
+                  _PagosHistorico()
+                ],
+              ),
+            )
+          ],
+        ),
+      ) 
     );
   }
 }
@@ -60,8 +60,7 @@ class _PagosHistorico extends StatelessWidget {
         future: _tarjetaService.obtenerHistoricoPagos(),
         builder: (context, AsyncSnapshot<List<Pago>> snapshot){
           if (snapshot.hasData) {
-            return Expanded(
-              child: Column(
+            return Column(
                 children: [
                   PagosWidget(pagos: snapshot.data),
                   Container(
@@ -84,8 +83,7 @@ class _PagosHistorico extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-            );
+              );
           }else{
             return Center(child: CircularProgressIndicator(),);
           }
@@ -101,12 +99,9 @@ class _DeudasHistorico extends StatelessWidget {
   final estilos = EstilosApp();
   @override
   Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
     final provider = Provider.of<TarjetaProvider>(context, listen: false);
     
-    return SizedBox(
-      height: phoneSize.height*0.3,
-      child: FutureBuilder(
+    return FutureBuilder(
         future: _tarjetaService.obtenerHistoricoDeudas(),
         builder: (context, AsyncSnapshot<List<Deuda>> snapshot){
           if (snapshot.hasData) {
@@ -140,8 +135,7 @@ class _DeudasHistorico extends StatelessWidget {
           }
           return Center(child: CircularProgressIndicator(),);
         },
-      ),
-    );
+      );
   }
 }
 

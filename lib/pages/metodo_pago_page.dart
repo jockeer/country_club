@@ -94,9 +94,10 @@ class _Opciones extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: 10.0,),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text('Tarjeta Debito / Credito', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16.0),),
+          child: Text('Tarjeta de Débito / Crédito', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16.0),),
         ),
         Divider(),
         // RadioListTile(title: Text('Puntos'),value: '1', groupValue: provider.modoPago, onChanged: (value){ provider.modoPago=value;}),

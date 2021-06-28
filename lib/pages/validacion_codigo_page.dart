@@ -80,13 +80,13 @@ class _ValidacionCodigoPageState extends State<ValidacionCodigoPage> {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
-                  child: Text('CODIGO', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                  child: Text('Código del Socio', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
                 ),
                 _InputCodigoSocio(),
                 SizedBox(height: 20.0,),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
-                  child: Text('CARNET', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                  child: Text('Carnet de identidad', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
                 ),
                 _InputCISocio(),
                 SizedBox(height: 20.0,),
@@ -166,7 +166,7 @@ class _InputCodigoSocio extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
-        hintText: 'Codigo Socio',
+        hintText: 'Código Socio',
         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
         enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),

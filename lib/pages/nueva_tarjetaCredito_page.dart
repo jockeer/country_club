@@ -97,7 +97,7 @@ class _Formulario extends StatelessWidget {
         dateValidationMessage: 'Ingrese una fecha Valida',
         numberValidationMessage: 'Ingrese un numero Valido',
         cvvCodeDecoration: estilos.inputTarjetaDecoration(hintText: 'XXX',labelText: 'CVV'),
-        cardNumberDecoration: estilos.inputTarjetaDecoration(hintText: 'XXXX XXXX XXXX XXXX',labelText: 'Numero de tarjeta'),
+        cardNumberDecoration: estilos.inputTarjetaDecoration(hintText: 'XXXX XXXX XXXX XXXX',labelText: 'Número de tarjeta'),
         cardHolderDecoration: estilos.inputTarjetaDecoration(hintText: 'Nombre',labelText: 'Nombre de la tarjeta'),
         expiryDateDecoration: estilos.inputTarjetaDecoration(hintText: 'MM/YY', labelText: 'MM/YY'),
       ),
