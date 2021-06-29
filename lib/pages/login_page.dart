@@ -144,6 +144,7 @@ class _LoginPageState extends State<LoginPage> {
         prefs.nombreSocio = '${socio.nombre} ${socio.apPaterno}';
         prefs.correoSocio = '${socio.email}';
         prefs.codigoSocio = '${socio.codigo}';
+        prefs.telefonoSocio = '${socio.celular}';
 
         Navigator.pushNamed(context, 'main_menu');
         FocusScope.of(context).unfocus();

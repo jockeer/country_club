@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/utils/comprobar_conexion.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
@@ -29,4 +30,22 @@ class PdfService{
     }
     return completer.future;
   }
+  Future<File> reglamento(String asset)async{
+    try {
+      var data =await rootBundle.load(asset);
+      var bytes = data.buffer.asUint8List();
+      var dir = await getApplicationDocumentsDirectory();
+      File file = File("${dir.path}/reglamento.pdf");
+
+      File assetFile = await file.writeAsBytes(bytes);
+      return assetFile;
+
+
+    } catch (e) {
+      throw Exception("Error opening asset file");
+    }
+
+
+
+    }
 }

@@ -32,18 +32,18 @@ class _ListViewWidgetState extends State<ListViewWidget> {
           Container(
             width: phoneSize.width,
             height: phoneSize.height,
-            child: Image(image: AssetImage('assets/backgrounds/fondo_inicio.png'), fit: BoxFit.cover,),
+            child: Image(image: AssetImage('assets/backgrounds/fondo_inicio.jpg'), fit: BoxFit.cover,),
             
           ),    
           Container(
             width: phoneSize.width,
             height: phoneSize.height,
-            child: Image(image: AssetImage('assets/backgrounds/fondo_inicio2.png'), fit: BoxFit.cover,),
+            child: Image(image: AssetImage('assets/backgrounds/fondo_inicio2.jpg'), fit: BoxFit.cover,),
           ),    
           Container(
             width: phoneSize.width,
             height: phoneSize.height,
-            child: Image(image: AssetImage('assets/backgrounds/fondo_inicio3.png'), fit: BoxFit.cover,),
+            child: Image(image: AssetImage('assets/backgrounds/fondo_inicio3.jpg'), fit: BoxFit.cover,),
           ),           
         
         ],

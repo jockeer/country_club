@@ -1,6 +1,7 @@
 
 import 'dart:math';
 import 'package:country/helpers/datos_constantes.dart';
+import 'package:country/models/cabana_model.dart';
 import 'package:country/widgets/sesion_caducada_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,6 @@ import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/models/reserva_model.dart';
 import 'package:country/providers/reserva_provider.dart';
 import 'package:country/services/reserva_service.dart';
-import 'package:country/utils/comprobar_conexion.dart';
 import 'package:country/utils/form_validator.dart';
 import 'package:country/utils/show_snack_bar.dart';
 import 'package:country/widgets/app_bar_widget.dart';
@@ -30,7 +30,7 @@ class _ReservaProcesoPageState extends State<ReservaProcesoPage> {
   Widget build(BuildContext context) {
 
     final provider = Provider.of<ReservaProvider>(context, listen: true);
-
+    final List<Cabana> cabanas = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarWidget(titulo: 'Reservas'),
@@ -45,7 +45,7 @@ class _ReservaProcesoPageState extends State<ReservaProcesoPage> {
           child: ListView(
             children: [
               SizedBox(height: 20.0,),
-              _Categoria(),
+              _Cabana(cabanas: cabanas),
               _Calendar(),
               _FormularioReservas(formState: formState)
             ],
@@ -75,7 +75,11 @@ class _ReservaProcesoPageState extends State<ReservaProcesoPage> {
   }
 }
 
-class _Categoria extends StatelessWidget {
+class _Cabana extends StatelessWidget {
+
+  final List<Cabana> cabanas;
+
+  _Cabana({@required this.cabanas});
 
   @override
   Widget build(BuildContext context) {
@@ -97,13 +101,9 @@ class _Categoria extends StatelessWidget {
           icon: Icon(Icons.arrow_circle_down_outlined),
           isExpanded: true,
           value: provider.codigoCab,
-          items: [
-            DropdownMenuItem(child: Text('La Palmera', style: TextStyle(color: Colors.black),), value: '1',),
-            DropdownMenuItem(child: Text('Bar Asai', style: TextStyle(color: Colors.black),), value: '2',),
-            DropdownMenuItem(child: Text('El Caribeño', style: TextStyle(color: Colors.black),), value: '3',),
-            DropdownMenuItem(child: Text('Cabaña Sumuque', style: TextStyle(color: Colors.black),), value: '4',),
-            DropdownMenuItem(child: Text('Hoyo 19', style: TextStyle(color: Colors.black),), value: '5',),
-          ],
+          items: cabanas.map((cabana) {
+            return DropdownMenuItem(child: Text(cabana.nombreCabana, style: TextStyle(color: Colors.black),), value: cabana.id,);
+          }).toList(),
           onChanged: (opt){
             provider.codigoCab=opt;
           },
@@ -161,6 +161,7 @@ class __CalendarState extends State<_Calendar> {
 class _FormularioReservas extends StatelessWidget {
   final GlobalKey<FormState> formState;
 
+  final colores = ColoresApp();
   final estilos = EstilosApp();
   final prefs = PreferenciasUsuario();
   final reservaService = ReservaService();
@@ -169,7 +170,7 @@ class _FormularioReservas extends StatelessWidget {
 
   @override 
   Widget build(BuildContext context) {
-  final provider = Provider.of<ReservaProvider>(context, listen: false);
+    final provider = Provider.of<ReservaProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
       child: Form(
@@ -201,12 +202,41 @@ class _FormularioReservas extends StatelessWidget {
               ],
             ),
             SizedBox(height: 20.0,),
-            estilos.inputLabel(label: 'Celular de Contacto'),
-            _CelularContacto(),
-            estilos.inputLabel(label: 'Nombre de Contacto'),
-            _NombreContacto(),
+            estilos.inputLabel(label: 'Motivo del evento', obligatorio: true),
+            _MotivoEvento(),
+            estilos.inputLabel(label: 'Reserva:', obligatorio: true),
+            RadioListTile(title: Text('Personal'),value: '1', groupValue: provider.destinatario, onChanged: (value){provider.destinatario=value;}),
+            RadioListTile(title: Text('Otra persona'),value: '2', groupValue: provider.destinatario, onChanged: (value){provider.destinatario=value;}),
+            (provider.destinatario == '1')
+            ?Container()
+            :Column(
+              children: [
+              estilos.inputLabel(label: 'Celular de Contacto', obligatorio: true),
+              _CelularContacto(),
+              estilos.inputLabel(label: 'Nombre de Contacto', obligatorio: true),
+              _NombreContacto(),
+
+              ],
+            ),
             estilos.inputLabel(label: 'Requerimientos extras'),
             _RequerimientosExtras(),
+            SizedBox(height: 20.0,),
+
+            SwitchListTile(
+              title:TextButton(
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  alignment: Alignment.centerLeft
+                ),
+                child: Text('Términos y Condiciones (Leer)', style:TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline, color: Colors.black ) ),
+                onPressed: (){
+                  Navigator.pushNamed(context, 'reglamento');
+                },
+              ),
+              subtitle: Text('Al realizar una reserva estas aceptando los reglamentos internos para realizar un evento'),
+              value: provider.terminos,
+              onChanged: (value)=>provider.terminos=value,
+            ),
             SizedBox(height: 20.0,),
             _ButtonReserva(formState: this.formState,),
          
@@ -373,6 +403,26 @@ class _DialogInfo extends StatelessWidget {
   }
 }
 
+class _MotivoEvento extends StatelessWidget {
+  final estilos = EstilosApp();
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<ReservaProvider>(context);
+    return TextFormField(
+      keyboardType: TextInputType.text,
+      decoration: estilos.inputDecoration(hintText: 'Motivo del evento'),
+      validator: (value){
+        if (value.isEmpty) {
+          return "Indique el motivo del evento";
+        }
+        return null;
+      },
+      onChanged: (value){
+        provider.motivoReserva = value;
+      },
+    );
+  }
+}
 class _CelularContacto extends StatelessWidget {
   final estilos = EstilosApp();
   @override
@@ -396,9 +446,10 @@ class _CelularContacto extends StatelessWidget {
 
 class _NombreContacto extends StatelessWidget {
   final estilos = EstilosApp();
+  final prefs = PreferenciasUsuario();
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ReservaProvider>(context);
+    final provider = Provider.of<ReservaProvider>(context, listen: true);
     return TextFormField(
       decoration: estilos.inputDecoration(hintText: 'Nombre de contacto'),
       validator: (value){
@@ -487,7 +538,13 @@ class _ButtonReserva extends StatelessWidget {
           if (provider.fecha.isEmpty) {
             return mostrarSnackBar(context, 'Debe elegir una fecha');
           }
-          if(!this.formState.currentState.validate())return;
+          if(provider.terminos==false){
+            return mostrarSnackBar(context, 'Debe aceptar los terminos y condiciones para realizar una reserva');
+          }
+
+          if(!this.formState.currentState.validate()){
+            return mostrarSnackBar(context, 'Debe llenar todos los campos correctamente');
+          }
 
           provider.carga = true;
 
@@ -497,12 +554,21 @@ class _ButtonReserva extends StatelessWidget {
           nuevaReserva.fecha = provider.fecha;
           nuevaReserva.hora = provider.hora;
           nuevaReserva.cantidad = provider.cantPersonas;
-          nuevaReserva.celular = provider.telefono;
-          nuevaReserva.nombre = provider.nombre;
+          if (provider.destinatario=='1') {
+            nuevaReserva.nombre = prefs.nombreSocio;
+            nuevaReserva.celular = prefs.telefonoSocio;
+          }
+          else{
+            nuevaReserva.nombre = provider.nombre;
+            nuevaReserva.celular = provider.telefono;
+
+          }
           nuevaReserva.requerimientos = provider.reqExtras;
+          nuevaReserva.motivo = provider.motivoReserva;
 
           final respuesta = await _reservaService.guardarReserva(nuevaReserva);
           provider.carga = false;
+          print(nuevaReserva.toJson());
 
           if (respuesta==null) {
             return showDialog(context: context, builder: (context){ return NoInternetWidget(); });

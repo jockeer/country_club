@@ -19,23 +19,14 @@ class EventosService{
 
   Future<dynamic> obtenerEventos()async{
     final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/get_publicity');
-    //print(url); 
-
     final conexion = await comprobarInternet();
     if (!conexion) {
       return null;
     }
-
     try {
       final respuesta = await http.get(url);
-
       final decoded = jsonDecode(respuesta.body);
-
-      
-      
-
-      return decoded["Data"];
-      
+      return decoded["Data"];  
     } catch (e) {
       return null;
     }

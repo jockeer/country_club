@@ -58,6 +58,7 @@ class _ReservaReproPageState extends State<ReservaReproPage> {
 
   Widget _formulario(Reserva reserva){
     return (reserva.status=='1')?_Formulario(reserva: reserva, reservaFormState:reservaFormState):_Datos(reserva: reserva,);
+    // return (reserva.status=='1')?_Formulario(reserva: reserva, reservaFormState:reservaFormState):Container();
   }
 
   Widget _crearAppBar(Reserva reserva) {
@@ -76,7 +77,7 @@ class _ReservaReproPageState extends State<ReservaReproPage> {
           style: TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold),
         ),
         background: FadeInImage(
-          image: AssetImage('assets/images/${(reserva.cabanaid == '1' )?'La_palmera':(reserva.cabanaid == '2' ) ?'Bar_Asai' :(reserva.cabanaid == '3' )?'El_Caribeño':(reserva.cabanaid == '4' )?'Cabaña_Sumuque':(reserva.cabanaid == '5' )?'Hoyo_19':null}.png',),
+          image: AssetImage('assets/images/${reserva.foto}'),
           placeholder: AssetImage('assets/icons/logo.png'),
           fit: BoxFit.cover,
         ),
@@ -407,50 +408,48 @@ class _Datos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final phoneSize = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
-      child: Column(
+    return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
             title: Text('Cabaña',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
-            trailing: Text(this.reserva.nombreCab),
+            subtitle: Text(this.reserva.nombreCab),
             leading: Icon(Icons.home_outlined, color: colores.verdeOscuro,),
             tileColor: Colors.white,
           ),
           ListTile(
             title: Text('Estado',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
-            trailing: Text(this.reserva.estado, style: TextStyle(color: (reserva.status == "2") ? Colors.green : (reserva.status =="1")?Colors.orange: ((reserva.status =="3"))?Colors.red: Colors.black54, fontWeight: FontWeight.bold),),
+            subtitle: Text(this.reserva.estado, style: TextStyle(color: (reserva.status == "2") ? Colors.green : (reserva.status =="1")?Colors.orange: ((reserva.status =="3"))?Colors.red: Colors.black54, fontWeight: FontWeight.bold),),
             leading: Icon(Icons.info_outline, color: colores.verdeOscuro,),
             tileColor: Colors.white,
           ),
           ListTile(
             title: Text('Cantidad',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
-            trailing: Text(this.reserva.cantidad+ ' personas'),
+            subtitle: Text(this.reserva.cantidad+ ' personas'),
             leading: Icon(Icons.data_saver_off_sharp, color: colores.verdeOscuro,),
             tileColor: Colors.white,
           ),
           ListTile(
             title: Text('Celular de referencia',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
-            trailing: Text(this.reserva.celular),
+            subtitle: Text(this.reserva.celular),
             leading: Icon(Icons.phone_sharp, color: colores.verdeOscuro,),
             tileColor: Colors.white,
           ),
           ListTile(
             title: Text('Nombre de referencia',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
-            trailing: Text(this.reserva.nombre),
+            subtitle: Text(this.reserva.nombre, overflow: TextOverflow.ellipsis,),
             leading: Icon(Icons.person, color: colores.verdeOscuro,),
             tileColor: Colors.white,
           ),
           ListTile(
             title: Text('Fecha',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
-            trailing: Text(this.reserva.fecha.substring(0,10)),
+            subtitle: Text(this.reserva.fecha.substring(0,10)),
             leading: Icon(Icons.date_range_sharp, color: colores.verdeOscuro,),
             tileColor: Colors.white,
           ),
           ListTile(
             title: Text('Hora',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
-            trailing: Text(this.reserva.hora),
+            subtitle: Text(this.reserva.hora),
             leading: Icon(Icons.av_timer_outlined, color: colores.verdeOscuro,),
             tileColor: Colors.white,
           ),
@@ -462,7 +461,7 @@ class _Datos extends StatelessWidget {
           ),
           ListTile(
             title: Text('Notas',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
-            subtitle: Text(this.reserva.obs),
+            subtitle: Text((this.reserva.obs == null) ? 'Sin notas':this.reserva.obs),
             leading: Icon(Icons.note_sharp, color: colores.verdeOscuro,),
             tileColor: Colors.white,
           ),
@@ -471,7 +470,6 @@ class _Datos extends StatelessWidget {
           SizedBox(height: 20.0,),
 
         ],
-      ),
-    );
+      );
   }
 }

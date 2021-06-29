@@ -1,5 +1,7 @@
+import 'package:country/models/cabana_model.dart';
 import 'package:country/providers/galeria_provider.dart';
 import 'package:country/providers/reserva_provider.dart';
+import 'package:country/services/cabana_service.dart';
 import 'package:country/widgets/app_bar_widget.dart';
 import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:flutter/material.dart';
@@ -12,43 +14,60 @@ class ReservasPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarWidget(titulo: 'Reservas'),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _MenuReservas(),
-            PieLogoWidget()
-          ],
-        ),
-      ),
+      body: _MenuReservas(),
     );
   }
 }
 
 class _MenuReservas extends StatelessWidget {
+  
+  final _cabanaService = CabanaService();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: [
-          _OptCabana(titulo: 'La palmera', img: 'La_palmera.png', subcat: 1,galeria: 'palmeras',),
-          _OptCabana(titulo: 'Bar Asai',img: 'Bar_Asai.png', subcat: 2,galeria: 'asai',),
-          _OptCabana(titulo: 'El Caribeño',img: 'El_Caribeño.png', subcat: 3, galeria: 'caribeno',),
-          _OptCabana(titulo: 'Cabaña Sumuque',img: 'Cabaña_Sumuque.png', subcat: 4,galeria: 'sumuque',),
-          _OptCabana(titulo: 'Hoyo 19',img: 'Hoyo_19.png', subcat: 5,galeria: 'hoyo19',),
-        ],
-      ); 
+      return FutureBuilder(
+        future: _cabanaService.obtenerCabanas(),
+        builder: (_, AsyncSnapshot<List<Cabana>> snapshot){
+          if (snapshot.hasData) {
+            return Column(
+              children: [
+                _Cabanas(cabanas: snapshot.data,),
+                PieLogoWidget()
+              ],
+            );
+          }
+          return Center(child: CircularProgressIndicator(),);
+        },
+      );
+  }
+}
+class _Cabanas extends StatelessWidget {
+  final List<Cabana> cabanas;
+
+  _Cabanas({@required this.cabanas});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: cabanas.length,
+        itemBuilder: (_,index){
+          return _OptCabana(titulo: cabanas[index].nombreCabana, foto: cabanas[index].foto, idcab: cabanas[index].id, galeria: 'palmeras', cabanas: this.cabanas,);
+        },
+      ),
+    );
   }
 }
 
 class _OptCabana extends StatelessWidget {
 
-  // final Image imagen;
   final String titulo;
-  final String img;
+  final String foto;
   final String galeria;
-  final int subcat;
+  final String idcab;
+  final List<Cabana> cabanas;
 
-  const _OptCabana({@required this.img ,@required this.titulo, @required this.subcat, this.galeria});
+  const _OptCabana({@required this.foto ,@required this.titulo, @required this.idcab, this.galeria, this.cabanas});
 
 
   @override
@@ -57,40 +76,40 @@ class _OptCabana extends StatelessWidget {
     final providerGaleria = Provider.of<GaleriaProvider>(context);
     return GestureDetector(
       onTap: (){
-        provider.codigoCab = this.subcat.toString();
-        Navigator.pushNamed(context, 'reserva_proceso');
+        provider.codigoCab = this.idcab;
+        Navigator.pushNamed(context, 'reserva_proceso', arguments: this.cabanas);
       },
       child: Container(
         width: double.infinity,
         height: 150.0,
         child: Stack(
+          children: [
+            FadeInImage(placeholder: AssetImage('assets/icons/logo.png'), image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/cabanas/$foto'),fit: BoxFit.fill, width: double.infinity, height: double.infinity,),
+            Column(
               children: [
-                Image(image: AssetImage('assets/images/${this.img}'), fit: BoxFit.fill, width: double.infinity, height: double.infinity,),
-                Column(
-                  children: [
-                    GestureDetector(
-                      onTap: (){
-                        providerGaleria.galeria=this.galeria;
-                        Navigator.pushNamed(context, 'galeria');
-                      },
-                      child: Container(
-                        width: double.infinity, 
-                        padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                        alignment: Alignment.centerRight,
-                        child: Image(image: AssetImage('assets/icons/foto.png'),width: 25.0,),            
-                      ),
-                    ),
-                    Expanded(child: Container(),),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
-                      color: Colors.black38,
-                      width: double.infinity, 
-                      child: Text(this.titulo, style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontSize: 16.0),)
-                    )
-                  ],
+                GestureDetector(
+                  onTap: (){
+                    providerGaleria.galeria=this.galeria;
+                    Navigator.pushNamed(context, 'galeria');
+                  },
+                  child: Container(
+                    width: double.infinity, 
+                    padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                    alignment: Alignment.centerRight,
+                    child: Image(image: AssetImage('assets/icons/foto.png'),width: 25.0,),            
+                  ),
+                ),
+                Expanded(child: Container(),),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
+                  color: Colors.black38,
+                  width: double.infinity, 
+                  child: Text(this.titulo, style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontSize: 16.0),)
                 )
               ],
-            ),
+            )
+          ],
+        ),
       ),
     );
   }

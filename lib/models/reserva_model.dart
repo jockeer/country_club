@@ -33,9 +33,11 @@ class Reserva{
         this.nombre,
         this.requerimientos,
         this.obs,
+        this.motivo,
         this.status,
         this.estado,
-        this.nombreCab
+        this.nombreCab,
+        this.foto
     });
 
     String id;
@@ -49,9 +51,11 @@ class Reserva{
     String nombre;
     String requerimientos;
     String obs;
+    String motivo;
     String status;
     String estado;
     String nombreCab;
+    String foto;
 
     factory Reserva.fromJson(Map<String, dynamic> json) => Reserva(
         id: json["id"],
@@ -61,11 +65,13 @@ class Reserva{
         hora: json["hora"],
         cantidad: json["cantidad"],
         celular: json["celular"],
-        nombre: json["nombreCustomer"],
+        nombre: json["nombreCustomer"], 
+        motivo: json["motivo"], 
         requerimientos: json["requerimient"],
         status: json["status"],
         obs: json["obs"],
         nombreCab: json["nombreCabana"],
+        foto: json["foto"],
         estado: json["estado"],
     );
 
@@ -79,5 +85,6 @@ class Reserva{
         "nombre": nombre,
         "requerimientos": requerimientos,
         "codecli": codecli,
+        "motivo": motivo
     };
 }
