@@ -74,121 +74,72 @@ class _Detalle extends StatelessWidget {
             child:(provider.tipoPago==1)
             ? Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Recarga de Tarjeta de Socio',style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),),
+              child: Text('Recarga de Tarjeta de Socio',style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
+            )
+            : (provider.tipoPago==3)
+            ?Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('Recarga de Tarjeta de Dependiente',style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
             )
             : Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Pago de Membresia',style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),),
+              child: Text('Pago de Membresia',style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
             )
+            
           ),
           Divider(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-             child: RichText(
-                  text: TextSpan(
-                    style: TextStyle(color: Colors.black),
-                    children: [
-                      TextSpan(text: 'Código del socio: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                      TextSpan(text: prefs.codigoSocio, style: TextStyle(fontSize: 18))
-                    ]
-                  ),
-                ),
-            ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RichText(
-              text: TextSpan(
-                style: TextStyle(color: Colors.black),
-                children: [
-                  TextSpan(text: 'Monto: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                  TextSpan(text: provider.montoRecarga + ' Bs.')
-                ]
-              ),
-            ),
-          ), 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RichText(
-              text: TextSpan(
-                style: TextStyle(color: Colors.black),
-                children: [
-                  TextSpan(text: 'Titular: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                  TextSpan(text: tarjeta.cardHolderName)
-                ]
-              ),
-            ),
-          ),            
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RichText(
-                text: TextSpan(
-                  style: TextStyle(color: Colors.black),
-                  children: [
-                    TextSpan(text: 'Número de Tarjeta: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                    TextSpan(text: '**** **** **** '+tarjeta.cardNumber.substring(tarjeta.cardNumber.length-4))
-                  ]
-                ),
-            ),
-          ),
+          _Info(titulo: 'Código del socio: ', texto: prefs.codigoSocio),
+          
+          (provider.tipoPago == 3)
+          ?_Info(titulo: 'Código del dependiente: ', texto: provider.codigoTarjeta) 
+          :Container(),
+
+          _Info(titulo: 'Titular: ', texto: prefs.nombreSocio),
+          
+          (provider.tipoPago == 3)
+          ? _Info(titulo: 'Dependiente: ', texto: provider.dependiente)
+          :Container(),
+          _Info(titulo: 'Monto: ', texto: provider.montoRecarga + ' Bs.'), 
+          _Info(titulo: 'Número de Tarjeta: ', texto: '**** **** **** '+tarjeta.cardNumber.substring(tarjeta.cardNumber.length-4)),
+
           Container(
             child: (provider.tipoPago==2)
             ?Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RichText(
-                      text: TextSpan(
-                        style: TextStyle(color: Colors.black),
-                        children: [
-                          TextSpan(text: 'Codigo de Deuda: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                          TextSpan(text: provider.deuda.idDeuda.toString())
-                        ]
-                      ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RichText(
-                      text: TextSpan(
-                        style: TextStyle(color: Colors.black),
-                        children: [
-                          TextSpan(text: 'Detalle: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                          TextSpan(text: provider.deuda.detalle)
-                        ]
-                      ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RichText(
-                      text: TextSpan(
-                        style: TextStyle(color: Colors.black),
-                        children: [
-                          TextSpan(text: 'Tipo: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                          TextSpan(text: provider.deuda.tipo)
-                        ]
-                      ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RichText(
-                      text: TextSpan(
-                        style: TextStyle(color: Colors.black),
-                        children: [
-                          TextSpan(text: 'Fecha: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                          TextSpan(text: provider.deuda.fecha.substring(0,10))
-                        ]
-                      ),
-                  ),
-                ),
+                _Info(titulo: 'Codigo de Deuda: ', texto: provider.deuda.idDeuda.toString()),
+                _Info(titulo: 'Detalle: ', texto: provider.deuda.detalle),
+                _Info(titulo: 'Tipo: ', texto: provider.deuda.tipo),
+                _Info(titulo: 'Fecha: ', texto: provider.deuda.fecha.substring(0,10))
               ],
             )
-            :null
-            ,
+            :Container(),
           )
         ],
+      ),
+    );
+  }
+}
+
+class _Info extends StatelessWidget {
+
+  final String titulo;
+  final String texto;
+
+  _Info({@required this.titulo, @required this.texto});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: RichText(
+        text: TextSpan(
+          style: TextStyle(color: Colors.black),
+          children: [
+            TextSpan(text: this.titulo, style: TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(text: this.texto)
+          ]
+        ),
       ),
     );
   }

@@ -1,5 +1,8 @@
+import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/models/compra_model.dart';
+import 'package:country/models/socio_model.dart';
+import 'package:country/services/socio_service.dart';
 import 'package:country/services/tarjeta_service.dart';
 import 'package:country/widgets/compra_widget.dart';
 import 'package:country/widgets/pie_logo_widget.dart';
@@ -12,15 +15,13 @@ class HistoricoTarjetaPage extends StatelessWidget {
 
     return Scaffold(
       key: _scaffoldKey,
-      body: SingleChildScrollView(
-        child: Column(
+      body: Column(
           children: [
             _Tarjeta(),
-            _UltimasTransacciones(),
+            Expanded(child: _UltimasTransacciones()),
             PieLogoWidget()
           ],
         ),
-      ),
       floatingActionButton: FloatingActionButton(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
@@ -38,22 +39,12 @@ class _Tarjeta extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final phoneSize = MediaQuery.of(context).size;
-
-
     return SafeArea(
       child: Container(
         width: phoneSize.width,
         height: phoneSize.height*0.35,
         decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/Tarjeta_consumo.png'),fit: BoxFit.fill)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            
-            // Text('Tarjeta de consumo', style: TextStyle(color: Colors.white38, fontSize: phoneSize.width*0.06),),
-          ],
-        ),
       ),
     );
   }
@@ -61,42 +52,101 @@ class _Tarjeta extends StatelessWidget {
 
 class _UltimasTransacciones extends StatelessWidget {
 
-  final _tarjetaService = TarjetaService();
-  final prefs = PreferenciasUsuario();
+  final _socioService = SocioService();
 
   @override
   Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
 
-    return Column(
-      children: [
-        Container(
-          color: Color(0xffC3C3C3),
-          width: phoneSize.width,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0,horizontal: 25.0),
-            child: Text('Ultimas transacciones',style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),),
+    return FutureBuilder(
+        future: _socioService.obtenerDependientes(),
+        builder: (_, AsyncSnapshot<List<Socio>> snapshot){
+          if (snapshot.hasData) {
+            return _Menu(dependientes: snapshot.data,);
+          }
+          return Center(child: CircularProgressIndicator(),);
+        },
+    );
+  }
+}
+
+class _Menu extends StatelessWidget {
+  final List<Socio> dependientes;
+  final colores = ColoresApp();
+
+  _Menu({@required this.dependientes});
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Column(
+        children: [
+          TabBar(
+            indicatorColor: colores.verdeOscuro,
+            labelColor: Colors.black,
+            tabs: [
+              Tab(child: Text('Mis transacciones', style: TextStyle(fontWeight: FontWeight.bold),),),
+              Tab(child: Text('Dependientes', style: TextStyle(fontWeight: FontWeight.bold),),),
+            ],
           ),
-        ),
-        Container(
-          height: phoneSize.height*0.45,
-          child: FutureBuilder(
-            future: _tarjetaService.obtenerHistoricoCompras(prefs.codigoSocio),
-            builder: (BuildContext context, AsyncSnapshot<List<Compra>> snapshot ){
-              if (snapshot.hasData) {
-                if (snapshot.data[0]==null) {
-                  return Center(child: Text('no tiene conexion a internet'),);
-                }
-                return CompraWidget(compras: snapshot.data);
-              }
-              else{
-                return Center(child: CircularProgressIndicator(),);
-              }
-            },
+          Expanded(
+            child: TabBarView(
+              children: [
+                _Transacciones(),
+                (this.dependientes.length == 0)
+                ? Center(child: Text('No tiene dependientes'),)
+                :_Dependientes(dependientes: dependientes,),
+                
+              ],
+            ),
           ),
-        )
-        
-      ],
+        ],
+      ),
+    );
+  }
+}
+
+class _Transacciones extends StatelessWidget {
+  final _tarjetaService = TarjetaService();
+  final prefs = PreferenciasUsuario();
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _tarjetaService.obtenerHistoricoCompras(prefs.codigoSocio),
+      builder: (BuildContext context, AsyncSnapshot<List<Compra>> snapshot ){
+        if (snapshot.hasData) {
+          if (snapshot.data[0]==null) {
+            return Center(child: Text('no tiene conexion a internet'),);
+          }
+          return CompraWidget(compras: snapshot.data);
+        }
+        else{
+          return Center(child: CircularProgressIndicator(),);
+        }
+      },
+    );
+  }
+}
+class _Dependientes extends StatelessWidget {
+  final List<Socio> dependientes;
+  final colores = ColoresApp();
+  _Dependientes({@required this.dependientes});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      padding: EdgeInsets.zero,
+      itemCount: dependientes.length,
+      itemBuilder: ( _ , index ){
+        return ListTile(
+          title: Text(dependientes[index].nombre, style: TextStyle(fontSize: 14.0),),
+          subtitle: Text('${dependientes[index].apPaterno} ${dependientes[index].apMaterno}', style: TextStyle(fontSize: 12.0),),
+          leading: Icon(Icons.person, color: Colors.black,),
+          trailing: Icon(Icons.arrow_forward_ios, color: colores.verdeOscuro,),
+          onTap: (){
+            Navigator.pushNamed(context, 'historico_dependiente',arguments: dependientes[index]);
+          },
+        );
+      },
     );
   }
 }

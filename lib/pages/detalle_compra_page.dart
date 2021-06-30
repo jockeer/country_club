@@ -46,7 +46,7 @@ class _DetalleCompra extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
-          child: Text(this.area, style: TextStyle(color: colores.verdeOscuro, fontWeight: FontWeight.w500, fontSize: 18.0)),
+          child: Text(this.area, style: TextStyle(color: colores.verdeOscuro, fontWeight: FontWeight.bold, fontSize: 18.0)),
         ),
         Divider(),
         Expanded(
@@ -54,9 +54,9 @@ class _DetalleCompra extends StatelessWidget {
             itemCount: compras.length,
             itemBuilder: (context, index){
               return ListTile(
-                title: Text(compras[index].producto,style: TextStyle(fontSize: 14.0),),
+                title: Text(compras[index].producto,style: TextStyle(fontSize: 14.0,),),
                 subtitle: Text('cantidad: ' + compras[index].cantidad.toString() + ' - precio: ' +compras[index].subTotal.toStringAsFixed(2) + ' Bs.' ),
-                leading: Text("${index + 1}.",style: TextStyle(fontWeight: FontWeight.w500),),
+                leading: Text("${index + 1}.",style: TextStyle(fontWeight: FontWeight.bold),),
                 trailing: Text(compras[index].subTotal.toStringAsFixed(2) + ' Bs.', style: TextStyle(fontWeight: FontWeight.bold),),
               );
             },

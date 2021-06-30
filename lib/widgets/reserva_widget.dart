@@ -43,8 +43,8 @@ class ReservaWidget extends StatelessWidget {
               Container(color: Colors.white,width: phoneSize.width*0.15,height: phoneSize.height*0.23,
                 child: FadeInImage(
                   placeholder: AssetImage('assets/icons/logo.png'),
-                  image: AssetImage('assets/images/${reservas[index].foto}'),
-                  fit: BoxFit.cover,
+                  image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/cabanas/${reservas[index].foto}'),
+                  fit: BoxFit.cover
                 )
               ),
               Expanded(
@@ -95,6 +95,7 @@ class ReservaWidget extends StatelessWidget {
                                 provider.telefono= reservas[index].celular;
                                 provider.nombre=reservas[index].nombre;
                                 provider.reqExtras=reservas[index].requerimientos;
+                                provider.motivoReserva=reservas[index].motivo;
                                 Navigator.pop(context);
                                 Navigator.pushNamed(context, 'reserva_repro', arguments: reservas[index]);
                               },

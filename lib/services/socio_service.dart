@@ -67,10 +67,24 @@ class SocioService{
     final socio = new Socio.fromJson(decodedData[0]);
 
     return socio;
-    
-
-
+  
   }
+
+  Future<List<Socio>> obtenerDependientes()async{
+
+    final prefs = PreferenciasUsuario();
+    final url = Uri.http('190.186.228.218', 'appmovil/api/Asociado/GetDependentID/${prefs.codigoSocio}');
+
+    final respuesta = await _procesarInfo(url);
+
+    final socio = Socios.fromJsonList(respuesta);
+
+    // print(socio.items);
+    return socio.items;
+
+    
+  }
+
   Future<Socio> loginSocio(String usuario, String pass) async {
 
     final prefs = PreferenciasUsuario();
@@ -187,6 +201,7 @@ class SocioService{
       return null;
     }
   }
+  
 
 }
 

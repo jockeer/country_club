@@ -38,19 +38,20 @@ class _ReservaReproPageState extends State<ReservaReproPage> {
             }
         },
         child: Scaffold(
-            body: CustomScrollView(
-              slivers: [
-                _crearAppBar( reserva ),
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      SizedBox(height: 10.0,),
-                      _formulario(reserva),
-                    ]
-                  ),
+          backgroundColor: Colors.white,
+          body: CustomScrollView(
+            slivers: [
+              _crearAppBar( reserva ),
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    SizedBox(height: 10.0,),
+                    _formulario(reserva),
+                  ]
                 ),
-              ],
-            ),
+              ),
+            ],
+          ),
           ),
       ),
     );
@@ -58,7 +59,6 @@ class _ReservaReproPageState extends State<ReservaReproPage> {
 
   Widget _formulario(Reserva reserva){
     return (reserva.status=='1')?_Formulario(reserva: reserva, reservaFormState:reservaFormState):_Datos(reserva: reserva,);
-    // return (reserva.status=='1')?_Formulario(reserva: reserva, reservaFormState:reservaFormState):Container();
   }
 
   Widget _crearAppBar(Reserva reserva) {
@@ -105,9 +105,9 @@ class _Formulario extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Modificacion de la reserva - '+ this.reserva.nombreCab, style: TextStyle(color: colores.verdeOscuro, fontSize: 20.0, fontWeight: FontWeight.w500), ),
+            Text('Modificacion de la reserva - '+ this.reserva.nombreCab, style: TextStyle(color: colores.verdeOscuro, fontSize: 20.0, fontWeight: FontWeight.bold), ),
             Divider(),
-            estilos.inputLabel(label: 'Fecha de la reserva'),
+            estilos.inputLabel(label: 'Fecha de la reserva', obligatorio: true),
             _Fecha(),
             Row(
               children: [               
@@ -116,9 +116,11 @@ class _Formulario extends StatelessWidget {
                 _CantidadPersonas(),  
               ],
             ),
-            estilos.inputLabel(label: 'Nombre de Contacto'),
+            estilos.inputLabel(label: 'Motivo del evento', obligatorio: true),
+            _MotivoEvento(),
+            estilos.inputLabel(label: 'Nombre de Contacto', obligatorio: true),
             _NombreContacto(),
-            estilos.inputLabel(label: "Teléfono de contacto"),
+            estilos.inputLabel(label: "Teléfono de contacto", obligatorio: true),
             _CelularContacto(),
             estilos.inputLabel(label: 'Requerimientos extras'),
             _Requerimientos(),
@@ -129,6 +131,28 @@ class _Formulario extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _MotivoEvento extends StatelessWidget {
+  final estilos = EstilosApp();
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<ReservaProvider>(context);
+    return TextFormField(
+      initialValue: provider.motivoReserva,
+      keyboardType: TextInputType.text,
+      decoration: estilos.inputDecoration(hintText: 'Motivo del evento'),
+      validator: (value){
+        if (value.isEmpty) {
+          return "Indique el motivo del evento";
+        }
+        return null;
+      },
+      onChanged: (value){
+        provider.motivoReserva = value;
+      },
     );
   }
 }
@@ -228,6 +252,7 @@ class _ButtonGuardarCambios extends StatelessWidget {
         reserva.celular=provider.telefono;
         reserva.nombre = provider.nombre;
         reserva.requerimientos = provider.reqExtras;
+        reserva.motivo = provider.motivoReserva;
         final respuesta = await _reservaService.actualizarReserva(reserva);
         provider.carga = false;
         if (respuesta) {
@@ -250,7 +275,7 @@ class _HoraReserva extends StatelessWidget {
     return Expanded(
       child: Column(
         children: [
-          estilos.inputLabel(label: 'Hora'),
+          estilos.inputLabel(label: 'Hora', obligatorio: true),
           TextFormField(
     
             enableInteractiveSelection: false,
@@ -318,9 +343,8 @@ class _CantidadPersonas extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          estilos.inputLabel(label: 'Cantidad'),
+          estilos.inputLabel(label: 'Cantidad', obligatorio: true),
           TextFormField(
-            // initialValue: '0',
             style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
             keyboardType: TextInputType.phone,
