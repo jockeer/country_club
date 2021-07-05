@@ -1,3 +1,4 @@
+import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/models/mensaje_model.dart';
 import 'package:country/services/comunicado_service.dart';
@@ -56,6 +57,7 @@ class MainMenuPage extends StatelessWidget {
 
 
 class _Menu extends StatelessWidget {
+  final estilos = EstilosApp();
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +92,8 @@ class _Menu extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20.0,),
-          _Comunicados(),
-          SizedBox(height: 20.0,),
+        
+          // SizedBox(height: 20.0,),
           Row(
             children: [
               _ButtonMenu(titulo: "Histórico de tarjeta", img: 'Historial_tarjeta', ruta: 'historico_tarjeta', lado: "izq",),
@@ -123,7 +125,11 @@ class _Menu extends StatelessWidget {
               _ButtonMenu(titulo: "Hándicap", img: 'Handicap', ruta: 'handicap', lado: "der"),
             ],
           ),
-          SizedBox(height: 20.0,),
+            Divider(),
+          estilos.inputLabel(label: 'Comunicados'),
+          _Comunicados(),
+          Divider(),
+          // SizedBox(height: 20.0,),
           
 
         ],
@@ -189,7 +195,11 @@ class _Comunicados extends StatelessWidget {
         if (snapshot.hasData) {
           return CarouselSlider.builder(
             itemCount: snapshot.data.length,
-            itemBuilder: (context, index, realIndex) => _Comunicado(comunicado: snapshot.data[index],),
+            itemBuilder: (context, index, realIndex) => GestureDetector( onTap: (){
+              Navigator.pushNamed(context, 'pdf', arguments:snapshot.data[index]["pdf"]);
+            },
+            child: _Comunicado(comunicado: snapshot.data[index],)
+            ),
             options: CarouselOptions(
               autoPlayInterval: Duration(seconds: 3),
               // enableInfiniteScroll: false,
@@ -215,7 +225,7 @@ class _Comunicado extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Stack(
       children: [
-        Image(image: NetworkImage(this.comunicado["img"]),fit: BoxFit.cover, width: size.width,),
+        FadeInImage(placeholder: AssetImage('assets/icons/logo.png'), image: NetworkImage(this.comunicado["img"]),fit: BoxFit.cover, width: size.width,),
         Positioned(child: Container( width: size.width, color: Colors.black54,child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(this.comunicado["title"], style: TextStyle(fontSize: size.width*0.035,color: Colors.white,fontWeight: FontWeight.bold )),

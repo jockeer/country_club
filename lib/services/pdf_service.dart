@@ -10,7 +10,7 @@ import 'package:path_provider/path_provider.dart';
 class PdfService{
   final constantes = DatosConstantes();
   
-  Future<File> loadPDF(String pdf)async{
+  Future<dynamic> loadPDF(String pdf)async{
 
     final conexion = await comprobarInternet();
     if (!conexion) {
@@ -25,11 +25,14 @@ class PdfService{
       File file = File("${dir.path}/$filename");
       await file.writeAsBytes(bytes, flush: true);
       completer.complete(file);
+      return completer.future;
     } catch (e) {
-      throw Exception('Error al descargar el archivo!');
+        return "error"; 
     }
-    return completer.future;
+    
   }
+
+
   Future<File> reglamento(String asset)async{
     try {
       var data =await rootBundle.load(asset);
