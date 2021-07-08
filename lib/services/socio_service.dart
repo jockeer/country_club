@@ -107,13 +107,7 @@ class SocioService{
     final decodedData = jsonDecode(respuesta.body);
 
     if (decodedData.containsKey("access_token")) {
-      print(decodedData);
       prefs.token = await decodedData["access_token"];
-
-      // final fecha = DateTime.now();
-
-      // prefs.fechaExpiracion = fecha;
-      
       final _tokenService = TokenService();
       
       await tokenDevice.obtenerDeviceToken();
