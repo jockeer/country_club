@@ -13,6 +13,7 @@ import 'package:country/providers/tarjeta_provider.dart';
 import 'package:country/providers/galeria_provider.dart';
 import 'package:country/providers/notificacion_provider.dart';
 import 'package:country/services/push_notificacion_service.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() async {
 
@@ -21,14 +22,20 @@ void main() async {
   await prefs.initPrefs();
 
   await PushNotificationService.initializeApp();
-  
-  runApp(MyApp());
+  await SentryFlutter.init(
+    (options){
+      options.dsn = 'https://ed954cc626af4b72ab6cf7cde5d5ca41@o880564.ingest.sentry.io/5834316';
+    },
+    appRunner: () => runApp(MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final prefs = PreferenciasUsuario();
+
     final colores = ColoresApp();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -57,10 +64,12 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Country Club',
-        initialRoute: 'welcome',
+        // initialRoute: (prefs.token==''||prefs.token==null)?'menu':'menu',
+        initialRoute: (prefs.token==''||prefs.token==null)?'welcome':'main_menu',
         routes: getAplicationRoutes(),
         theme: ThemeData(
           primarySwatch: Colors.green,
+          fontFamily: 'Montserrat'
         ),
         
       ),

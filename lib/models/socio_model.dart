@@ -4,6 +4,22 @@ Socio socioModelFromJson(String str) => Socio.fromJson(json.decode(str));
 
 String socioModelToJson(Socio data) => json.encode(data.toJson());
 
+class Socios{
+  List<Socio> items = [];
+
+  Socios();
+
+  Socios.fromJsonList(List<dynamic> jsonList ){
+    if (jsonList==null) return;
+
+    for (var item in jsonList) {
+      final socio = new Socio.fromJson(item);
+
+      items.add(socio);
+    }
+  }
+}
+
 class Socio {
     Socio({
         this.codigo,

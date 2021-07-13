@@ -43,7 +43,9 @@ class ReservaWidget extends StatelessWidget {
               Container(color: Colors.white,width: phoneSize.width*0.15,height: phoneSize.height*0.23,
                 child: FadeInImage(
                   placeholder: AssetImage('assets/icons/logo.png'),
-                  image: AssetImage('assets/images/${(reservas[index].cabanaid == '1' )?'La_palmera':(reservas[index].cabanaid == '2' ) ?'Bar_Asai' :(reservas[index].cabanaid == '3' )?'El_Caribeño':(reservas[index].cabanaid == '4' )?'Cabaña_Sumuque':(reservas[index].cabanaid == '5' )?'Hoyo_19':null}.png'), fit: BoxFit.cover,)
+                  image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/cabanas/${reservas[index].foto}'),
+                  fit: BoxFit.cover
+                )
               ),
               Expanded(
                 child: Padding(
@@ -69,6 +71,8 @@ class ReservaWidget extends StatelessWidget {
                               SizedBox(height: 5.0,),
                               Text('Cantidad: ${reservas[index].cantidad} personas'),
                               SizedBox(height: 5.0,),
+                              Text('Motivo: ${reservas[index].motivo}'),
+                              SizedBox(height: 5.0,),
                               Text('${reservas[index].fecha.substring(0,10)} , ${reservas[index].hora}'),
                               SizedBox(height: 10.0,),
                             ],
@@ -91,6 +95,7 @@ class ReservaWidget extends StatelessWidget {
                                 provider.telefono= reservas[index].celular;
                                 provider.nombre=reservas[index].nombre;
                                 provider.reqExtras=reservas[index].requerimientos;
+                                provider.motivoReserva=reservas[index].motivo;
                                 Navigator.pop(context);
                                 Navigator.pushNamed(context, 'reserva_repro', arguments: reservas[index]);
                               },

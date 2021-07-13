@@ -15,15 +15,6 @@ class TarjetasCreditoProvider with ChangeNotifier{
   int _tarjetaSeleccionada = 0;
 
 
-  // cargarTarjetas()async{
-  //   final tarjetas = await DBService.db.getAllTarjetas();
-
-  //   this.tarjetas = [...tarjetas];
-  //   notifyListeners();
-  //   // return this.tarjetas;
-
-  // }
-
    List<TarjetaCredito> get tarjetas{
     return this._tarjetas;
   }

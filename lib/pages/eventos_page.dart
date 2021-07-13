@@ -74,7 +74,7 @@ class _Evento extends StatelessWidget {
           height: 150.0,
           child: Stack(
                 children: [
-                  Center(child: FadeInImage(placeholder: AssetImage('assets/icons/logo.png'), image: NetworkImage(img),fit: BoxFit.cover)),
+                  Center(child: FadeInImage(placeholder: AssetImage('assets/icons/logo.png'), image: NetworkImage(img),fit: BoxFit.cover, width: double.infinity, height: double.infinity,)),
                   // Image(image: NetworkImage(img), fit: BoxFit.fill, width: double.infinity, height: double.infinity,),
                   Column(
                     children: [
@@ -83,7 +83,7 @@ class _Evento extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
                         color: Colors.black38,
                         width: double.infinity, 
-                        child: Text(this.titulo, style: TextStyle(color: Colors.white,fontWeight: FontWeight.w900, fontSize: 16.0),)
+                        child: Text(this.titulo, style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontSize: 16.0),)
                       )
                     ],
                   )

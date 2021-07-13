@@ -17,7 +17,7 @@ class MenuLateralWidget extends StatelessWidget {
             DrawerHeader(
               child: Column(
                 children: [
-                  Text('BIENVENID@', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20.0 )),
+                  Text('BIENVENID@', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0 )),
                   Expanded(
                     child: Row(
                       // mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +33,7 @@ class MenuLateralWidget extends StatelessWidget {
                                 width: phoneSize.width*0.5,
                                 child: Text('${prefs.nombreSocio}', 
                                   style: TextStyle(
-                                    fontWeight: FontWeight.w900, 
+                                    fontWeight: FontWeight.bold 
                                   ),
                                   textAlign: TextAlign.center,
                                 )
@@ -53,24 +53,31 @@ class MenuLateralWidget extends StatelessWidget {
             ),
             Divider(thickness: 2.0, color: Colors.black38, height: 0.0,),
             
-            _OpcionMenu(icono: Icon(Icons.attach_money_rounded, color:Colors.black), titulo: 'Tarjeta de consumo', ruta: 'tarjeta'),
-            _OpcionMenu(icono: Icon(Icons.topic, color:Colors.black), titulo: 'Historico de pagos', ruta: 'historico_tarjeta'),
-            _OpcionMenu(icono: Icon(Icons.topic, color:Colors.black), titulo: 'Reservas', ruta: 'reservas_historial'),
-            _OpcionMenu(icono: Icon(Icons.topic, color:Colors.black), titulo: 'Eventos', ruta: 'eventos'),
-            _OpcionMenu(icono: Icon(Icons.topic, color:Colors.black), titulo: 'Menu', ruta: 'menu'),
-            _OpcionMenu(icono: Icon(Icons.topic, color:Colors.black), titulo: 'Ranking', ruta: 'handicap'),
-            _OpcionMenu(icono: Icon(Icons.topic, color:Colors.black), titulo: 'Inbox', ruta: 'inbox'),
-            _OpcionMenu(icono: Icon(Icons.support_agent, color:Colors.black), titulo: 'Contactanos', ruta: 'menu'),
-            _OpcionMenu(icono: Icon(Icons.lock, color:Colors.black), titulo: 'Politica de privacidad', ruta: 'menu'),
-            _OpcionMenu(icono: Icon(Icons.info_outline, color:Colors.black), titulo: 'Acerca de Country Clubs', ruta: 'menu'),
+            _OpcionMenu(icono: Icon(Icons.credit_card, color:Colors.black), titulo: 'Tarjeta de consumo', ruta: 'tarjeta'),
+            _OpcionMenu(icono: Icon(Icons.history_edu_outlined , color:Colors.black), titulo: 'Historico de pagos', ruta: 'historico_tarjeta'),
+            _OpcionMenu(icono: Icon(Icons.file_present_rounded , color:Colors.black), titulo: 'Reservas', ruta: 'reservas_historial'),
+            _OpcionMenu(icono: Icon(Icons.topic , color:Colors.black), titulo: 'Eventos', ruta: 'eventos'),
+            _OpcionMenu(icono: Icon(Icons.menu_book, color:Colors.black), titulo: 'Menu', ruta: 'menu'),
+            _OpcionMenu(icono: Icon(Icons.wine_bar_rounded , color:Colors.black), titulo: 'Ranking', ruta: 'handicap'),
+            _OpcionMenu(icono: Icon(Icons.inbox , color:Colors.black), titulo: 'Inbox', ruta: 'inbox'),
+            _OpcionMenu(icono: Icon(Icons.support_agent, color:Colors.black), titulo: 'Contactanos', ruta: 'contact'),
+            _OpcionMenu(icono: Icon(Icons.lock, color:Colors.black), titulo: 'Politica de privacidad', ruta: 'politicas'),
+            _OpcionMenu(icono: Icon(Icons.info_outline, color:Colors.black), titulo: 'Acerca del Country Clubs', ruta: 'acerca'),
             Divider(),
             ListTile(
               leading: Icon(Icons.logout, color:Colors.black),
               title: Text('Cerrar Sesion'),
-              onTap: () => {
-                Navigator.popUntil(context, ModalRoute.withName('login'))
+              onTap: () {
+                prefs.token = '';
+                Navigator.pushNamedAndRemoveUntil(context, 'welcome', (route) => false);
+                // Navigator.pushReplacementNamed(context, 'login');
+                // Navigator.popUntil(context, ModalRoute.withName('login'));
               },
             ),
+            ListTile(
+              title: Text('Las Palmas - Country Club', style: TextStyle(fontSize: 12.0, color: Colors.black45, fontWeight: FontWeight.bold ),),
+              trailing: Text('V 1.0.3', style: TextStyle(fontSize: 12.0, color: Colors.black45, fontWeight: FontWeight.bold ),),
+            )
           ],
         ),
       ),

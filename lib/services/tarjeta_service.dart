@@ -21,12 +21,17 @@ class TarjetaService {
   }
 
   Future<dynamic> _procesarInfo(Uri url) async{
-    final resp = await http.get(url,
-      headers: {
-        "authorization": basicAuthenticationHeader(user, password)
-      }
-    );
-    return json.decode(resp.body);
+    try {
+      final resp = await http.get(url,
+        headers: {
+          "authorization": basicAuthenticationHeader(user, password)
+        }
+      );
+      return json.decode(resp.body);
+      
+    } catch (e) {
+      return null;
+    }
   }
 
 

@@ -67,10 +67,24 @@ class SocioService{
     final socio = new Socio.fromJson(decodedData[0]);
 
     return socio;
-    
-
-
+  
   }
+
+  Future<List<Socio>> obtenerDependientes()async{
+
+    final prefs = PreferenciasUsuario();
+    final url = Uri.http('190.186.228.218', 'appmovil/api/Asociado/GetDependentID/${prefs.codigoSocio}');
+
+    final respuesta = await _procesarInfo(url);
+
+    final socio = Socios.fromJsonList(respuesta);
+
+    // print(socio.items);
+    return socio.items;
+
+    
+  }
+
   Future<Socio> loginSocio(String usuario, String pass) async {
 
     final prefs = PreferenciasUsuario();
@@ -93,9 +107,7 @@ class SocioService{
     final decodedData = jsonDecode(respuesta.body);
 
     if (decodedData.containsKey("access_token")) {
-      print(decodedData);
       prefs.token = await decodedData["access_token"];
-      
       final _tokenService = TokenService();
       
       await tokenDevice.obtenerDeviceToken();
@@ -142,7 +154,7 @@ class SocioService{
 
     final parametros = socio.toJson();
 
-    parametros["access_token"] = await prefs.token;
+    parametros["access_token"] = await prefs.tokenReg;
     parametros["type"] = (Platform.isAndroid)?"ANDROID":"IOS";
     // print(parametros);
     try {
@@ -174,7 +186,7 @@ class SocioService{
         url,
         body: {
           "email":email,
-          "access_token": prefs.token
+          "access_token": prefs.tokenReg
         }
       );
       final decoded = json.decode(respuesta.body);
@@ -183,6 +195,7 @@ class SocioService{
       return null;
     }
   }
+  
 
 }
 

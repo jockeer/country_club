@@ -39,7 +39,7 @@ class ButtonsBottom extends StatelessWidget {
               child: _Button(label: 'Ingresa', color: colores.naranja, ruta: 'login') 
             ),
             Expanded(
-              child: _Button(label: 'Registrate', color: colores.verdeOscuro, ruta: 'codigo') 
+              child: _Button(label: 'Regístrate', color: colores.verdeOscuro, ruta: 'codigo') 
             ),
             SizedBox(width: 10.0,),
           ],
@@ -60,7 +60,7 @@ class _Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      child: Text(this.label , style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900), ),
+      child: Text(this.label , style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold), ),
       onPressed: (){
         Navigator.pushNamed(context, this.ruta);
       },

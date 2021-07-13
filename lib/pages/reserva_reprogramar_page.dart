@@ -37,6 +37,7 @@ class _ReservaReproPageState extends State<ReservaReproPage> {
           }
         },
         child: Scaffold(
+          backgroundColor: Colors.white,
           body: CustomScrollView(
             slivers: [
               _crearAppBar(reserva),
@@ -80,9 +81,7 @@ class _ReservaReproPageState extends State<ReservaReproPage> {
               color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold),
         ),
         background: FadeInImage(
-          image: AssetImage(
-            'assets/images/${(reserva.cabanaid == '1') ? 'La_palmera' : (reserva.cabanaid == '2') ? 'Bar_Asai' : (reserva.cabanaid == '3') ? 'El_Caribeño' : (reserva.cabanaid == '4') ? 'Cabaña_Sumuque' : (reserva.cabanaid == '5') ? 'Hoyo_19' : null}.png',
-          ),
+          image: AssetImage('assets/images/${reserva.foto}'),
           placeholder: AssetImage('assets/icons/logo.png'),
           fit: BoxFit.cover,
         ),
@@ -113,10 +112,10 @@ class _Formulario extends StatelessWidget {
               style: TextStyle(
                   color: colores.verdeOscuro,
                   fontSize: 20.0,
-                  fontWeight: FontWeight.w500),
+                  fontWeight: FontWeight.bold),
             ),
             Divider(),
-            estilos.inputLabel(label: 'Fecha de la reserva'),
+            estilos.inputLabel(label: 'Fecha de la reserva', obligatorio: true),
             _Fecha(),
             Row(
               children: [
@@ -127,9 +126,12 @@ class _Formulario extends StatelessWidget {
                 _CantidadPersonas(),
               ],
             ),
-            estilos.inputLabel(label: 'Nombre de Contacto'),
+            estilos.inputLabel(label: 'Motivo del evento', obligatorio: true),
+            _MotivoEvento(),
+            estilos.inputLabel(label: 'Nombre de Contacto', obligatorio: true),
             _NombreContacto(),
-            estilos.inputLabel(label: "Telefono de contacto"),
+            estilos.inputLabel(
+                label: "Teléfono de contacto", obligatorio: true),
             _CelularContacto(),
             estilos.inputLabel(label: 'Requerimientos extras'),
             _Requerimientos(),
@@ -145,6 +147,28 @@ class _Formulario extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _MotivoEvento extends StatelessWidget {
+  final estilos = EstilosApp();
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<ReservaProvider>(context);
+    return TextFormField(
+      initialValue: provider.motivoReserva,
+      keyboardType: TextInputType.text,
+      decoration: estilos.inputDecoration(hintText: 'Motivo del evento'),
+      validator: (value) {
+        if (value.isEmpty) {
+          return "Indique el motivo del evento";
+        }
+        return null;
+      },
+      onChanged: (value) {
+        provider.motivoReserva = value;
+      },
     );
   }
 }
@@ -196,8 +220,11 @@ class _Requerimientos extends StatelessWidget {
       keyboardType: TextInputType.multiline,
       maxLines: 8,
       initialValue: provider.reqExtras,
-      decoration: estilos.inputDecoration(
-          hintText: 'Requerimientos extras', padingTop: 15.0),
+      decoration: InputDecoration(
+          hintText: 'Requerimientos extras',
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+          filled: true,
+          fillColor: Colors.white),
       onChanged: (value) => provider.reqExtras = value,
     );
   }
@@ -244,6 +271,7 @@ class _ButtonGuardarCambios extends StatelessWidget {
         reserva.celular = provider.telefono;
         reserva.nombre = provider.nombre;
         reserva.requerimientos = provider.reqExtras;
+        reserva.motivo = provider.motivoReserva;
         final respuesta = await _reservaService.actualizarReserva(reserva);
         provider.carga = false;
         if (respuesta) {
@@ -272,7 +300,7 @@ class _HoraReserva extends StatelessWidget {
     return Expanded(
       child: Column(
         children: [
-          estilos.inputLabel(label: 'Hora de la reserva'),
+          estilos.inputLabel(label: 'Hora', obligatorio: true),
           TextFormField(
             enableInteractiveSelection: false,
             controller: _inputFileTimeController,
@@ -342,10 +370,10 @@ class _CantidadPersonas extends StatelessWidget {
 
     return Expanded(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          estilos.inputLabel(label: 'Cantidad de personas'),
+          estilos.inputLabel(label: 'Cantidad', obligatorio: true),
           TextFormField(
-            // initialValue: '0',
             style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
             keyboardType: TextInputType.phone,
@@ -428,144 +456,146 @@ class _Datos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final phoneSize = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListTile(
-            title: Text(
-              'Cabaña',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-            trailing: Text(this.reserva.nombreCab),
-            leading: Icon(
-              Icons.home_outlined,
-              color: colores.verdeOscuro,
-            ),
-            tileColor: Colors.white,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListTile(
+          title: Text(
+            'Cabaña',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
           ),
-          ListTile(
-            title: Text(
-              'Estado',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-            trailing: Text(
-              this.reserva.estado,
-              style: TextStyle(
-                  color: (reserva.status == "2")
-                      ? Colors.green
-                      : (reserva.status == "1")
-                          ? Colors.orange
-                          : ((reserva.status == "3"))
-                              ? Colors.red
-                              : Colors.black54,
-                  fontWeight: FontWeight.bold),
-            ),
-            leading: Icon(
-              Icons.info_outline,
-              color: colores.verdeOscuro,
-            ),
-            tileColor: Colors.white,
+          subtitle: Text(this.reserva.nombreCab),
+          leading: Icon(
+            Icons.home_outlined,
+            color: colores.verdeOscuro,
           ),
-          ListTile(
-            title: Text(
-              'Cantidad',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-            trailing: Text(this.reserva.cantidad + ' personas'),
-            leading: Icon(
-              Icons.data_saver_off_sharp,
-              color: colores.verdeOscuro,
-            ),
-            tileColor: Colors.white,
+          tileColor: Colors.white,
+        ),
+        ListTile(
+          title: Text(
+            'Estado',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
           ),
-          ListTile(
-            title: Text(
-              'Celular de referencia',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-            trailing: Text(this.reserva.celular),
-            leading: Icon(
-              Icons.phone_sharp,
-              color: colores.verdeOscuro,
-            ),
-            tileColor: Colors.white,
+          subtitle: Text(
+            this.reserva.estado,
+            style: TextStyle(
+                color: (reserva.status == "2")
+                    ? Colors.green
+                    : (reserva.status == "1")
+                        ? Colors.orange
+                        : ((reserva.status == "3"))
+                            ? Colors.red
+                            : Colors.black54,
+                fontWeight: FontWeight.bold),
           ),
-          ListTile(
-            title: Text(
-              'Nombre de referencia',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-            trailing: Text(this.reserva.nombre),
-            leading: Icon(
-              Icons.person,
-              color: colores.verdeOscuro,
-            ),
-            tileColor: Colors.white,
+          leading: Icon(
+            Icons.info_outline,
+            color: colores.verdeOscuro,
           ),
-          ListTile(
-            title: Text(
-              'Fecha',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-            trailing: Text(this.reserva.fecha.substring(0, 10)),
-            leading: Icon(
-              Icons.date_range_sharp,
-              color: colores.verdeOscuro,
-            ),
-            tileColor: Colors.white,
+          tileColor: Colors.white,
+        ),
+        ListTile(
+          title: Text(
+            'Cantidad',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
           ),
-          ListTile(
-            title: Text(
-              'Hora',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-            trailing: Text(this.reserva.hora),
-            leading: Icon(
-              Icons.av_timer_outlined,
-              color: colores.verdeOscuro,
-            ),
-            tileColor: Colors.white,
+          subtitle: Text(this.reserva.cantidad + ' personas'),
+          leading: Icon(
+            Icons.data_saver_off_sharp,
+            color: colores.verdeOscuro,
           ),
-          ListTile(
-            title: Text(
-              'Requerimientos',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-            subtitle: Text(this.reserva.requerimientos),
-            leading: Icon(
-              Icons.notes,
-              color: colores.verdeOscuro,
-            ),
-            tileColor: Colors.white,
+          tileColor: Colors.white,
+        ),
+        ListTile(
+          title: Text(
+            'Celular de referencia',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
           ),
-          ListTile(
-            title: Text(
-              'Notas',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-            subtitle: Text(
-                'Estas notas seran cuando haya un motivo del rechazo de la reserva o alguna nota de parte del Country Club'),
-            leading: Icon(
-              Icons.note_sharp,
-              color: colores.verdeOscuro,
-            ),
-            tileColor: Colors.white,
+          subtitle: Text(this.reserva.celular),
+          leading: Icon(
+            Icons.phone_sharp,
+            color: colores.verdeOscuro,
           ),
-          SizedBox(
-            height: 20.0,
+          tileColor: Colors.white,
+        ),
+        ListTile(
+          title: Text(
+            'Nombre de referencia',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
           ),
-          Center(
-              child: Image(
-            image: AssetImage('assets/icons/logo.png'),
-            width: phoneSize.width * 0.55,
-          )),
-          SizedBox(
-            height: 20.0,
+          subtitle: Text(
+            this.reserva.nombre,
+            overflow: TextOverflow.ellipsis,
           ),
-        ],
-      ),
+          leading: Icon(
+            Icons.person,
+            color: colores.verdeOscuro,
+          ),
+          tileColor: Colors.white,
+        ),
+        ListTile(
+          title: Text(
+            'Fecha',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+          ),
+          subtitle: Text(this.reserva.fecha.substring(0, 10)),
+          leading: Icon(
+            Icons.date_range_sharp,
+            color: colores.verdeOscuro,
+          ),
+          tileColor: Colors.white,
+        ),
+        ListTile(
+          title: Text(
+            'Hora',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+          ),
+          subtitle: Text(this.reserva.hora),
+          leading: Icon(
+            Icons.av_timer_outlined,
+            color: colores.verdeOscuro,
+          ),
+          tileColor: Colors.white,
+        ),
+        ListTile(
+          title: Text(
+            'Requerimientos',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+          ),
+          subtitle: Text((this.reserva.requerimientos.isEmpty)
+              ? 'No tiene requerimientos'
+              : this.reserva.requerimientos),
+          leading: Icon(
+            Icons.notes,
+            color: colores.verdeOscuro,
+          ),
+          tileColor: Colors.white,
+        ),
+        ListTile(
+          title: Text(
+            'Notas',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+          ),
+          subtitle:
+              Text((this.reserva.obs == null) ? 'Sin notas' : this.reserva.obs),
+          leading: Icon(
+            Icons.note_sharp,
+            color: colores.verdeOscuro,
+          ),
+          tileColor: Colors.white,
+        ),
+        SizedBox(
+          height: 20.0,
+        ),
+        Center(
+            child: Image(
+          image: AssetImage('assets/icons/logo.png'),
+          width: phoneSize.width * 0.55,
+        )),
+        SizedBox(
+          height: 20.0,
+        ),
+      ],
     );
   }
 }

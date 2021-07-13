@@ -1,11 +1,14 @@
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
+import 'package:country/models/compra_model.dart';
+import 'package:country/models/socio_model.dart';
 import 'package:country/providers/tarjeta_provider.dart';
+import 'package:country/services/socio_service.dart';
 
 import 'package:country/services/tarjeta_service.dart';
-import 'package:country/widgets/pie_logo_widget.dart';
+import 'package:country/widgets/compra_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:country/widgets/menu_lateral_widget.dart';
+
 import 'package:provider/provider.dart';
 
 
@@ -24,29 +27,27 @@ class _TarjetaPageState extends State<TarjetaPage> {
 
     return Scaffold(
       key: _scaffoldKey,
-      drawer: MenuLateralWidget(),
       body: RefreshIndicator(
         onRefresh: _refreshPuntos,
-        child: SingleChildScrollView(
-          child: Column(
+        child: Column(
             children: [
               _Tarjeta(),
-              _UltimasTransacciones(),
+              Expanded(child: _UltimasTransacciones()),
               SizedBox(height: 20.0,),
               Text('Puedes recargar tu tarjeta', style: TextStyle(color: Colors.black45), ),
               SizedBox(height: 10.0,),
               _ButtonRecargar(),
-              PieLogoWidget()
+              SizedBox(height: 20.0,),
             ],
           )
-        ),
+        
       ),
       floatingActionButton: FloatingActionButton(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
-        child: Icon(Icons.menu, color: Colors.white,),
+        child: Icon(Icons.arrow_back, color: Colors.white,),
         onPressed: (){
-          _scaffoldKey.currentState.openDrawer();
+          Navigator.pop(context);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -77,7 +78,7 @@ class _Tarjeta extends StatelessWidget {
     return SafeArea(
       child: Container(
         width: phoneSize.width,
-        height: phoneSize.height*0.4,
+        height: phoneSize.height*0.35,
         color: colores.verdeOscuro,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -99,55 +100,115 @@ class _Tarjeta extends StatelessWidget {
   }
 }
 class _UltimasTransacciones extends StatelessWidget {
+  final _socioService = SocioService();
+  @override
+  Widget build(BuildContext context) {
+
+    return FutureBuilder(
+      future: _socioService.obtenerDependientes(),
+      builder: (_, AsyncSnapshot<List<Socio>> snapshot){
+        if (snapshot.hasData) {
+            return _Menu(dependientes: snapshot.data,);
+          }
+          return Center(child: CircularProgressIndicator(),);
+      },
+    );
+  }
+}
+
+class _Menu extends StatelessWidget {
+  final List<Socio> dependientes;
+  final colores = ColoresApp();
+
+  _Menu({@required this.dependientes});
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Column(
+        children: [
+          TabBar(
+            indicatorColor: colores.verdeOscuro,
+            labelColor: Colors.black,
+            tabs: [
+              Tab(child: Text('Ultimas transacciones', style: TextStyle(fontWeight: FontWeight.bold),),),
+              Tab(child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Dependientes', style: TextStyle(fontWeight: FontWeight.bold),),
+                  SizedBox(width: 6,),
+                  Icon(Icons.credit_card)
+                ],
+              ),),
+            ],
+          ),
+          Expanded(
+            child: TabBarView(
+              children: [
+                _Transacciones(),
+                (this.dependientes.length == 0)
+                ? Center(child: Text('No tiene dependientes'),)
+                :_Dependientes(dependientes: dependientes,),
+                
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Transacciones extends StatelessWidget {
+  final _tarjetaService = TarjetaService();
+  final prefs = PreferenciasUsuario();
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _tarjetaService.obtenerHistoricoCompras(prefs.codigoSocio),
+      builder: (BuildContext context, AsyncSnapshot<List<Compra>> snapshot ){
+        if (snapshot.hasData) {
+          if (snapshot.data[0]==null) {
+            return Center(child: Text('no tiene conexion a internet'),);
+          }
+          return CompraWidget(compras: snapshot.data);
+        }
+        else{
+          return Center(child: CircularProgressIndicator(),);
+        }
+      },
+    );
+  }
+}
+class _Dependientes extends StatelessWidget {
+  final List<Socio> dependientes;
+  final colores = ColoresApp();
+
+  _Dependientes({@required this.dependientes});
 
   @override
   Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
-
-    return Column(
-      children: [
-        Container(
-          color: Color(0xffC3C3C3),
-          width: phoneSize.width,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0,horizontal: 25.0),
-            child: Text('Ultimas transacciones',style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),),
-          ),
-        ),
-        Container(
-          height: phoneSize.height*0.3,
-          child: ListView(
-            padding: EdgeInsets.all(0.0),
-            children: [
-              ListTile(
-                title: Text('Almuerzo Familiar'),
-                subtitle: Text('30/09/2020 - Comprobante N 450313'),
-                trailing: Text('Bs. 150', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),),
-              ),
-              Divider(color: Colors.black45,),
-              ListTile(
-                title: Text('Reserva cancha de tenis'),
-                subtitle: Text('30/09/2020 - Comprobante N 450313'),
-                trailing: Text('Bs. 350', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),),
-              ),
-              Divider(color: Colors.black45,),
-              ListTile(
-                title: Text('Reserva Cabaña hoyo 19'),
-                subtitle: Text('30/09/2020 - Comprobante N 450313'),
-                trailing: Text('Bs. 450', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),),
-              ),
-              Divider(color: Colors.black45,),
-              ListTile(
-                title: Text('Almuerzo Familiar'),
-                subtitle: Text('30/09/2020 - Comprobante N 450313'),
-                trailing: Text('Bs. 150', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),),
-              ),
-              Divider(color: Colors.black45,),
-              
-            ],
-          ),
-        )
-      ],
+    final provider = Provider.of<TarjetaProvider>(context, listen: false);
+    return ListView.builder(
+      padding: EdgeInsets.zero,
+      itemCount: dependientes.length,
+      itemBuilder: ( _ , index ){
+        return ListTile(
+          title: Text(dependientes[index].nombre, style: TextStyle(fontSize: 14.0),),
+          subtitle: Text('${dependientes[index].apPaterno} ${dependientes[index].apMaterno} - ${dependientes[index].codigo}', style: TextStyle(fontSize: 12.0),),
+          leading: Icon(Icons.person, color: Colors.black,),
+          trailing: Icon(Icons.monetization_on, color: colores.verdeOscuro, ),
+          
+          onTap: (){
+            provider.tipoPago=3;
+            provider.codigoTarjeta = dependientes[index].codigo;
+            provider.optRecarga=1;
+            provider.montoRecarga='10.00';
+            provider.dependiente = '${dependientes[index].nombre} ${dependientes[index].apPaterno} ${dependientes[index].apMaterno}';
+            Navigator.pushNamed(context, 'metodo_pago');
+          },
+        );
+      },
     );
   }
 }

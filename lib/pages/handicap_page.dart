@@ -23,7 +23,7 @@ class _HandicapPageState extends State<HandicapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(titulo: 'Handicap'),
+      appBar: appBarWidget(titulo: 'Hándicap'),
       body: WebView(
         initialUrl: "http://www.golfbolivia.com/handicap/",
         javascriptMode: JavascriptMode.unrestricted,

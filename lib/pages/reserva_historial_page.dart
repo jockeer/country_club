@@ -1,18 +1,18 @@
+import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/models/reserva_model.dart';
 import 'package:country/services/reserva_service.dart';
 import 'package:country/widgets/app_bar_widget.dart';
-import 'package:country/widgets/menu_lateral_widget.dart';
+
 import 'package:country/widgets/reserva_widget.dart';
 import 'package:flutter/material.dart';
 
 class ReservaHistorialPage extends StatelessWidget {
-  // final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final estilos = EstilosApp();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarWidget(titulo: 'Reservas'),
-      drawer: MenuLateralWidget(),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -29,14 +29,8 @@ class ReservaHistorialPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, 'reservas');
                 },
-                child: Text(
-                  'Hacer reserva',
-                  style: TextStyle(fontSize: 20.0),
-                ),
-                style: ElevatedButton.styleFrom(
-                    primary: Color(0xff009D47),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0))),
+                child: estilos.buttonChild(texto: 'Hacer reserva'),
+                style: estilos.buttonStyle(),
               )
             ],
           ),

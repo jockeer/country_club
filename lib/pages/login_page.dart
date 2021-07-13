@@ -83,16 +83,9 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
-                  child: Text('CODIGO DE SOCIO', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
-                ),
+                estilos.inputLabel(label: 'Código del socio'),
                 _InputUserName(), //INPUT DONDE ESTA EL NOMBRE DE USUARIO
-                SizedBox(height: 30.0,),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
-                  child: Text('CONTRASEÑA', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                ),
+                estilos.inputLabel(label: 'Contraseña'),
                 _InputPassword(), // INPUT PARA EL PASSWORD
                 SizedBox(height: 30.0,),
                 Center(child: _ContrasenaOlvidada()),
@@ -151,6 +144,7 @@ class _LoginPageState extends State<LoginPage> {
         prefs.nombreSocio = '${socio.nombre} ${socio.apPaterno}';
         prefs.correoSocio = '${socio.email}';
         prefs.codigoSocio = '${socio.codigo}';
+        prefs.telefonoSocio = '${socio.celular}';
 
         Navigator.pushNamed(context, 'main_menu');
         FocusScope.of(context).unfocus();
@@ -190,7 +184,7 @@ class _InputUserName extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
-        hintText: 'Codigo de socio',
+        hintText: 'Código del socio',
         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
         enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),

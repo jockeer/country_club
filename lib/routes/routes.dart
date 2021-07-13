@@ -1,4 +1,9 @@
+import 'package:country/pages/acercade_page.dart';
+import 'package:country/pages/contact_page.dart';
+import 'package:country/pages/historico_tarjeta_dependiente.dart';
 import 'package:country/pages/pdf_page.dart';
+import 'package:country/pages/politicas_page.dart';
+import 'package:country/pages/reglamento_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/pages/adminitrar_tarjetas_page.dart';
@@ -57,5 +62,10 @@ Map<String, WidgetBuilder> getAplicationRoutes(){
     'administrar_tarjetas':( _ ) => AdministrarTarjetasPage(),
     'nueva_tarjeta_credito':( _ ) => NuevaTarjetaCreditoPage(),
     'pdf':( _ ) => PdfPage(),
+    'contact':( _ ) => ContactPage(),
+    'acerca':( _ ) => AcercaDePage(),
+    'politicas':( _ ) => PoliticasPage(),
+    'reglamento':( _ ) => ReglamentoPage(),
+    'historico_dependiente':( _ ) => HistoricoTarjetaDependiente(),
   };
 }

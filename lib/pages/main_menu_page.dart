@@ -1,9 +1,12 @@
+import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/models/mensaje_model.dart';
+import 'package:country/services/comunicado_service.dart';
 import 'package:country/services/inbox_servide.dart';
 import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class MainMenuPage extends StatelessWidget {
   final prefs = PreferenciasUsuario();
@@ -54,6 +57,7 @@ class MainMenuPage extends StatelessWidget {
 
 
 class _Menu extends StatelessWidget {
+  final estilos = EstilosApp();
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +82,7 @@ class _Menu extends StatelessWidget {
                         color: Colors.black38,
                         width: double.infinity, 
                         alignment: Alignment.centerRight,
-                        child: Text('Tarjeta de Consumo', style: TextStyle(color: Colors.white,fontWeight: FontWeight.w900),)
+                        child: Text('Tarjeta de Consumo', style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)
                       )
                     ],
                   )
@@ -88,9 +92,11 @@ class _Menu extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20.0,),
+        
+          // SizedBox(height: 20.0,),
           Row(
             children: [
-              _ButtonMenu(titulo: "Historico de tarjeta", img: 'Historial_tarjeta', ruta: 'historico_tarjeta', lado: "izq",),
+              _ButtonMenu(titulo: "Histórico de tarjeta", img: 'Historial_tarjeta', ruta: 'historico_tarjeta', lado: "izq",),
               SizedBox(width: 15.0,),
               _ButtonMenu(titulo: "Mensualidad", img: 'Mensualidad', ruta: 'mensualidad', lado: "der"),
             ],
@@ -98,7 +104,7 @@ class _Menu extends StatelessWidget {
           SizedBox(height: 20.0,),
           Row(
             children: [
-              _ButtonMenu(titulo: "Menu", img: 'Menu', ruta: 'menu', lado: "izq",),
+              _ButtonMenu(titulo: "Menú", img: 'Menu', ruta: 'menu', lado: "izq",),
               SizedBox(width: 15.0,),
               _ButtonMenu(titulo: "Inbox", img: 'Inbox', ruta: 'inbox', lado: "der"),
             ],
@@ -116,10 +122,16 @@ class _Menu extends StatelessWidget {
             children: [
               _ButtonMenu(titulo: "Eventos", img: 'Eventos', ruta: 'eventos', lado: "izq",),
               SizedBox(width: 15.0,),
-              _ButtonMenu(titulo: "Handicap", img: 'Handicap', ruta: 'handicap', lado: "der"),
+              _ButtonMenu(titulo: "Hándicap", img: 'Handicap', ruta: 'handicap', lado: "der"),
             ],
           ),
-          SizedBox(height: 20.0,),
+            Divider(),
+          estilos.inputLabel(label: 'Comunicados'),
+          _Comunicados(),
+          Divider(),
+          // SizedBox(height: 20.0,),
+          
+
         ],
       );
   }
@@ -144,8 +156,8 @@ class _ButtonMenu extends StatelessWidget {
         },
         child: ClipRRect(
           borderRadius: (this.lado=='izq' 
-                  ? BorderRadius.only(topRight: Radius.circular(20.0),bottomRight:Radius.circular(20.0))
-                  : BorderRadius.only(topLeft: Radius.circular(20.0),bottomLeft:Radius.circular(20.0))
+            ? BorderRadius.only(topRight: Radius.circular(20.0),bottomRight:Radius.circular(20.0))
+            : BorderRadius.only(topLeft: Radius.circular(20.0),bottomLeft:Radius.circular(20.0))
           ),
           child: Container(
             height: phoneSize.height*0.15,
@@ -160,7 +172,7 @@ class _ButtonMenu extends StatelessWidget {
                       color: Colors.black38,
                       width: double.infinity, 
                       alignment: Alignment.centerRight,
-                      child: Text(this.titulo, style: TextStyle(color: Colors.white,fontWeight: FontWeight.w900),)
+                      child: Text(this.titulo, style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)
                     )
                   ],
                 )
@@ -169,6 +181,58 @@ class _ButtonMenu extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _Comunicados extends StatelessWidget {
+  final comunicadoService = ComunicadosService();
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future:  comunicadoService.obtenerComunicados(),
+      builder: ( _, AsyncSnapshot<List> snapshot){
+        if (snapshot.hasData) {
+          return CarouselSlider.builder(
+            itemCount: snapshot.data.length,
+            itemBuilder: (context, index, realIndex) => GestureDetector( onTap: (){
+              Navigator.pushNamed(context, 'pdf', arguments:snapshot.data[index]["pdf"]);
+            },
+            child: _Comunicado(comunicado: snapshot.data[index],)
+            ),
+            options: CarouselOptions(
+              autoPlayInterval: Duration(seconds: 3),
+              // enableInfiniteScroll: false,
+              viewportFraction: 0.85,
+              autoPlay: true,
+              aspectRatio: 3.0,
+              enlargeCenterPage: true
+            ),
+          );
+        }
+        return Center(child: CircularProgressIndicator());
+      },
+    ); 
+  }
+}
+
+class _Comunicado extends StatelessWidget {
+  final dynamic comunicado;
+
+  _Comunicado({@required this.comunicado});
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Stack(
+      children: [
+        FadeInImage(placeholder: AssetImage('assets/icons/logo.png'), image: NetworkImage(this.comunicado["img"]),fit: BoxFit.cover, width: size.width,),
+        Positioned(child: Container( width: size.width, color: Colors.black54,child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(this.comunicado["title"], style: TextStyle(fontSize: size.width*0.035,color: Colors.white,fontWeight: FontWeight.bold )),
+        )),),
+
+      ],
+        
     );
   }
 }

@@ -9,11 +9,11 @@ class DatosConstantes {
 
 class ColoresApp{
 
-  Color verdeOscuro = Color(0xff2D5B45);
+  Color verdeOscuro = Color(0xff204930);
   Color naranja = Color(0xffF48030);
   Color naranjaClaro = Color(0xffFEA30B);
   Color gris = Color(0xffBABABB);
-  Color boton = Color(0xff01954C);
+  Color boton = Color(0xff008E3B);
 
 }
 
@@ -50,7 +50,7 @@ class EstilosApp{
       ), 
       child: Row(
         children: [
-          Text(label,style: TextStyle(fontWeight: FontWeight.w500),),
+          Text(label,style: TextStyle(fontWeight: FontWeight.bold),),
            Text((obligatorio)?' *':'',style: TextStyle(fontWeight: FontWeight.w500,color: Colors.red),),
         ],
       )
@@ -60,7 +60,7 @@ class EstilosApp{
   Padding buttonChild({@required String texto}){
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-        child: Text(texto,style: TextStyle(fontSize: 18.0),),
+        child: Text(texto,style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),),
     );
   }
   ButtonStyle buttonStyle(){

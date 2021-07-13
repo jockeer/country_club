@@ -8,6 +8,9 @@ class TarjetaProvider extends ChangeNotifier{
   int _optRecarga = 1;
   String _montoRecarga = '10.00';
   String _modoPago = '1';
+
+  String _codigoTarjeta='';
+  String _dependiente='';
   /*Ultimo pago*/
 
   String _detalle="";
@@ -28,6 +31,20 @@ class TarjetaProvider extends ChangeNotifier{
     return this._deuda;
   }
 
+  set dependiente(String _dependiente){
+    this._dependiente = _dependiente;
+    notifyListeners();
+  }
+  String get dependiente{
+    return this._dependiente;
+  }
+  set codigoTarjeta(String _codigoTarjeta){
+    this._codigoTarjeta = _codigoTarjeta;
+    notifyListeners();
+  }
+  String get codigoTarjeta{
+    return this._codigoTarjeta;
+  }
   set montoRecarga(String _montoRecarga){
     this._montoRecarga = _montoRecarga;
     notifyListeners();

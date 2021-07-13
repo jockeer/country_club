@@ -41,8 +41,18 @@ class RecargaTarjetaPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 20.0,horizontal: 40.0),
                 child: Text("Monto", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
               ),
+              (provider.tipoPago==3)
+              ?Column(
+                children: [
+                  Text("Recarga de tarjeta para: ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0)),
+                  Text(provider.dependiente, style: TextStyle(fontSize: 14.0)),
+
+                ],
+              )
+              :Container(),
+              SizedBox(height: 20.0,),
               Container(
-                child: (provider.tipoPago==1)
+                child: (provider.tipoPago==1 || provider.tipoPago==3)
                 ? Column(
                   children: [
                     _MontosFijos(),

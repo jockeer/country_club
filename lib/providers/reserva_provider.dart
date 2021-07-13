@@ -12,14 +12,38 @@ class ReservaProvider extends ChangeNotifier{
   String _reqExtras='';
   String _telefono = '';
   String _nombre = '';
+  String _destinatario = '1';
+  String _motivoReserva = '';
+  bool _terminos = false;
   bool _carga = false;
 
+  set terminos(bool terminos){
+    this._terminos = terminos;
+    notifyListeners();
+  }
+  bool get terminos{
+    return this._terminos;
+  }
   set carga(bool carga){
     this._carga = carga;
     notifyListeners();
   }
   bool get carga{
     return this._carga;
+  }
+  set destinatario(String destinatario){
+    this._destinatario = destinatario;
+    notifyListeners();
+  }
+  String get destinatario{
+    return this._destinatario;
+  }
+  set motivoReserva(String motivoReserva){
+    this._motivoReserva = motivoReserva;
+    notifyListeners();
+  }
+  String get motivoReserva{
+    return this._motivoReserva;
   }
   set nombre(String nombre){
     this._nombre = nombre;

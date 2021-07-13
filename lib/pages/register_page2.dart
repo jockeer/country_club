@@ -115,7 +115,7 @@ class _Formulario extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 estilos.inputLabel(
-                    label: 'Codigo del Socio', obligatorio: true),
+                    label: 'Código del socio', obligatorio: true),
                 _InputCodigo(
                   codigoSocio: this.socio.codigo,
                 ),
@@ -124,9 +124,9 @@ class _Formulario extends StatelessWidget {
                 _InputCi(ci: this.socio.ci),
                 estilos.inputLabel(label: 'Origen', obligatorio: true),
                 _InputOrigen(origen: this.socio.origen),
-                estilos.inputLabel(label: 'Direccion', obligatorio: true),
+                estilos.inputLabel(label: 'Dirección', obligatorio: true),
                 _InputDireccion(direccion: this.socio.direccion),
-                estilos.inputLabel(label: 'Telefono Fijo'),
+                estilos.inputLabel(label: 'Teléfono fijo'),
                 _InputTelefono(telefono: this.socio.telefono),
                 estilos.inputLabel(label: 'Celular', obligatorio: true),
                 _Celular(
@@ -148,7 +148,7 @@ class _Formulario extends StatelessWidget {
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -395,7 +395,7 @@ class _BotonRegistrarSocio extends StatelessWidget {
             mostrarSnackBar(context, respuesta["Message"]);
           }
         } else {
-          mostrarSnackBar(context, 'Error al registrar el socio');
+          mostrarSnackBar(context, 'Error al registrar a el socio');
         }
       },
     );

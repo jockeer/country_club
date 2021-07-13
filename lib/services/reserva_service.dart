@@ -17,13 +17,18 @@ class ReservaService{
   
 
   Future<dynamic> guardarReserva(Reserva reserva) async {
+
+    final conexion = await comprobarInternet();
+    if (!conexion) {
+      return null;
+    }
     
 
     final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/customers/reserva');
 
     final paremetros = reserva.toJson();
     paremetros["access_token"]= await prefs.token;
-    // print(paremetros);
+     print(paremetros);
 
     try {
       final respuesta = await http.post(
@@ -33,12 +38,7 @@ class ReservaService{
       
       final decoded = await jsonDecode(respuesta.body);
 
-      if (respuesta.statusCode==200) {
-        return decoded;
-      }
-      if (decoded.containsKey("error")) {
-        return respuesta;
-      }
+      return decoded;
       
     } catch (e) {
       print(e);

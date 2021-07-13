@@ -26,7 +26,7 @@ class TokenService{
       if(respuesta.statusCode == 500) return "";
       final token = json.decode(respuesta.body);
 
-      prefs.token = token["access_token"].toString();
+      prefs.tokenReg = token["access_token"].toString();
 
       // print(token["access_token"].toString());
       return "ok";
