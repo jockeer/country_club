@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/models/compra_model.dart';
+import 'package:country/models/credit_card_model.dart';
 import 'package:country/models/detalle_compra_model.dart';
 import 'package:country/models/deudas_model.dart';
 import 'package:country/models/pagos_model.dart';
@@ -137,6 +138,38 @@ class TarjetaService {
 
     // return compras.items;
   
+  }
+
+  Future recargarTarjeta(String monto,TarjetaCredito tarjeta) async {
+    final conexion = await comprobarInternet();
+    if (!conexion) {
+      return null;
+    }
+
+    final fecha = new DateTime.now();
+    final url = Uri.http('190.186.228.218', 'appmovil/api/SocioDigital/Abonar');
+    print('${fecha.day}/${fecha.month}/${fecha.year}');
+    final date = '${fecha.day}/${fecha.month}/${fecha.year}';
+    try {
+    
+      final respuesta = await http.post(
+        url,
+        body: {
+          "CodigoSocio": int.parse(prefs.codigoSocio),
+          "FechaAbono": date,
+          "Moneda": 1,
+          "Importe": int.parse(monto),
+          "MetodoAbono": 1,
+          "NroTarjeta" : tarjeta.cardNumber,
+          "NroCI": prefs.ciSocio,
+          "NroAutorizacion":"",
+          "NroTransaccion":"",
+          "Glosa":"",
+
+        }
+      );
+    } catch (e) {
+    }
   }
 
 }

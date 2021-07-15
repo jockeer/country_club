@@ -91,8 +91,10 @@ class _Menu extends StatelessWidget {
               )
             ),
           ),
-          SizedBox(height: 20.0,),
-        
+          // SizedBox(height: 20.0,),
+          estilos.inputLabel(label: 'Comunicados'),
+          _Comunicados(),
+          Divider(),
           // SizedBox(height: 20.0,),
           Row(
             children: [
@@ -126,9 +128,7 @@ class _Menu extends StatelessWidget {
             ],
           ),
             Divider(),
-          estilos.inputLabel(label: 'Comunicados'),
-          _Comunicados(),
-          Divider(),
+        
           // SizedBox(height: 20.0,),
           
 

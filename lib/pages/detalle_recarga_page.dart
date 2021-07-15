@@ -2,6 +2,7 @@ import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/models/credit_card_model.dart';
 import 'package:country/providers/tarjeta_provider.dart';
+import 'package:country/services/tarjeta_service.dart';
 import 'package:country/widgets/app_bar_widget.dart';
 import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,11 @@ class DetalleRecargaPage extends StatelessWidget {
 
   final prefs = PreferenciasUsuario();
   final estilos = EstilosApp();
+  final _tarjetaService= TarjetaService();
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<TarjetaProvider>(context);
     final TarjetaCredito tarjeta = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -22,8 +25,8 @@ class DetalleRecargaPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
         child: Container(
           width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: ListView(
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 alignment: Alignment.center,
@@ -39,13 +42,16 @@ class DetalleRecargaPage extends StatelessWidget {
               Divider(),
               Expanded(child: Container()),
               ElevatedButton(
-                  onPressed: (){}, 
+                  onPressed: (){
+                    _tarjetaService.recargarTarjeta(provider.montoRecarga, tarjeta);
+                  }, 
                   child: estilos.buttonChild(texto: 'Realizar Recarga'),
                   style: estilos.buttonStyle(),
               ),
               
-              Expanded(child: Container()),
               PieLogoWidget()
+              
+              
               
             ],
           ),
@@ -58,6 +64,7 @@ class DetalleRecargaPage extends StatelessWidget {
 class _Detalle extends StatelessWidget {
   final prefs = PreferenciasUsuario();
   final TarjetaCredito tarjeta;
+  final estilos = EstilosApp();
 
   _Detalle({@required this.tarjeta});
   @override
@@ -114,6 +121,12 @@ class _Detalle extends StatelessWidget {
               ],
             )
             :Container(),
+          ),
+
+          TextFormField(
+            keyboardType: TextInputType.multiline,
+            decoration: estilos.inputDecoration(hintText: 'Glosa',padingTop: 15.0),
+
           )
         ],
       ),

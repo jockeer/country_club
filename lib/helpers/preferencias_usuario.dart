@@ -36,6 +36,13 @@ class PreferenciasUsuario {
   set telefonoSocio(String telefono){
     _prefs.setString('telefono', telefono);
   }
+  get ciSocio{
+    return _prefs.getString('ci') ?? 'sin ci';
+  }
+
+  set ciSocio(String ci){
+    _prefs.setString('ci', ci);
+  }
   //GET Y SET del Nombre de Socio
 
   get nombreSocio{
