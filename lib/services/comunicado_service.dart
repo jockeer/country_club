@@ -18,7 +18,7 @@ class ComunicadosService{
 
     final decoded = await json.decode(respuesta.body);
 
-    print(decoded["Data"]);
+    //print(decoded["Data"]);
     return decoded["Data"];
   }
 

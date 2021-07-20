@@ -140,36 +140,124 @@ class TarjetaService {
   
   }
 
-  Future recargarTarjeta(String monto,TarjetaCredito tarjeta) async {
+  Future obtenerTokenPagos()async{
+    final url = Uri.http('190.186.228.218', 'appmovilcobro/api/SocioDigital/ObtenerToken');
+    try {
+      final token = await http.get(
+          url,
+          headers: {
+            "authorization": basicAuthenticationHeader('country', '123456')
+          }
+        );
+        final tokenDecoded = await jsonDecode(token.body);
+        return tokenDecoded;
+      
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future recargarTarjeta(String monto,String codSocio,TarjetaCredito tarjeta, String glosa) async {
+
+    final conexion = await comprobarInternet();
+    if (!conexion) return null;
+
+    final token = await obtenerTokenPagos();
+
+    if (token == null)return null; 
+
+    if (token["codigo"] != 0) return null;
+
+
+    final url = Uri.http('190.186.228.218', 'appmovilcobro/api/SocioDigital/Abonar');
+
+    // final fecha = new DateTime.now();
+    // final date = '${fecha.day}/${fecha.month}/${fecha.year}';
+    final numeroTarjeta = tarjeta.cardNumber.replaceAll(' ', '');
+
+    final dynamic parametros = {
+      "CodigoSocio":int.parse(codSocio),
+      "FechaAbono":"09/06/2021",
+      "Moneda":1,
+      "Importe":double.parse(monto),
+      "MetodoAbono":1,
+      "NroTarjeta":numeroTarjeta,
+      "NroCI":prefs.ciSocio,
+      "NroAutorizacion":"15",
+      "NroTransaccion":"",
+      "Glosa":glosa
+    };
+
+    print(parametros);
+
+    //print("token :" + token["data"]);
+    final rsp = await http.post(
+      url,
+      body: jsonEncode(parametros),
+      headers:{
+        "Authorization" : 'Bearer ${token["data"]}',
+        "Content-Type" : 'application/json'
+      } 
+    );
+
+
+    final respDecoded = await jsonDecode(rsp.body);
+    if (respDecoded["CodigoRespuesta"] != 0) return null;
+    
+    return 0;
+    // try {
+    // } catch (e) {
+    //   return null;
+    // }
+  }
+
+  Future pagoMensualidad(String monto,String codigoSocio,TarjetaCredito tarjeta, String glosa) async {
+
     final conexion = await comprobarInternet();
     if (!conexion) {
       return null;
     }
 
     final fecha = new DateTime.now();
-    final url = Uri.http('190.186.228.218', 'appmovil/api/SocioDigital/Abonar');
-    print('${fecha.day}/${fecha.month}/${fecha.year}');
+    //final url = Uri.http('190.186.228.218', 'appmovil/api/SocioDigital/Abonar');
+    //print('${fecha.day}/${fecha.month}/${fecha.year}');
     final date = '${fecha.day}/${fecha.month}/${fecha.year}';
-    try {
-    
-      final respuesta = await http.post(
-        url,
-        body: {
-          "CodigoSocio": int.parse(prefs.codigoSocio),
-          "FechaAbono": date,
-          "Moneda": 1,
-          "Importe": int.parse(monto),
-          "MetodoAbono": 1,
-          "NroTarjeta" : tarjeta.cardNumber,
-          "NroCI": prefs.ciSocio,
-          "NroAutorizacion":"",
-          "NroTransaccion":"",
-          "Glosa":"",
 
-        }
-      );
-    } catch (e) {
-    }
+    final parametros = {
+      "CodigoSocio": int.parse(codigoSocio),
+      "FechaCobro": date,
+      "Moneda": 1,
+      "Importe": double.parse(monto),
+      "TipoCambio": "",
+      "MetodoPago": 1,
+      "NroTarjeta" : tarjeta.cardNumber,
+      "NroCI": prefs.ciSocio,
+      "NroAutorizacion":"",
+      "NroTransaccion":"",
+      "Glosa":glosa,
+    };
+
+    print(parametros);
+    // try {
+    
+    //   final respuesta = await http.post(
+    //     url,
+    //     body: {
+    //       "CodigoSocio": int.parse(prefs.codigoSocio),
+    //       "FechaAbono": date,
+    //       "Moneda": 1,
+    //       "Importe": int.parse(monto),
+    //       "MetodoAbono": 1,
+    //       "NroTarjeta" : tarjeta.cardNumber,
+    //       "NroCI": prefs.ciSocio,
+    //       "NroAutorizacion":"",
+    //       "NroTransaccion":"",
+    //       "Glosa":"",
+
+    //     }
+    //   );
+    // } catch (e) {
+    // }
   }
 
 }

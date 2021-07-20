@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
+import 'package:country/models/dependiente_model.dart';
 import 'package:country/services/push_notificacion_service.dart';
 import 'package:country/services/token_service.dart';
 import 'package:http/http.dart' as http;
@@ -36,7 +37,7 @@ class SocioService{
       return json.decode(resp.body);
       
     } catch (e) {
-      print(e);
+     // print(e);
     }
   }
 
@@ -70,17 +71,17 @@ class SocioService{
   
   }
 
-  Future<List<Socio>> obtenerDependientes()async{
+  Future<List<Dependiente>> obtenerDependientes()async{
 
     final prefs = PreferenciasUsuario();
     final url = Uri.http('190.186.228.218', 'appmovil/api/Asociado/GetDependentID/${prefs.codigoSocio}');
 
     final respuesta = await _procesarInfo(url);
 
-    final socio = Socios.fromJsonList(respuesta);
+    final dependiente = Dependientes.fromJsonList(respuesta);
 
-    // print(socio.items);
-    return socio.items;
+    //print(dependiente.items[0]);
+    return dependiente.items;
 
     
   }
@@ -94,35 +95,40 @@ class SocioService{
     if(n==null){
       return null;
     }
-    final url = Uri.https(constantes.dominio, 'laspalmas/oauth2/token'); 
-    final respuesta = await http.post(
-      url,
-      body: {
-        "password": pass,
-        "grant_type": "password",
-        "client_id": "LASPALMASAppUser",
-        "username": usuario
-      }
-    );
-    final decodedData = jsonDecode(respuesta.body);
+    try {
+      
+      final url = Uri.https(constantes.dominio, 'laspalmas/oauth2/token'); 
+      final respuesta = await http.post(
+        url,
+        body: {
+          "password": pass,
+          "grant_type": "password",
+          "client_id": "LASPALMASAppUser",
+          "username": usuario
+        }
+      );
+      final decodedData = jsonDecode(respuesta.body);
 
-    if (decodedData.containsKey("access_token")) {
-      prefs.token = await decodedData["access_token"];
-      final _tokenService = TokenService();
-      
-      await tokenDevice.obtenerDeviceToken();
-      
-      final devideTokenguardado = await _tokenService.registrarDeviceToken();
-      if (devideTokenguardado) {
-        final socio = await obtenerDatosSocio();
-        return socio; 
+      if (decodedData.containsKey("access_token")) {
+        prefs.token = await decodedData["access_token"];
+        final _tokenService = TokenService();
         
-      } else {
+        await tokenDevice.obtenerDeviceToken();
+        
+        final devideTokenguardado = await _tokenService.registrarDeviceToken();
+        if (devideTokenguardado) {
+          final socio = await obtenerDatosSocio();
+          return socio; 
+          
+        } else {
+          return null;
+        }
+        
+      }
+      else {
         return null;
       }
-      
-    }
-    else {
+    } catch (e) {
       return null;
     }
 

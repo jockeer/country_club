@@ -102,7 +102,7 @@ class _Opciones extends StatelessWidget {
         Divider(),
         // RadioListTile(title: Text('Puntos'),value: '1', groupValue: provider.modoPago, onChanged: (value){ provider.modoPago=value;}),
         RadioListTile(title: Text('LINKSER'),value: '1', groupValue: provider.modoPago, onChanged: (value){provider.modoPago=value;}),
-        RadioListTile(title: Text('ATC'),value: '2', groupValue: provider.modoPago, onChanged: (value){provider.modoPago=value;}),
+        // RadioListTile(title: Text('ATC'),value: '2', groupValue: provider.modoPago, onChanged: (value){provider.modoPago=value;}),
         Divider(),
 
       ],

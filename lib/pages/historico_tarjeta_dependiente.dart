@@ -1,5 +1,5 @@
 import 'package:country/models/compra_model.dart';
-import 'package:country/models/socio_model.dart';
+import 'package:country/models/dependiente_model.dart';
 import 'package:country/services/tarjeta_service.dart';
 import 'package:country/widgets/app_bar_widget.dart';
 import 'package:country/widgets/compra_widget.dart';
@@ -11,7 +11,7 @@ class HistoricoTarjetaDependiente extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Socio dependiente = ModalRoute.of(context).settings.arguments;
+    final Dependiente dependiente = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       appBar: appBarWidget(titulo: dependiente.nombre),

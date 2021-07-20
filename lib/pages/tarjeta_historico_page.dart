@@ -1,7 +1,7 @@
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/models/compra_model.dart';
-import 'package:country/models/socio_model.dart';
+import 'package:country/models/dependiente_model.dart';
 import 'package:country/services/socio_service.dart';
 import 'package:country/services/tarjeta_service.dart';
 import 'package:country/widgets/compra_widget.dart';
@@ -59,7 +59,7 @@ class _UltimasTransacciones extends StatelessWidget {
 
     return FutureBuilder(
         future: _socioService.obtenerDependientes(),
-        builder: (_, AsyncSnapshot<List<Socio>> snapshot){
+        builder: (_, AsyncSnapshot<List<Dependiente>> snapshot){
           if (snapshot.hasData) {
             return _Menu(dependientes: snapshot.data,);
           }
@@ -70,7 +70,7 @@ class _UltimasTransacciones extends StatelessWidget {
 }
 
 class _Menu extends StatelessWidget {
-  final List<Socio> dependientes;
+  final List<Dependiente> dependientes;
   final colores = ColoresApp();
 
   _Menu({@required this.dependientes});
@@ -127,7 +127,7 @@ class _Transacciones extends StatelessWidget {
   }
 }
 class _Dependientes extends StatelessWidget {
-  final List<Socio> dependientes;
+  final List<Dependiente> dependientes;
   final colores = ColoresApp();
   _Dependientes({@required this.dependientes});
 

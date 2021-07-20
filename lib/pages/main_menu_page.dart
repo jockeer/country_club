@@ -8,10 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class MainMenuPage extends StatelessWidget {
+class MainMenuPage extends StatefulWidget {
+  @override
+  _MainMenuPageState createState() => _MainMenuPageState();
+}
+
+class _MainMenuPageState extends State<MainMenuPage> {
   final prefs = PreferenciasUsuario();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<RefreshIndicatorState> refreshkey= new GlobalKey<RefreshIndicatorState>();
+
   @override
   Widget build(BuildContext context) {
     if (prefs.notificacionEnCola.length==0) {
@@ -23,16 +30,7 @@ class MainMenuPage extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       drawer: MenuLateralWidget(),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            children: [
-              _Menu(),
-              PieLogoWidget()
-            ],
-          ),
-        ),
-      ),
+      body: _Menu(refreshkey:refreshkey),
       floatingActionButton: FloatingActionButton(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
@@ -53,10 +51,21 @@ class MainMenuPage extends StatelessWidget {
     mensaje.fecha = prefs.notificacionEnCola[3];
     await DBInboxService.db.nuevoMensaje(mensaje);
   }
+
+  
 }
 
 
-class _Menu extends StatelessWidget {
+class _Menu extends StatefulWidget {
+  final GlobalKey<RefreshIndicatorState> refreshkey;
+
+  _Menu({@required this.refreshkey});
+
+  @override
+  __MenuState createState() => __MenuState();
+}
+
+class __MenuState extends State<_Menu> {
   final estilos = EstilosApp();
 
   @override
@@ -64,9 +73,13 @@ class _Menu extends StatelessWidget {
 
     final phoneSize = MediaQuery.of(context).size;
 
-    return Column(
+    return RefreshIndicator(
+      key: this.widget.refreshkey,
+      onRefresh: _cargarDatos,
+      child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
         children: [
-          GestureDetector(
+            GestureDetector(
             onTap: () => Navigator.pushNamed(context, 'tarjeta'),
             child: Container(
               width: phoneSize.width,
@@ -128,12 +141,21 @@ class _Menu extends StatelessWidget {
             ],
           ),
             Divider(),
-        
-          // SizedBox(height: 20.0,),
-          
-
+          PieLogoWidget()
         ],
-      );
+
+      ),
+    );
+  }
+
+  Future<Null> _cargarDatos()async{
+   this.widget.refreshkey.currentState?.show(atTop: false);
+   await Future.delayed(Duration(seconds: 1));
+
+   setState(() {
+     
+   });
+   return null;
   }
 }
 
@@ -187,6 +209,7 @@ class _ButtonMenu extends StatelessWidget {
 
 class _Comunicados extends StatelessWidget {
   final comunicadoService = ComunicadosService();
+  // final GlobalKey comunicados = GlobalKey<FutureBuilder>();
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(

@@ -13,12 +13,16 @@ class TarjetaProvider extends ChangeNotifier{
   String _dependiente='';
   /*Ultimo pago*/
 
+  String _glosa="";
   String _detalle="";
   String _fecha="";
   String _idDeuda="";
   String _totalDeuda="";
   String _tipoDeuda="";
   int _tipoPago = 0;
+
+  bool _carga = false;
+
   
   Deuda _deuda;
 
@@ -31,6 +35,22 @@ class TarjetaProvider extends ChangeNotifier{
     return this._deuda;
   }
 
+  set carga(bool _carga){
+    this._carga = _carga;
+    notifyListeners();
+  }
+  bool get carga{
+    return this._carga;
+  }
+
+
+  set glosa(String _glosa){
+    this._glosa = _glosa;
+    notifyListeners();
+  }
+  String get glosa{
+    return this._glosa;
+  }
   set dependiente(String _dependiente){
     this._dependiente = _dependiente;
     notifyListeners();
