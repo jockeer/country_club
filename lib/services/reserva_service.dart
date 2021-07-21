@@ -28,7 +28,7 @@ class ReservaService{
 
     final paremetros = reserva.toJson();
     paremetros["access_token"]= await prefs.token;
-     print(paremetros);
+     //print(paremetros);
 
     try {
       final respuesta = await http.post(
@@ -41,7 +41,7 @@ class ReservaService{
       return decoded;
       
     } catch (e) {
-      print(e);
+      //print(e);
       return null;
     }
 
@@ -71,7 +71,7 @@ class ReservaService{
 
     final decoded = jsonDecode(respuesta.body);
 
-    print(decoded);
+    //print(decoded);
     return decoded["Status"];
 
     // print(decoded);
@@ -92,7 +92,7 @@ class ReservaService{
 
     final decoded = jsonDecode(respuesta.body);
 
-    print(decoded);
+    //print(decoded);
     return decoded["Status"];
 
     // print(decoded);

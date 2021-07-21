@@ -33,7 +33,7 @@ class  DBService{
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join( documentsDirectory.path, 'TarjetasDB.db' );
 
-    print(path);
+    //print(path);
 
     //Crear base de datos
 
@@ -62,7 +62,7 @@ class  DBService{
     final db = await database;
 
     final res = await db.insert('tarjetas', nuevaTarjeta.toJson());
-    print("id de la tarjeta insertada: " + res.toString());
+    //print("id de la tarjeta insertada: " + res.toString());
     return res;
   }
 
@@ -98,7 +98,7 @@ class  DBService{
     final db  = await database;
     final res = await db.rawDelete('DELETE FROM tarjetas');
 
-    print("cantidad de registros eliminados: " + res.toString());
+    //print("cantidad de registros eliminados: " + res.toString());
     return res;
   }
   

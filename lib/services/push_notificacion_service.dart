@@ -33,8 +33,8 @@ class PushNotificationService {
   
 
   static Future<void> _opbackgroundHandler(RemoteMessage message) async {
-    print('onBackground Handler ${ message.messageId }');
-    print('bacground');// aplicacion background
+    //print('onBackground Handler ${ message.messageId }');
+    //print('bacground');// aplicacion background
 
     final mensaje =new MensajeInbox();
     mensaje.idNotificacion=message.messageId ?? '0';
@@ -45,7 +45,7 @@ class PushNotificationService {
   }
 
   static Future<void> _onMessageHandler(RemoteMessage message) async {
-    print('onMessage Handler ${ message.messageId }');
+    //print('onMessage Handler ${ message.messageId }');
     // print('Onmessa'); // Aplicacion abierta
 
 
@@ -93,7 +93,7 @@ class PushNotificationService {
 
   Future<void> obtenerDeviceToken()async {
     token = await FirebaseMessaging.instance.getToken();
-    print("token del dispositivo:" + token);
+    //print("token del dispositivo:" + token);
     final prefs = PreferenciasUsuario();
 
     prefs.deviceToken = token;

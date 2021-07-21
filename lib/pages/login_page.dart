@@ -140,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
     
     // Navigator.pushNamed(context, 'main_menu');
     if(socio != null){
-      print(socio.apMaterno);
+      //print(socio.apMaterno);
         prefs.nombreSocio = '${socio.nombre} ${socio.apPaterno}';
         prefs.correoSocio = '${socio.email}';
         prefs.codigoSocio = '${socio.codigo}';

@@ -11,7 +11,7 @@ class TarjetaProvider extends ChangeNotifier{
 
   String _codigoTarjeta='';
   String _dependiente='';
-  /*Ultimo pago*/
+  String _ciDependiente ='';
 
   String _glosa="";
   String _detalle="";
@@ -50,6 +50,13 @@ class TarjetaProvider extends ChangeNotifier{
   }
   String get glosa{
     return this._glosa;
+  }
+  set ciDependiente(String _ciDependiente){
+    this._ciDependiente = _ciDependiente;
+    notifyListeners();
+  }
+  String get ciDependiente{
+    return this._ciDependiente;
   }
   set dependiente(String _dependiente){
     this._dependiente = _dependiente;

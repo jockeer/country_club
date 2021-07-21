@@ -22,8 +22,8 @@ class _MainMenuPageState extends State<MainMenuPage> {
   @override
   Widget build(BuildContext context) {
     if (prefs.notificacionEnCola.length==0) {
-      print('vacio');
-      print(prefs.notificacionEnCola.length);
+      //print('vacio');
+      //print(prefs.notificacionEnCola.length);
     } else {
       cargarNotificacion();
     }

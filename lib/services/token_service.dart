@@ -32,7 +32,7 @@ class TokenService{
       return "ok";
       
     } catch (e) {
-      print(e);
+      //print(e);
       return "";
     }
     

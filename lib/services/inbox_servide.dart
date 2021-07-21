@@ -29,7 +29,7 @@ class  DBInboxService{
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join( documentsDirectory.path, 'InboxDB.db' );
 
-    print(path);
+    //print(path);
 
     //Crear base de datos
 
@@ -57,11 +57,11 @@ class  DBInboxService{
 
     final validacion = await db.query('inbox',where: 'idNotificacion = ?', whereArgs: [nuevoMensaje.idNotificacion]);
     if (validacion.length != 0) {
-    print("esa notifcacion ya esta registrada");
+    //print("esa notifcacion ya esta registrada");
       return 0;
     }
     final res = await db.insert('inbox', nuevoMensaje.toJson());
-    print("id del mensaje insertada: " + res.toString());
+    //print("id del mensaje insertada: " + res.toString());
     return res;
   }
 

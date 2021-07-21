@@ -6,6 +6,7 @@ import 'package:country/services/tarjeta_service.dart';
 import 'package:country/utils/show_snack_bar.dart';
 import 'package:country/widgets/app_bar_widget.dart';
 import 'package:country/widgets/pie_logo_widget.dart';
+import 'package:country/widgets/success_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
@@ -59,19 +60,25 @@ class DetalleRecargaPage extends StatelessWidget {
                         if (!formStat.currentState.validate()) return;
                         provider.carga=true;
                         if (provider.tipoPago == 3) {
-                          _tarjetaService.recargarTarjeta(provider.montoRecarga,provider.codigoTarjeta, tarjeta, provider.glosa);
+                          final rsp = await _tarjetaService.recargarTarjeta(provider.montoRecarga,provider.codigoTarjeta, tarjeta, provider.glosa, provider.ciDependiente);
+                          provider.carga=false;
+                          if (rsp==null) return mostrarSnackBar(context, 'Error al recargar la tarjeta del dependiente');
+                          return showDialog(context: context, builder: (context){return SuccessDialogWidget(mensaje: 'Abono de ${provider.montoRecarga} realizado con exito', ruta: 'main_menu');});
                           
                         }else if(provider.tipoPago == 1){             
-                          final rsp = await _tarjetaService.recargarTarjeta(provider.montoRecarga,prefs.codigoSocio, tarjeta, provider.glosa);
+                          final rsp = await _tarjetaService.recargarTarjeta(provider.montoRecarga,prefs.codigoSocio, tarjeta, provider.glosa, prefs.ciSocio);
                           provider.carga=false;
                           if (rsp==null) return mostrarSnackBar(context, 'Error al recargar la tarjeta');
+
+                          return showDialog(context: context, builder: (context){return SuccessDialogWidget(mensaje: 'Abono de ${provider.montoRecarga} realizado con exito', ruta: 'main_menu');});
                         }
                         else if(provider.tipoPago == 2){
-                          _tarjetaService.pagoMensualidad(provider.montoRecarga,prefs.codigoSocio, tarjeta, provider.glosa);
+                          final rsp = await _tarjetaService.pagoMensualidad(provider.montoRecarga, tarjeta, provider.glosa);
+                          provider.carga=false;
                         }
                         
                       }, 
-                      child: estilos.buttonChild(texto: 'Realizar Recarga'),
+                      child: estilos.buttonChild(texto: (provider.tipoPago == 1 || provider.tipoPago == 3) ?'Realizar Recarga': 'Realizar Pago'),
                       style: estilos.buttonStyle(),
                   ),
                   

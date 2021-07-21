@@ -87,7 +87,7 @@ class _Tarjeta extends StatelessWidget {
               future: tarjetaService.obtenerSaldo(prefs.codigoSocio),
               builder: (context, AsyncSnapshot<String> snapshot){
                 if (snapshot.hasData) {   
-                  return Text('Bs.'+ '${snapshot.data}', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: phoneSize.width*0.15, decoration: TextDecoration.underline),);          
+                  return Text('Bs. '+ '${snapshot.data}', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: phoneSize.width*0.12, decoration: TextDecoration.underline),);          
                 } 
                 return CircularProgressIndicator();
               },
@@ -205,6 +205,7 @@ class _Dependientes extends StatelessWidget {
             provider.optRecarga=1;
             provider.montoRecarga='10.00';
             provider.dependiente = '${dependientes[index].nombre} ${dependientes[index].apPaterno} ${dependientes[index].apMaterno}';
+            provider.ciDependiente= dependientes[index].ci;
             Navigator.pushNamed(context, 'metodo_pago');
           },
         );

@@ -23,7 +23,7 @@ class SuccessDialogWidget extends StatelessWidget {
             child: Text('Aceptar', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16.0),),
             onPressed: (){
               Navigator.of(context).pop();
-              Navigator.pushNamed(context, this.ruta);
+              Navigator.popUntil(context, ModalRoute.withName(this.ruta));
             },
             style: ElevatedButton.styleFrom(
               padding: EdgeInsets.symmetric(horizontal: 50.0),

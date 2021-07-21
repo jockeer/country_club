@@ -157,7 +157,7 @@ class TarjetaService {
     }
   }
 
-  Future recargarTarjeta(String monto,String codSocio,TarjetaCredito tarjeta, String glosa) async {
+  Future recargarTarjeta(String monto,String codSocio,TarjetaCredito tarjeta, String glosa, String ci) async {
 
     final conexion = await comprobarInternet();
     if (!conexion) return null;
@@ -182,13 +182,13 @@ class TarjetaService {
       "Importe":double.parse(monto),
       "MetodoAbono":1,
       "NroTarjeta":numeroTarjeta,
-      "NroCI":prefs.ciSocio,
+      "NroCI":ci,
       "NroAutorizacion":"15",
       "NroTransaccion":"",
       "Glosa":glosa
     };
 
-    print(parametros);
+    // print(parametros);
 
     //print("token :" + token["data"]);
     final rsp = await http.post(
@@ -203,6 +203,8 @@ class TarjetaService {
 
     final respDecoded = await jsonDecode(rsp.body);
     if (respDecoded["CodigoRespuesta"] != 0) return null;
+
+    print(respDecoded);
     
     return 0;
     // try {
@@ -211,33 +213,48 @@ class TarjetaService {
     // }
   }
 
-  Future pagoMensualidad(String monto,String codigoSocio,TarjetaCredito tarjeta, String glosa) async {
+  Future pagoMensualidad(String monto, TarjetaCredito tarjeta, String glosa) async {
 
     final conexion = await comprobarInternet();
-    if (!conexion) {
-      return null;
-    }
+    if (!conexion) return null;
 
-    final fecha = new DateTime.now();
-    //final url = Uri.http('190.186.228.218', 'appmovil/api/SocioDigital/Abonar');
-    //print('${fecha.day}/${fecha.month}/${fecha.year}');
-    final date = '${fecha.day}/${fecha.month}/${fecha.year}';
+    final token = await obtenerTokenPagos();
 
-    final parametros = {
-      "CodigoSocio": int.parse(codigoSocio),
-      "FechaCobro": date,
-      "Moneda": 1,
-      "Importe": double.parse(monto),
-      "TipoCambio": "",
-      "MetodoPago": 1,
-      "NroTarjeta" : tarjeta.cardNumber,
-      "NroCI": prefs.ciSocio,
-      "NroAutorizacion":"",
+    if (token == null)return null; 
+
+    if (token["codigo"] != 0) return null;
+
+    final url = Uri.http('190.186.228.218', 'appmovilcobro/api/SocioDigital/Pagar');
+
+    final numeroTarjeta = tarjeta.cardNumber.replaceAll(' ', '');
+    
+    //final fecha = new DateTime.now();
+    //final date = '${fecha.day}/${fecha.month}/${fecha.year}';
+
+    final Map<String, dynamic> parametros = {
+      "CodigoSocio":int.parse(prefs.codigoSocio),
+      "FechaCobro":"09/06/2021",
+      "Moneda":1,
+      "Importe":double.parse(monto),
+      "TipoCambio": 6.96,
+      "MetodoPago":1,
+      "NroTarjeta":numeroTarjeta,
+      "NroCI":prefs.ciSocio,
+      "NroAutorizacion":"15",
       "NroTransaccion":"",
       "Glosa":glosa,
+      "Detalle":[
+        {
+          "Nrocxc":1224546,
+          "ImporteCobrado":double.parse(monto),
+          "Moneda":1
+        }
+    ]
     };
 
-    print(parametros);
+    
+
+    print(jsonEncode(parametros));
     // try {
     
     //   final respuesta = await http.post(
