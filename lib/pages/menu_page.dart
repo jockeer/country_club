@@ -12,24 +12,25 @@ class MenuPage extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: appBarWidget(titulo: 'Menu'),
       body: FutureBuilder(
-        future: _menuService.obtenerMenu(),
-        builder: (_ , AsyncSnapshot snapshot){
-          if (snapshot.hasData) {
-            return _Menu(lista: snapshot.data,);
-          }
-          return Center(child: CircularProgressIndicator(),);
-        }
-      ),
+          future: _menuService.obtenerMenu(),
+          builder: (_, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return _Menu(
+                lista: snapshot.data,
+              );
+            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
     );
   }
 }
 
 class _Menu extends StatelessWidget {
-  
   final List<dynamic> lista;
   final colores = ColoresApp();
   _Menu({@required this.lista});
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -40,15 +41,23 @@ class _Menu extends StatelessWidget {
             indicatorColor: colores.verdeOscuro,
             isScrollable: true,
             labelColor: Colors.black,
-            tabs: lista.map((categoria){
-              return Tab(child: Text(categoria["categoria"],style: TextStyle(fontWeight: FontWeight.bold),),);
+            tabs: lista.map((categoria) {
+              return Tab(
+                child: Text(
+                  categoria["categoria"],
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              );
             }).toList(),
-
           ),
           Expanded(
             child: TabBarView(
-              children: lista.map((menu){
-                return Center(child: _ImagenMenu(img: menu["img"],),);
+              children: lista.map((menu) {
+                return Center(
+                  child: _ImagenMenu(
+                    img: menu["img"],
+                  ),
+                );
               }).toList(),
             ),
           )
@@ -59,7 +68,6 @@ class _Menu extends StatelessWidget {
 }
 
 class _ImagenMenu extends StatelessWidget {
-  
   final String img;
 
   _ImagenMenu({@required this.img});
@@ -67,7 +75,12 @@ class _ImagenMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        FadeInImage(placeholder: AssetImage('assets/icons/logo.png',), image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/menu/$img')),       
+        FadeInImage(
+            placeholder: AssetImage(
+              'assets/icons/logo.png',
+            ),
+            image: NetworkImage(
+                'https://laspalmascountryclub.com.bo/laspalmas/user-files/images/menu/$img')),
       ],
     );
   }

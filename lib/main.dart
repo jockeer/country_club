@@ -16,15 +16,15 @@ import 'package:country/services/push_notificacion_service.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = PreferenciasUsuario();
   await prefs.initPrefs();
 
   await PushNotificationService.initializeApp();
   await SentryFlutter.init(
-    (options){
-      options.dsn = 'https://ed954cc626af4b72ab6cf7cde5d5ca41@o880564.ingest.sentry.io/5834316';
+    (options) {
+      options.dsn =
+          'https://66e844007e0441a2b7c337ce05dbb172@o880564.ingest.sentry.io/5862979';
     },
     appRunner: () => runApp(MyApp()),
   );
@@ -37,43 +37,47 @@ class MyApp extends StatelessWidget {
     final prefs = PreferenciasUsuario();
 
     final colores = ColoresApp();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown
-    ]);
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: colores.verdeOscuro,
         statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.light
-      )
-    );
+        statusBarBrightness: Brightness.light));
 
     return MultiProvider(
-
       providers: [
-        ChangeNotifierProvider(create: (context)  => RegistroProvider(),),
-        ChangeNotifierProvider(create: (context)  => LoginProvider(),),
-        ChangeNotifierProvider(create: (context)  => ReservaProvider(),),
-        ChangeNotifierProvider(create: (context)  => TarjetaProvider(),),
-        ChangeNotifierProvider(create: (context)  => GaleriaProvider(),),
-        ChangeNotifierProvider(create: (context)  => NotificacionesProvider(),),
-        ChangeNotifierProvider(create: (context)  => TarjetasCreditoProvider(),),
+        ChangeNotifierProvider(
+          create: (context) => RegistroProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LoginProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ReservaProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => TarjetaProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GaleriaProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => NotificacionesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => TarjetasCreditoProvider(),
+        ),
       ],
-
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Country Club',
         // initialRoute: (prefs.token==''||prefs.token==null)?'menu':'menu',
-        initialRoute: (prefs.token==''||prefs.token==null)?'welcome':'main_menu',
+        initialRoute: (prefs.token == '' || prefs.token == null)
+            ? 'welcome'
+            : 'main_menu',
         routes: getAplicationRoutes(),
-        theme: ThemeData(
-          primarySwatch: Colors.green,
-          fontFamily: 'Montserrat'
-        ),
-        
+        theme: ThemeData(primarySwatch: Colors.green, fontFamily: 'Montserrat'),
       ),
     );
   }
 }
-
