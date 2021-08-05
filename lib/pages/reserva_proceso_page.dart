@@ -369,17 +369,22 @@ class _DialogInfo extends StatelessWidget {
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween ,children: [
             Text('Lunes'),
-            Container(decoration: BoxDecoration(color: Colors.grey[300],borderRadius: BorderRadius.circular(20.0)), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0) ,child: Text('12:30 - 23:00'),)
+            Container(decoration: BoxDecoration(color: Colors.grey[300],borderRadius: BorderRadius.circular(20.0)), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0) ,child: Text('12:00 - 22:00'),)
           ],),
           SizedBox(height: 20.0,),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween ,children: [
-            Text('Martes a Sabado'),
-            Container(decoration: BoxDecoration(color: Colors.grey[300],borderRadius: BorderRadius.circular(20.0)), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0) ,child: Text('12:30 - 23:00'),)
+            Text('Martes a Viernes'),
+            Container(decoration: BoxDecoration(color: Colors.grey[300],borderRadius: BorderRadius.circular(20.0)), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0) ,child: Text('6:00 - 22:00'),)
           ],),
           SizedBox(height: 20.0,),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween ,children: [
-            Text('Feriados'),
-            Container(decoration: BoxDecoration(color: Colors.grey[300],borderRadius: BorderRadius.circular(20.0)), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0) ,child: Text('12:30 - 23:00'),)
+            Text('Sabado'),
+            Container(decoration: BoxDecoration(color: Colors.grey[300],borderRadius: BorderRadius.circular(20.0)), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0) ,child: Text('6:30 - 20:00'),)
+          ],),
+          SizedBox(height: 20.0,),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween ,children: [
+            Text('Domingo'),
+            Container(decoration: BoxDecoration(color: Colors.grey[300],borderRadius: BorderRadius.circular(20.0)), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0) ,child: Text('10:00 - 18:00'),)
           ],),
         
         ],
@@ -487,7 +492,7 @@ class _DialogExito extends StatelessWidget {
               children: [
                 TextSpan(text: 'Estimado Asociado su '),
                 TextSpan(text: 'Pre-reserva', style: TextStyle(fontWeight: FontWeight.bold)),
-                TextSpan(text: ' ha sido registrada satisfactoriamente, en breve nos comunicaremos con usted para la confirmación de su datos.'),
+                TextSpan(text: ' ha sido registrada satisfactoriamente, en breve nos comunicaremos con usted para la confirmación de sus datos.'),
               ]
 
             ),
@@ -572,6 +577,9 @@ class _ButtonReserva extends StatelessWidget {
 
           if (respuesta==null) {
             return showDialog(context: context, builder: (context){ return NoInternetWidget(); });
+          }
+          if (respuesta["Status"]==false) {
+            return mostrarSnackBar(context, respuesta["Message"]);
           }
           if (respuesta.containsKey("error")) {
             return showDialog(

@@ -1,71 +1,27 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
+class ListViewWidget extends StatelessWidget {
 
-class ListViewWidget extends StatefulWidget {
-
-  @override
-  _ListViewWidgetState createState() => _ListViewWidgetState();
-}
-
-class _ListViewWidgetState extends State<ListViewWidget> {
-
-  PageController _controladorPageView;
-  @override
-  void initState() {
-    super.initState();
-    _controladorPageView = new PageController();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _animateSlider());
-    
-
-  }
   @override
   Widget build(BuildContext context) {
-    
-    final phoneSize = MediaQuery.of(context).size;
-   
-    return PageView(
-      controller: _controladorPageView,
-        
-        children: <Widget>[
-          Container(
-            width: phoneSize.width,
-            height: phoneSize.height,
-            child: Image(image: AssetImage('assets/backgrounds/fondo_inicio.jpg'), fit: BoxFit.cover,),
-            
-          ),    
-          Container(
-            width: phoneSize.width,
-            height: phoneSize.height,
-            child: Image(image: AssetImage('assets/backgrounds/fondo_inicio2.jpg'), fit: BoxFit.cover,),
-          ),    
-          Container(
-            width: phoneSize.width,
-            height: phoneSize.height,
-            child: Image(image: AssetImage('assets/backgrounds/fondo_inicio3.jpg'), fit: BoxFit.cover,),
-          ),           
-        
-        ],
-      );
-  }
-
-  void _animateSlider() {
-    if (_controladorPageView.hasClients) {
-      
-    Future.delayed(Duration(seconds: 3))
-      .then((_) {
-        int nextPage = _controladorPageView.page.round() + 1;
-
-        if (nextPage == 3) {
-          nextPage = 0;
-        }
-
-        _controladorPageView.animateToPage(nextPage, duration: Duration(milliseconds: 300), curve: Curves.linear).then((_) => _animateSlider());
-      });
-    }else{
-      // ignore: unnecessary_statements
-      _controladorPageView.initialPage;
-    }
+    final size = MediaQuery.of(context).size;
+    return CarouselSlider(
+      options: CarouselOptions(
+        height: size.height,
+        viewportFraction: 1,
+        enableInfiniteScroll: false,
+        autoPlay: true,
+        autoPlayInterval: Duration(seconds: 3),
+        autoPlayAnimationDuration: Duration(milliseconds: 800),
+        autoPlayCurve: Curves.fastOutSlowIn,
+        scrollDirection: Axis.horizontal
+      ),
+      items: [
+        Image(image: AssetImage('assets/backgrounds/fondo_inicio.jpg'), fit: BoxFit.fill,width: size.width, height: size.height,),
+        Image(image: AssetImage('assets/backgrounds/fondo_inicio2.jpg'), fit: BoxFit.fill,width: size.width, height: size.height,),
+        Image(image: AssetImage('assets/backgrounds/fondo_inicio3.jpg'), fit: BoxFit.fill,width: size.width, height: size.height,)
+      ],
+    );
   }
 }

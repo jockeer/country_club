@@ -1,7 +1,9 @@
+import 'package:country/providers/galeria_provider.dart';
 import 'package:country/services/eventos_service.dart';
 import 'package:country/widgets/app_bar_widget.dart';
 import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EventosPage extends StatelessWidget {
   final _eventosService = EventosService();
@@ -65,8 +67,10 @@ class _Evento extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<GaleriaProvider>(context);
     return GestureDetector(
       onTap: (){
+        provider.tituloExtra=1;
         Navigator.pushNamed(context, 'pdf', arguments: this.pdf);
       },
       child: Container(

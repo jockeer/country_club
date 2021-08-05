@@ -1,9 +1,11 @@
+import 'package:country/providers/galeria_provider.dart';
 import 'package:country/services/pdf_service.dart';
 import 'package:country/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:provider/provider.dart';
 
 import 'package:video_player/video_player.dart';
 
@@ -15,12 +17,12 @@ class PdfPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String url = ModalRoute.of(context).settings.arguments;
-
+    final provider = Provider.of<GaleriaProvider>(context);
     final String extension= url.substring(url.length - 3); 
 
 
     return Scaffold(
-      appBar: (extension == 'mp4')?null:appBarWidget(titulo: 'Evento'),
+      appBar: (extension == 'mp4')?null:appBarWidget(titulo: (provider.tituloExtra==1)?'Evento':'Comunicado'),
       //appBar: appBarWidget(titulo: 'Evento'),
       body: (extension =='pdf')?_Pdf(url: url,):(extension=='mp4') ?_Video(url: url) : _Imagen(url: url),
       backgroundColor: (extension == 'mp4')?Colors.black:Colors.white, 

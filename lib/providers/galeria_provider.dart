@@ -6,6 +6,8 @@ class GaleriaProvider extends ChangeNotifier{
 
   String _galeria = 'palmeras';
 
+  int _tituloExtra = 1;
+
   String get pagina{
     return this._pagina;
   }
@@ -20,6 +22,16 @@ class GaleriaProvider extends ChangeNotifier{
   
   set galeria(String galeria){
     this._galeria = galeria;
+    notifyListeners();
+  }
+
+  
+  int get tituloExtra{
+    return this._tituloExtra;
+  }
+  
+  set tituloExtra(int tituloExtra){
+    this._tituloExtra = tituloExtra;
     notifyListeners();
   }
 }

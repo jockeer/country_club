@@ -52,6 +52,13 @@ class PreferenciasUsuario {
   set nombreSocio(String nombre){
     _prefs.setString('nombre', nombre);
   }
+  get apellidoSocio{
+    return _prefs.getString('apellido') ?? 'sin apellido';
+  }
+
+  set apellidoSocio(String apellido){
+    _prefs.setString('apellido', apellido);
+  }
 
   //GET Y SET del Correo de Socio
   get correoSocio{

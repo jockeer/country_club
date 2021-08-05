@@ -77,7 +77,7 @@ class _ImagenMenu extends StatelessWidget {
       children: [
         FadeInImage(
             placeholder: AssetImage(
-              'assets/icons/logo.png',
+              'assets/images/fondocarga.png',
             ),
             image: NetworkImage(
                 'https://laspalmascountryclub.com.bo/laspalmas/user-files/images/menu/$img')),

@@ -73,8 +73,10 @@ class DetalleRecargaPage extends StatelessWidget {
                           return showDialog(context: context, builder: (context){return SuccessDialogWidget(mensaje: 'Abono de ${provider.montoRecarga} realizado con exito', ruta: 'main_menu');});
                         }
                         else if(provider.tipoPago == 2){
-                          final rsp = await _tarjetaService.pagoMensualidad(provider.montoRecarga, tarjeta, provider.glosa);
+                          final rsp = await _tarjetaService.pagoMensualidad(provider.montoRecarga, tarjeta, provider.glosa, provider.deuda);
                           provider.carga=false;
+                          if (rsp == null) return mostrarSnackBar(context, 'Error al pagar la deuda'); 
+                          return showDialog(context: context, builder: (context){return SuccessDialogWidget(mensaje: 'Deuda pagada con exito', ruta: 'main_menu');});
                         }
                         
                       }, 

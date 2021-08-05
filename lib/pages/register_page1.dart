@@ -75,25 +75,15 @@ class _RegisterPage1State extends State<RegisterPage1> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                estilos.inputLabel(label: 'Nombre(s)', obligatorio: true),
-                _InputFirstName(
-                  nombreSocio: socio.nombre,
-                ), //INPUT DONDE ESTA EL NOMBRE DE USUARIO
-                estilos.inputLabel(label: 'Apellido(s)', obligatorio: true),
-                _InputLastName(
-                  apellidoPaterno: socio.apPaterno,
-                  apellidoMaterno: socio.apMaterno,
-                ),
-                estilos.inputLabel(
-                    label: 'Correo electrónico', obligatorio: true),
-                _InputEmail(
-                  email: socio.email,
-                ), //INPUT DONDE ESTA EL NOMBRE DE USUARIO
-                estilos.inputLabel(label: 'Contraseña', obligatorio: true),
-                _InputPassword(), //INPUT DONDE ESTA EL NOMBRE DE USUARIO
-                SizedBox(
-                  height: 30.0,
-                ),
+                estilos.inputLabel( label: 'Nombre(s)', obligatorio: true),
+                _InputFirstName( nombreSocio: socio.nombre,), 
+                estilos.inputLabel( label: 'Apellido(s)', obligatorio: true),
+                _InputLastName( apellidoPaterno: socio.apPaterno, apellidoMaterno: socio.apMaterno,),
+                estilos.inputLabel( label: 'Correo electrónico', obligatorio: true),
+                _InputEmail( email: socio.email,), 
+                estilos.inputLabel( label: 'Contraseña', obligatorio: true),
+                _InputPassword(),
+                SizedBox( height: 30.0,),
               ],
             ),
           ),
@@ -140,25 +130,16 @@ class _FondoPantalla extends StatelessWidget {
 
 class _InputFirstName extends StatelessWidget {
   final String nombreSocio;
+  final estilos = EstilosApp();
 
-  const _InputFirstName({@required this.nombreSocio});
+  _InputFirstName({@required this.nombreSocio});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       initialValue: this.nombreSocio,
       keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-          hintText: 'Nombre',
-          contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50.0),
-              borderSide: BorderSide(color: Colors.black26)),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black26),
-              borderRadius: BorderRadius.circular(50.0)),
-          filled: true,
-          fillColor: Colors.white),
+      decoration: estilos.inputDecoration(hintText: 'Nombre'),
       validator: (value) {
         if (value.isEmpty) {
           return 'El nombre no puede quedar Vacío';
@@ -172,29 +153,15 @@ class _InputFirstName extends StatelessWidget {
 
 class _InputLastName extends StatelessWidget {
   final String apellidoPaterno, apellidoMaterno;
-
-  _InputLastName(
-      {@required this.apellidoPaterno, @required this.apellidoMaterno});
+  final estilos = EstilosApp();
+  _InputLastName({@required this.apellidoPaterno, @required this.apellidoMaterno});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       initialValue: '${this.apellidoPaterno} ${this.apellidoMaterno}',
       keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-          hintText: 'Apellido',
-          contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50.0),
-              borderSide: BorderSide(color: Colors.black26)),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black26),
-              borderRadius: BorderRadius.circular(50.0)),
-          filled: true,
-          fillColor: Colors.white
-          // border:
-
-          ),
+      decoration: estilos.inputDecoration(hintText: 'Apellido'),
       validator: (value) {
         if (value.isEmpty) {
           return "El apellido no puede quedar Vacío";
@@ -208,8 +175,9 @@ class _InputLastName extends StatelessWidget {
 
 class _InputEmail extends StatelessWidget {
   final String email;
-
-  const _InputEmail({@required this.email});
+  final estilos = EstilosApp();
+  final formValidator = FormValidator();
+  _InputEmail({@required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -218,17 +186,7 @@ class _InputEmail extends StatelessWidget {
     return TextFormField(
       initialValue: this.email,
       keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-          hintText: 'Correo electronico',
-          contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50.0),
-              borderSide: BorderSide(color: Colors.black26)),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black26),
-              borderRadius: BorderRadius.circular(50.0)),
-          filled: true,
-          fillColor: Colors.white),
+      decoration: estilos.inputDecoration(hintText: 'Correo electronico'),
       onChanged: (value) {
         provider.email = value;
       },
@@ -237,7 +195,6 @@ class _InputEmail extends StatelessWidget {
         if (value.isEmpty) {
           return 'El correo no puede quedar Vacío';
         } else {
-          final formValidator = FormValidator();
           if (formValidator.validarEmail(value)) {
             return null;
           } else {
@@ -250,6 +207,7 @@ class _InputEmail extends StatelessWidget {
 }
 
 class _InputPassword extends StatelessWidget {
+  final estilos = EstilosApp();
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<RegistroProvider>(context, listen: false);
@@ -257,17 +215,7 @@ class _InputPassword extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.text,
       obscureText: true,
-      decoration: InputDecoration(
-          hintText: 'Contraseña',
-          contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50.0),
-              borderSide: BorderSide(color: Colors.black26)),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black26),
-              borderRadius: BorderRadius.circular(50.0)),
-          filled: true,
-          fillColor: Colors.white),
+      decoration: estilos.inputDecoration(hintText: 'Contraseña'),
       onChanged: (value) {
         provider.password = value;
       },

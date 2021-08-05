@@ -84,7 +84,7 @@ class _OptCabana extends StatelessWidget {
         height: 150.0,
         child: Stack(
           children: [
-            FadeInImage(placeholder: AssetImage('assets/icons/logo.png'), image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/cabanas/$foto'),fit: BoxFit.fill, width: double.infinity, height: double.infinity,),
+            FadeInImage(placeholder: AssetImage('assets/images/fondocarga.png'), image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/cabanas/$foto'),fit: BoxFit.cover, width: double.infinity, height: double.infinity,),
             Column(
               children: [
                 GestureDetector(

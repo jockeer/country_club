@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:country/widgets/swipe_widget.dart';
 
 class WelcomePage extends StatelessWidget {
-  
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +19,6 @@ class WelcomePage extends StatelessWidget {
     );
   }
 }
-
-
 
 class ButtonsBottom extends StatelessWidget {
 
