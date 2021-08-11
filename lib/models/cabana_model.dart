@@ -24,17 +24,20 @@ class Cabana{
     Cabana({
         this.id,
         this.nombreCabana,
-        this.foto
+        this.foto,
+        this.cantidad
     });
 
     String id;
     String nombreCabana;
     String foto;
+    String cantidad;
 
     factory Cabana.fromJson(Map<String, dynamic> json) => Cabana(
         id: json["id"],
         nombreCabana: json["nombreCabana"],
         foto: json["foto"],
+        cantidad: json["cantidad"]
 
     );
 

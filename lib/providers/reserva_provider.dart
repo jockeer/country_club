@@ -9,6 +9,7 @@ class ReservaProvider extends ChangeNotifier{
   String _fecha='';
   String _hora= "00:00";
   String _cantPersonas = '0';
+  String _maxPersonas = '0';
   String _reqExtras='';
   String _telefono = '';
   String _nombre = '';
@@ -104,6 +105,13 @@ class ReservaProvider extends ChangeNotifier{
   }
   String get cantPersonas{
     return this._cantPersonas;
+  }
+  set maxPersonas(String maxPersonas){
+    this._maxPersonas = maxPersonas;
+    notifyListeners();
+  }
+  String get maxPersonas{
+    return this._maxPersonas;
   }
   
 

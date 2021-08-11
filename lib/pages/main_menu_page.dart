@@ -4,7 +4,9 @@ import 'package:country/models/mensaje_model.dart';
 import 'package:country/providers/galeria_provider.dart';
 import 'package:country/services/comunicado_service.dart';
 import 'package:country/services/inbox_servide.dart';
+import 'package:country/utils/show_snack_bar.dart';
 import 'package:country/widgets/pie_logo_widget.dart';
+import 'package:country/widgets/sesion_caducada_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -216,9 +218,12 @@ class _Comunicados extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<GaleriaProvider>(context);
     return FutureBuilder(
-      future:  comunicadoService.obtenerComunicados(),
+      future:  comunicadoService.obtenerComunicados(context),
       builder: ( _, AsyncSnapshot<List> snapshot){
         if (snapshot.hasData) {
+          if (snapshot.data[0] == null) {
+            return Container();
+          }
           if (snapshot.data.length == 0) {
             return Container();
           }

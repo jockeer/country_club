@@ -104,8 +104,12 @@ class _Cabana extends StatelessWidget {
           items: cabanas.map((cabana) {
             return DropdownMenuItem(child: Text(cabana.nombreCabana, style: TextStyle(color: Colors.black),), value: cabana.id,);
           }).toList(),
-          onChanged: (opt){
+          onChanged: (opt)async{
             provider.codigoCab=opt;
+            final cabana = this.cabanas.where((cab) => cab.id == opt).toList();
+            // print(cabana[0].cantidad);
+            provider.maxPersonas=cabana[0].cantidad;
+
           },
         ),
       ),
@@ -193,7 +197,7 @@ class _FormularioReservas extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      Text('Cantidad de personas'),
+                      Text('Personas  Max ${provider.maxPersonas}'),
                       SizedBox(height: 10.0,),
                       _CantidadPersonas(),
                     ],
@@ -545,6 +549,9 @@ class _ButtonReserva extends StatelessWidget {
           }
           if(provider.terminos==false){
             return mostrarSnackBar(context, 'Debe aceptar los terminos y condiciones para realizar una reserva');
+          }
+          if(int.parse(provider.cantPersonas)  > int.parse(provider.maxPersonas) ){
+            return mostrarSnackBar(context, 'Esta cabaña no acepta tantas personas');
           }
 
           if(!this.formState.currentState.validate()){

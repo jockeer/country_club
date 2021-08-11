@@ -52,7 +52,7 @@ class _Cabanas extends StatelessWidget {
       child: ListView.builder(
         itemCount: cabanas.length,
         itemBuilder: (_,index){
-          return _OptCabana(titulo: cabanas[index].nombreCabana, foto: cabanas[index].foto, idcab: cabanas[index].id, galeria: 'palmeras', cabanas: this.cabanas,);
+          return _OptCabana(titulo: cabanas[index].nombreCabana, foto: cabanas[index].foto, idcab: cabanas[index].id, galeria: 'palmeras', cabanas: this.cabanas, cantidad: cabanas[index].cantidad,);
         },
       ),
     );
@@ -65,9 +65,10 @@ class _OptCabana extends StatelessWidget {
   final String foto;
   final String galeria;
   final String idcab;
+  final String cantidad; 
   final List<Cabana> cabanas;
 
-  const _OptCabana({@required this.foto ,@required this.titulo, @required this.idcab, this.galeria, this.cabanas});
+  const _OptCabana({@required this.foto ,@required this.titulo, @required this.idcab, this.galeria, this.cabanas, @required this.cantidad});
 
 
   @override
@@ -77,6 +78,7 @@ class _OptCabana extends StatelessWidget {
     return GestureDetector(
       onTap: (){
         provider.codigoCab = this.idcab;
+        provider.maxPersonas = this.cantidad;
         Navigator.pushNamed(context, 'reserva_proceso', arguments: this.cabanas);
       },
       child: Container(
