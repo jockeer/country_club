@@ -28,4 +28,19 @@ class CabanaService{
     return cabanas.items;
 
   }
+
+  Future<List> obtenerFotos(String idCabana) async{
+    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/get_cabanas_fotos?idcabana=$idCabana');
+    //print(url); 
+
+    final conexion = await comprobarInternet();
+    if (!conexion) {
+      return [null];
+    }
+    final respuesta = await http.get(url);
+
+    final decoded = jsonDecode(respuesta.body);
+    print(decoded);
+    return decoded["Data"];
+  }
 }

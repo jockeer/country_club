@@ -92,7 +92,7 @@ class _OptCabana extends StatelessWidget {
                 GestureDetector(
                   onTap: (){
                     providerGaleria.galeria=this.galeria;
-                    Navigator.pushNamed(context, 'galeria');
+                    Navigator.pushNamed(context, 'galeria', arguments: this.idcab);
                   },
                   child: Container(
                     width: double.infinity, 
