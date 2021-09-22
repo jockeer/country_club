@@ -182,13 +182,14 @@ class _ButtonRecoverPass extends StatelessWidget {
     } else {
       provider.carga = false;
       showDialog(
-          context: contexto,
-          builder: (context) {
-            return SuccessDialogWidget(
-              mensaje: 'Revise su correo electrónico',
-              ruta: 'login',
-            );
-          });
+        context: contexto,
+        builder: (context) {
+          return SuccessDialogWidget(
+            mensaje: 'Revise su correo electrónico',
+            ruta: 'login',
+          );
+        }
+      );
     }
   }
 }

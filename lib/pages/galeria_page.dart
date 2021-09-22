@@ -11,8 +11,7 @@ class GaleriaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
-    final provider = Provider.of<GaleriaProvider>(context);
+
     final idcabana = ModalRoute.of(context).settings.arguments;
     final cabanasService = CabanaService();
     return Scaffold(

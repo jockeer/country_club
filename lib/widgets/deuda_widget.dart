@@ -18,7 +18,7 @@ class DeudasWidget extends StatelessWidget {
             return ListTileTheme(
               dense: true,
               child: Container(
-                color: (index==0)?colores.naranjaClaro:Colors.white,
+                color: (index==0)?colores.verdeMarcador:Colors.white,
                 child: ListTile(
                   title: Text(this.deudas[index].detalle, style:TextStyle(fontWeight: FontWeight.w500,fontSize: 14.0)),
                   subtitle: Text('${this.deudas[index].fecha.substring(0,10)} - Comprobante N ${this.deudas[index].idDeuda} '),

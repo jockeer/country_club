@@ -1,5 +1,7 @@
 import 'package:country/pages/acercade_page.dart';
 import 'package:country/pages/contact_page.dart';
+import 'package:country/pages/disciplina_page.dart';
+import 'package:country/pages/disciplinas_page.dart';
 import 'package:country/pages/historico_tarjeta_dependiente.dart';
 import 'package:country/pages/pdf_page.dart';
 import 'package:country/pages/politicas_page.dart';
@@ -67,5 +69,7 @@ Map<String, WidgetBuilder> getAplicationRoutes(){
     'politicas':( _ ) => PoliticasPage(),
     'reglamento':( _ ) => ReglamentoPage(),
     'historico_dependiente':( _ ) => HistoricoTarjetaDependiente(),
+    'disciplinas':( _ ) => DisciplinasPage(),
+    'disciplina':( _ ) => DisciplinaPage(),
   };
 }

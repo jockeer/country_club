@@ -10,6 +10,9 @@ class DatosConstantes {
 class ColoresApp{
 
   Color verdeOscuro = Color(0xff204930);
+  Color verde = Color(0xff225a40);
+  Color verdeMarcador = Color(0xffE5F5EC);
+  Color verdeClaro = Color(0xff008E3B);
   Color naranja = Color(0xffF48030);
   Color naranjaClaro = Color(0xffFEA30B);
   Color gris = Color(0xffBABABB);
@@ -63,8 +66,9 @@ class EstilosApp{
         child: Text(texto,style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),),
     );
   }
-  ButtonStyle buttonStyle(){
+  ButtonStyle buttonStyle({ bool expanded = false}){
     return ElevatedButton.styleFrom(
+        minimumSize: (expanded) ? Size(double.infinity, 0) : null,
         primary: ColoresApp().boton,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),

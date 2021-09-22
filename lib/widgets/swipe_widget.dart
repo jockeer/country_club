@@ -18,9 +18,7 @@ class ListViewWidget extends StatelessWidget {
         scrollDirection: Axis.horizontal
       ),
       items: [
-        Image(image: AssetImage('assets/backgrounds/fondo_inicio.jpg'), fit: BoxFit.fill,width: size.width, height: size.height,),
-        Image(image: AssetImage('assets/backgrounds/fondo_inicio2.jpg'), fit: BoxFit.fill,width: size.width, height: size.height,),
-        Image(image: AssetImage('assets/backgrounds/fondo_inicio3.jpg'), fit: BoxFit.fill,width: size.width, height: size.height,)
+        Image(image: AssetImage('assets/backgrounds/fondo_blanco.png'), fit: BoxFit.fill,width: size.width, height: size.height,),
       ],
     );
   }
