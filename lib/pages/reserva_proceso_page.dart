@@ -26,6 +26,7 @@ class ReservaProcesoPage extends StatefulWidget {
 
 class _ReservaProcesoPageState extends State<ReservaProcesoPage> {
   final GlobalKey<FormState> formState = GlobalKey<FormState>();
+  final colores = ColoresApp();
   @override
   Widget build(BuildContext context) {
 
@@ -33,7 +34,7 @@ class _ReservaProcesoPageState extends State<ReservaProcesoPage> {
     final List<Cabana> cabanas = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWidget(titulo: 'Reservas'),
+      appBar: appBarWidget(titulo: 'Reservas', texto:colores.verdeClaro),
       body: ModalProgressHUD(
         child: GestureDetector(
           onTap: (){

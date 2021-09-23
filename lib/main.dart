@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
             ? 'welcome'
             : 'main_menu',
         routes: getAplicationRoutes(),
-        theme: ThemeData(primarySwatch: Colors.green, fontFamily: 'Montserrat'),
+        theme: ThemeData(primarySwatch: Colors.green, fontFamily: 'Montserrat',backgroundColor: Colors.white),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:country/widgets/topIcon.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -19,7 +20,8 @@ class ValidacionCodigoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<RegistroProvider>(context);
-    final phoneSize = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
+    
     return GestureDetector(
       onTap: (){
         final FocusScopeNode focus = FocusScope.of(context);
@@ -28,20 +30,21 @@ class ValidacionCodigoPage extends StatelessWidget {
         }
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: ModalProgressHUD(
           inAsyncCall: provider.carga,
           child: SafeArea(
             child: SingleChildScrollView(
               child: Stack(
                 children: [
-                  _FondoPantalla(),
                   Column(
-                    children: [
-                      SizedBox(height: 80.0,),
-                      Image(image: AssetImage('assets/icons/logo.png'),width: phoneSize.width*0.85,),
-                      _Formulario(formState:formState),
-                    ],
-                  )
+                      children: [
+                        SizedBox(height: size.height*0.12,),
+                        TopIcon(),
+                        SizedBox(height: size.height*0.05,),
+                        _Formulario(formState:formState),
+                      ],
+                  ),
                 ],
               ),
             ),
@@ -54,19 +57,6 @@ class ValidacionCodigoPage extends StatelessWidget {
   }
 }
 
-class _FondoPantalla extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
-    return Image(
-      image: AssetImage('assets/backgrounds/fondo_blanco.png'),
-      height: phoneSize.height,
-      width: phoneSize.width,
-      fit: BoxFit.fill,
-    );
-  }
-}
-
 class _Formulario extends StatelessWidget {
   final GlobalKey<FormState> formState;
   final estilos = EstilosApp();
@@ -74,7 +64,7 @@ class _Formulario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 35.0),
+      padding: EdgeInsets.symmetric(horizontal: 50.0),
       child: Column(
         children: [
           SizedBox(
@@ -85,11 +75,12 @@ class _Formulario extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                estilos.inputLabel(label: 'Código del Socio'),
+                estilos.inputLabel(label: 'Código del Socio',padding: false),
                 _InputCodigoSocio(),
-                estilos.inputLabel(label: 'Carnet de identidad'),
-                _InputCISocio(),
                 SizedBox( height: 20.0,),
+                estilos.inputLabel(label: 'Carnet de identidad',padding: false),
+                _InputCISocio(),
+                SizedBox( height: 50.0,),
                 Center(child: _ButtonNext(formState: this.formState,)),
               ],
             ),
@@ -151,7 +142,7 @@ class _InputCodigoSocio extends StatelessWidget {
     final provider = Provider.of<RegistroProvider>(context, listen: false);
     return TextFormField(
       keyboardType: TextInputType.number,
-      decoration: estilos.inputDecoration(hintText: 'Código Socio'),
+      decoration: estilos.inputDecorationinicio(hintText: 'Código Socio'),
       onChanged: (value) {
         provider.codigo = value;
       },
@@ -170,7 +161,7 @@ class _InputCISocio extends StatelessWidget {
     final provider = Provider.of<RegistroProvider>(context, listen: false);
     return TextFormField(
       keyboardType: TextInputType.number,
-      decoration: estilos.inputDecoration(hintText: 'Carnet del Socio'),
+      decoration: estilos.inputDecorationinicio(hintText: 'Carnet del Socio'),
       onChanged: (value) {
         provider.ci = value;
       },

@@ -28,6 +28,7 @@ class _RegisterPage2State extends State<RegisterPage2> {
     final provider = Provider.of<RegistroProvider>(context);
 
     return Scaffold(
+      backgroundColor:Colors.white,
       body: ModalProgressHUD(
         child: SafeArea(
           child: GestureDetector(
@@ -39,7 +40,6 @@ class _RegisterPage2State extends State<RegisterPage2> {
             },
             child: Stack(
               children: [
-                _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
                 _Formulario(
                   formState: form2State,
                   socio: socio,
@@ -58,18 +58,6 @@ class _RegisterPage2State extends State<RegisterPage2> {
   }
 }
 
-class _FondoPantalla extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
-    return Image(
-      image: AssetImage('assets/backgrounds/fondo_blanco.png'),
-      height: phoneSize.height,
-      width: phoneSize.width,
-      fit: BoxFit.fill,
-    );
-  }
-}
 
 class _Formulario extends StatelessWidget {
   final GlobalKey<FormState> formState;
@@ -115,20 +103,25 @@ class _Formulario extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 estilos.inputLabel(
-                    label: 'Código del socio', obligatorio: true),
+                    label: 'Código del socio', obligatorio: true, padding: false ),
                 _InputCodigo(
                   codigoSocio: this.socio.codigo,
                 ),
+                SizedBox(height: 15,),
                 estilos.inputLabel(
-                    label: 'Numero de Carnet', obligatorio: true),
+                    label: 'Numero de Carnet', obligatorio: true, padding: false),
                 _InputCi(ci: this.socio.ci),
-                estilos.inputLabel(label: 'Origen', obligatorio: true),
+                SizedBox(height: 15,),
+                estilos.inputLabel(label: 'Origen', obligatorio: true, padding: false),
                 _InputOrigen(origen: this.socio.origen),
-                estilos.inputLabel(label: 'Dirección', obligatorio: true),
+                SizedBox(height: 15,),
+                estilos.inputLabel(label: 'Dirección', obligatorio: true, padding: false),
                 _InputDireccion(direccion: this.socio.direccion),
-                estilos.inputLabel(label: 'Teléfono fijo'),
+                SizedBox(height: 15,),
+                estilos.inputLabel(label: 'Teléfono fijo', padding: false),
                 _InputTelefono(telefono: this.socio.telefono),
-                estilos.inputLabel(label: 'Celular', obligatorio: true),
+                SizedBox(height: 15,),
+                estilos.inputLabel(label: 'Celular', obligatorio: true, padding: false),
                 _Celular(
                   celular: this.socio.celular,
                 ),
@@ -164,7 +157,7 @@ class _InputCodigo extends StatelessWidget {
     return TextFormField(
       initialValue: this.codigoSocio,
       enabled: false,
-      decoration: estilos.inputDecoration(hintText: 'Codigo del socio'),
+      decoration: estilos.inputDecorationinicio(hintText: 'Codigo del socio'),
     );
   }
 }
@@ -180,7 +173,7 @@ class _InputCi extends StatelessWidget {
       enabled: false,
       initialValue: this.ci,
       keyboardType: TextInputType.phone,
-      decoration: estilos.inputDecoration(hintText: 'Numero de carnet'),
+      decoration: estilos.inputDecorationinicio(hintText: 'Numero de carnet'),
     );
   }
 }
@@ -194,7 +187,7 @@ class _InputOrigen extends StatelessWidget {
     return TextFormField(
       initialValue: this.origen,
       enabled: false,
-      decoration: estilos.inputDecoration(hintText: 'Origen'),
+      decoration: estilos.inputDecorationinicio(hintText: 'Origen'),
     );
   }
 }
@@ -210,7 +203,7 @@ class _InputDireccion extends StatelessWidget {
     return TextFormField(
       initialValue: this.direccion,
       keyboardType: TextInputType.text,
-      decoration: estilos.inputDecoration(hintText: 'Direccion'),
+      decoration: estilos.inputDecorationinicio(hintText: 'Direccion'),
       onChanged: (value) {
         provider.direccion = value;
       },
@@ -236,7 +229,7 @@ class _InputTelefono extends StatelessWidget {
     return TextFormField(
       initialValue: this.telefono,
       keyboardType: TextInputType.text,
-      decoration: estilos.inputDecoration(hintText: 'Telefono fijo'),
+      decoration: estilos.inputDecorationinicio(hintText: 'Telefono fijo'),
       onChanged: (value) {
         provider.telefono = value;
       },

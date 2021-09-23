@@ -21,11 +21,11 @@ class RecuperarPassPage extends StatelessWidget {
     final provider = Provider.of<RegistroProvider>(context, listen: true);
     final phoneSize = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: ModalProgressHUD(
         child: SafeArea(
           child: Stack(
             children: [
-              _FondoPantalla(),
               SingleChildScrollView(
                 child: Column(
                   children: [
@@ -44,7 +44,7 @@ class RecuperarPassPage extends StatelessWidget {
                     Padding(
                         padding: EdgeInsets.symmetric(horizontal: 50.0),
                         child: estilos.inputLabel(
-                            label: 'Correo electrónico', obligatorio: true)),
+                            label: 'Correo electrónico', obligatorio: true, padding: false)),
                     Form(key: formstate, child: _Formulario()),
                     SizedBox(
                       height: 50.0,
@@ -79,18 +79,7 @@ class RecuperarPassPage extends StatelessWidget {
   }
 }
 
-class _FondoPantalla extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
-    return Image(
-      image: AssetImage('assets/backgrounds/fondo_blanco.png'),
-      height: phoneSize.height,
-      width: phoneSize.width,
-      fit: BoxFit.fill,
-    );
-  }
-}
+
 
 class _Formulario extends StatefulWidget {
   @override
@@ -98,6 +87,7 @@ class _Formulario extends StatefulWidget {
 }
 
 class __FormularioState extends State<_Formulario> {
+  final estilos = EstilosApp();
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<RegistroProvider>(context);
@@ -105,19 +95,7 @@ class __FormularioState extends State<_Formulario> {
       padding: const EdgeInsets.symmetric(horizontal: 50.0),
       child: TextFormField(
         keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-            contentPadding:
-                EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.0),
-                borderSide: BorderSide(color: Colors.black26)),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black26),
-                borderRadius: BorderRadius.circular(50.0)),
-            prefixIcon: Icon(Icons.email),
-            hintText: "Ingrese su email",
-            filled: true,
-            fillColor: Colors.white),
+        decoration: estilos.inputDecorationinicio(hintText: 'Ingrese su email'),
         validator: (value) {
           final formValidator = FormValidator();
           if (value.isEmpty) {

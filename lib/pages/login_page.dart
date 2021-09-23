@@ -2,6 +2,7 @@ import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/services/socio_service.dart';
 import 'package:country/utils/comprobar_conexion.dart';
 import 'package:country/widgets/no_internet_widget.dart';
+import 'package:country/widgets/topIcon.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/helpers/preferencias_usuario.dart';
@@ -27,9 +28,10 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
 
-    final phoneSize = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: ModalProgressHUD(
         child: SafeArea(
           child: GestureDetector(
@@ -41,13 +43,13 @@ class _LoginPageState extends State<LoginPage> {
             },
             child: Stack(
               children: [
-                _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
                 SingleChildScrollView( //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
                   child: Column(
                     children: [
                       // Image(image: AssetImage('')),
-                      SizedBox(height: 80.0,),
-                      Image(image: AssetImage('assets/icons/logo.png'), width: phoneSize.width*0.85,),
+                      SizedBox(height: size.height*0.12,),
+                      TopIcon(),
+                      SizedBox(height: size.height*0.05,),
                       _formulario(),
                     ],
                   ),
@@ -83,10 +85,12 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                estilos.inputLabel(label: 'Código del socio'),
+                estilos.inputLabel(label: 'Código del socio', padding: false),
                 _InputUserName(), //INPUT DONDE ESTA EL NOMBRE DE USUARIO
-                estilos.inputLabel(label: 'Contraseña'),
+                SizedBox(height: 15,),
+                estilos.inputLabel(label: 'Contraseña', padding: false),
                 _InputPassword(), // INPUT PARA EL PASSWORD
+                
                 SizedBox(height: 30.0,),
                 Center(child: _ContrasenaOlvidada()),
                 SizedBox(height: 50.0,),
@@ -161,23 +165,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-class _FondoPantalla extends StatelessWidget { 
-
-  @override
-  Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
-    return Image(
-      image: AssetImage('assets/backgrounds/fondo_blanco.png'),
-      height: phoneSize.height,
-      width: phoneSize.width,
-      fit: BoxFit.fill,
-    );
-  }
-}
 
 
 class _InputUserName extends StatelessWidget {
-
+ final estilos = EstilosApp();
   @override
   Widget build(BuildContext context) {
 
@@ -185,14 +176,7 @@ class _InputUserName extends StatelessWidget {
 
     return TextFormField(
       keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-        hintText: 'Código del socio',
-        contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
-        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
-        filled: true,
-        fillColor: Colors.white
-      ),
+      decoration: estilos.inputDecorationinicio(hintText: 'Código del socio'),
       onChanged: (value){
         provider.usuario = value;
       },
@@ -209,22 +193,14 @@ class _InputUserName extends StatelessWidget {
 }
 
 class _InputPassword extends StatelessWidget {
-
+  final estilos = EstilosApp();
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<LoginProvider>(context, listen: false);
     return TextFormField(
       keyboardType: TextInputType.text,
       obscureText: true,
-      decoration: InputDecoration(
-        hintText: 'Contraseña',
-        contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.0), borderSide: BorderSide(color: Colors.black26)),
-        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black26), borderRadius: BorderRadius.circular(50.0) ),
-        filled: true,
-        fillColor: Colors.white
-        // border: 
-      ),
+      decoration: estilos.inputDecorationinicio(hintText: 'Contraseña'),
       onChanged: (value){
         provider.password = value;
       },

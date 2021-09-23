@@ -5,6 +5,7 @@ class ReservaProvider extends ChangeNotifier{
 
   String _codigoCab = '1';
   String _codigoSubCat;
+  int _detalles = 0;
 
   String _fecha='';
   String _hora= "00:00";
@@ -112,6 +113,13 @@ class ReservaProvider extends ChangeNotifier{
   }
   String get maxPersonas{
     return this._maxPersonas;
+  }
+  set detalles(int detalles){
+    this._detalles = detalles;
+    notifyListeners();
+  }
+  int get detalles{
+    return this._detalles;
   }
   
 

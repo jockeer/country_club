@@ -10,6 +10,7 @@ class DatosConstantes {
 class ColoresApp{
 
   Color verdeOscuro = Color(0xff204930);
+  Color verdeMenuLateral = Color(0xffa9d42d);
   Color verde = Color(0xff225a40);
   Color verdeMarcador = Color(0xffE5F5EC);
   Color verdeClaro = Color(0xff008E3B);
@@ -33,6 +34,14 @@ class EstilosApp{
       fillColor: Colors.white
     );
   }
+  InputDecoration inputDecorationinicio({@required String hintText, double padingTop = 0.0}){
+    return InputDecoration(
+      contentPadding: EdgeInsets.symmetric(vertical: padingTop, horizontal: 0.0),
+      hintText: hintText,
+      filled:true,
+      fillColor: Colors.white
+    );
+  }
   InputDecoration inputTarjetaDecoration({@required String hintText, @required String labelText, double padingTop = 0.0}){
     return InputDecoration(
       contentPadding: EdgeInsets.symmetric(vertical: padingTop, horizontal: 15.0),
@@ -45,11 +54,14 @@ class EstilosApp{
     );
   }
 
-  Padding inputLabel({@required String label, bool obligatorio = false}){
+  Padding inputLabel({@required String label, bool obligatorio = false, bool padding = true }){
     return Padding(
-      padding: EdgeInsets.symmetric(
+      padding: (padding)?EdgeInsets.symmetric(
         vertical: 10.0,
         horizontal: 15.0
+      ) :EdgeInsets.symmetric(
+        vertical: 0.0,
+        horizontal: 0.0
       ), 
       child: Row(
         children: [

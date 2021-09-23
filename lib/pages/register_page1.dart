@@ -1,4 +1,5 @@
 import 'package:country/helpers/datos_constantes.dart';
+import 'package:country/widgets/topIcon.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/widgets/floating_button_widget.dart';
@@ -21,9 +22,8 @@ class _RegisterPage1State extends State<RegisterPage1> {
   Widget build(BuildContext context) {
     final Socio socio = ModalRoute.of(context).settings.arguments;
 
-    final phoneSize = MediaQuery.of(context).size;
-
     return Scaffold(
+      backgroundColor: Colors.white,
       body: GestureDetector(
         onTap: () {
           final FocusScopeNode focus = FocusScope.of(context);
@@ -34,19 +34,13 @@ class _RegisterPage1State extends State<RegisterPage1> {
         child: SafeArea(
           child: Stack(
             children: [
-              _FondoPantalla(), //FONDO DE PANTALLA DEL LOGIN
               SingleChildScrollView(
-                //FORMULARIO DE LA APP JUNTO CON LA IMAGEN DE FONDO
                 child: Column(
                   children: [
-                    // Image(image: AssetImage('')),
                     SizedBox(
                       height: 80.0,
                     ),
-                    Image(
-                      image: AssetImage('assets/icons/logo.png'),
-                      width: phoneSize.width * 0.70,
-                    ),
+                    TopIcon(),
                     _formulario(socio),
                   ],
                 ),
@@ -75,13 +69,16 @@ class _RegisterPage1State extends State<RegisterPage1> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                estilos.inputLabel( label: 'Nombre(s)', obligatorio: true),
+                estilos.inputLabel( label: 'Nombre(s)', obligatorio: true, padding: false),
                 _InputFirstName( nombreSocio: socio.nombre,), 
-                estilos.inputLabel( label: 'Apellido(s)', obligatorio: true),
+                SizedBox(height: 15,),
+                estilos.inputLabel( label: 'Apellido(s)', obligatorio: true,padding: false),
                 _InputLastName( apellidoPaterno: socio.apPaterno, apellidoMaterno: socio.apMaterno,),
-                estilos.inputLabel( label: 'Correo electrónico', obligatorio: true),
+                SizedBox(height: 15,),
+                estilos.inputLabel( label: 'Correo electrónico', obligatorio: true,padding: false),
                 _InputEmail( email: socio.email,), 
-                estilos.inputLabel( label: 'Contraseña', obligatorio: true),
+                SizedBox(height: 15,),
+                estilos.inputLabel( label: 'Contraseña', obligatorio: true,padding: false),
                 _InputPassword(),
                 SizedBox( height: 30.0,),
               ],
@@ -115,18 +112,6 @@ class _RegisterPage1State extends State<RegisterPage1> {
   }
 }
 
-class _FondoPantalla extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
-    return Image(
-      image: AssetImage('assets/backgrounds/fondo_blanco.png'),
-      width: phoneSize.width,
-      height: phoneSize.height,
-      fit: BoxFit.fill,
-    );
-  }
-}
 
 class _InputFirstName extends StatelessWidget {
   final String nombreSocio;
@@ -139,7 +124,7 @@ class _InputFirstName extends StatelessWidget {
     return TextFormField(
       initialValue: this.nombreSocio,
       keyboardType: TextInputType.text,
-      decoration: estilos.inputDecoration(hintText: 'Nombre'),
+      decoration: estilos.inputDecorationinicio(hintText: 'Nombre'),
       validator: (value) {
         if (value.isEmpty) {
           return 'El nombre no puede quedar Vacío';
@@ -161,7 +146,7 @@ class _InputLastName extends StatelessWidget {
     return TextFormField(
       initialValue: '${this.apellidoPaterno} ${this.apellidoMaterno}',
       keyboardType: TextInputType.text,
-      decoration: estilos.inputDecoration(hintText: 'Apellido'),
+      decoration: estilos.inputDecorationinicio(hintText: 'Apellido'),
       validator: (value) {
         if (value.isEmpty) {
           return "El apellido no puede quedar Vacío";
@@ -186,7 +171,7 @@ class _InputEmail extends StatelessWidget {
     return TextFormField(
       initialValue: this.email,
       keyboardType: TextInputType.emailAddress,
-      decoration: estilos.inputDecoration(hintText: 'Correo electronico'),
+      decoration: estilos.inputDecorationinicio(hintText: 'Correo electronico'),
       onChanged: (value) {
         provider.email = value;
       },
@@ -215,7 +200,7 @@ class _InputPassword extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.text,
       obscureText: true,
-      decoration: estilos.inputDecoration(hintText: 'Contraseña'),
+      decoration: estilos.inputDecorationinicio(hintText: 'Contraseña'),
       onChanged: (value) {
         provider.password = value;
       },
