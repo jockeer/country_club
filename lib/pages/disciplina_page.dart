@@ -17,15 +17,15 @@ class DisciplinaPage extends StatelessWidget {
         appBar: AppBar( backgroundColor: Colors.transparent, elevation: 0, title: Text(disciplina["nombreDisciplina"], style: TextStyle(fontWeight: FontWeight.bold),), centerTitle: true,),
         drawer: MenuLateralWidget(),
         body:  Container(
-            width: size.width,
-            height: size.height,
-            child: Stack(
-              children: [
-                FadeInImage(placeholder: AssetImage('assets/images/fondocarga.png'), image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${disciplina["foto"]}')),
-                _MenuPrincipal(disciplina: disciplina,)
-              ],
-            ),
-          )
+          width: size.width,
+          height: size.height,
+          child: Stack(
+            children: [
+              FadeInImage(placeholder: AssetImage('assets/images/fondocarga.png'), image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${disciplina["foto"]}')),
+              _MenuPrincipal(disciplina: disciplina,)
+            ],
+          ),
+        )
 
 
       ),

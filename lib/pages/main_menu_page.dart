@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,24 @@ class MainMenuPage extends StatelessWidget {
           height: size.height,
           child: Stack(
             children: [
-              Image(image: AssetImage('assets/backgrounds/fondo_menu.jpg')),
+              CarouselSlider(
+                options: CarouselOptions(
+                  height: size.height*0.37,
+                  viewportFraction: 1,
+                  enableInfiniteScroll: false,
+                  autoPlay: true,
+                  autoPlayInterval: Duration(seconds: 3),
+                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  scrollDirection: Axis.horizontal
+                ),
+                items: [
+                  Image(image: AssetImage('assets/backgrounds/Instalaciones4.png'), fit: BoxFit.cover,width: size.width, height: size.height,),
+                  Image(image: AssetImage('assets/backgrounds/Instalaciones1.png'), fit: BoxFit.cover,width: size.width, height: size.height,),
+                  Image(image: AssetImage('assets/backgrounds/Instalaciones2.png'), fit: BoxFit.cover,width: size.width, height: size.height,),
+                  Image(image: AssetImage('assets/backgrounds/Instalaciones3.png'), fit: BoxFit.cover,width: size.width, height: size.height,),
+                ],
+              ),
               _MenuPrincipal()
             ],
           ),
@@ -68,7 +86,7 @@ class _MenuPrincipal extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _OpcionMenu(titulo: 'DISCIPLINAS', icono: 'disciplinas.png', ruta: 'disciplinas' ),
-                  _OpcionMenu(titulo: 'HORARIOS', icono: 'horarios.png', ruta: 'eventos' ),
+                  _OpcionMenu(titulo: 'HORARIOS', icono: 'horarios.png', ruta: 'horarios' ),
                   _OpcionMenu(titulo: 'MENSUALIDAD', icono: 'mensualidad.png', ruta: 'mensualidad' ),
                 ],
               ),
@@ -78,7 +96,7 @@ class _MenuPrincipal extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _OpcionMenu(titulo: 'MENÚ RESTAURANT', icono: 'menu.png', ruta: 'menu' ),
-                  _OpcionMenu(titulo: 'TARJETA CONSUMO', icono: 'tarjeta.png', ruta: 'tarjeta' ),
+                  _OpcionMenu(titulo: 'TARJETA CONSUMO', icono: 'tarjeta.png', ruta: 'historico_tarjeta' ), // tarjeta
                   _OpcionMenu(titulo: 'RESERVAS', icono: 'reservas.png', ruta: 'reservas' ),
                 ],
               ),
@@ -119,9 +137,9 @@ class _OpcionMenu extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Image( image: AssetImage('assets/icons/$icono'), width: size.width*0.135,),
+            Image( image: AssetImage('assets/icons/$icono'), width: size.width*0.130,),
             SizedBox(height: 10,),
-            Text( this.titulo, style: TextStyle( fontSize: size.width*0.038, fontWeight: FontWeight.w500, color: colores.verde),maxLines: 2,textAlign: TextAlign.center,)
+            Text( this.titulo, style: TextStyle( fontSize: size.width*0.033, fontWeight: FontWeight.w500, color: colores.verde),maxLines: 2,textAlign: TextAlign.center,)
           ],
         ),
       ),

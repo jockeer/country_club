@@ -16,8 +16,9 @@ class ColoresApp{
   Color verdeClaro = Color(0xff008E3B);
   Color naranja = Color(0xffF48030);
   Color naranjaClaro = Color(0xffFEA30B);
-  Color gris = Color(0xffBABABB);
+  Color gris = Color(0xffd5d0c9);
   Color boton = Color(0xff008E3B);
+  Color fondoVerdeSuperior = Color(0xff3E984C);
 
 }
 
@@ -72,10 +73,10 @@ class EstilosApp{
     );
   }
 
-  Padding buttonChild({@required String texto}){
+  Padding buttonChild({@required String texto, double fuente = 18.0}){
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-        child: Text(texto,style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),),
+        padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+        child: Text(texto,style: TextStyle(fontSize: fuente, fontWeight: FontWeight.bold),),
     );
   }
   ButtonStyle buttonStyle({ bool expanded = false}){
@@ -84,6 +85,15 @@ class EstilosApp{
         primary: ColoresApp().boton,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
+        )
+      );
+  }
+  ButtonStyle buttonStyleWap({ bool expanded = false}){
+    return ElevatedButton.styleFrom(
+        minimumSize: (expanded) ? Size(double.infinity, 0) : null,
+        primary: ColoresApp().naranjaClaro,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
         )
       );
   }

@@ -2,53 +2,71 @@ import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/models/compra_model.dart';
 import 'package:country/models/dependiente_model.dart';
+import 'package:country/providers/login_provider.dart';
 import 'package:country/services/socio_service.dart';
 import 'package:country/services/tarjeta_service.dart';
+import 'package:country/widgets/app_bar_widget.dart';
 import 'package:country/widgets/compra_widget.dart';
-import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HistoricoTarjetaPage extends StatelessWidget {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final colores = ColoresApp();
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      key: _scaffoldKey,
-      body: Column(
-          children: [
-            _Tarjeta(),
-            Expanded(child: _UltimasTransacciones()),
-            PieLogoWidget()
-          ],
-        ),
-      floatingActionButton: FloatingActionButton(
-        elevation: 0.0,
-        backgroundColor: Colors.transparent,
-        child: Icon(Icons.arrow_back, color: Colors.white,),
-        onPressed: (){
-          Navigator.pop(context);
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-    );
-  }
-}
-
-class _Tarjeta extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    final phoneSize = MediaQuery.of(context).size;
+    final provider = Provider.of<LoginProvider>(context);
+    final size = MediaQuery.of(context).size;
     return SafeArea(
-      child: Container(
-        width: phoneSize.width,
-        height: phoneSize.height*0.35,
-        decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/Tarjeta_consumo.png'),fit: BoxFit.fill)),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: appBarWidget(titulo: 'TARJETA CONSUMO', color: Colors.transparent,texto: Colors.white, arrowClaro: true),
+        extendBodyBehindAppBar: true,
+        body: Container(
+          width: size.width,
+          height: size.height,
+          child: Stack(
+            children: [
+              Image(image: AssetImage('assets/images/${provider.consumo==0 ? 'Tarjeta_consumo.png': 'tarjetaConsumo.jpg' }'), fit: BoxFit.fill, width: size.width, height: size.height*0.4,),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50)),
+                  child: Container(
+                    width: size.width,
+                    height: size.height*0.65,
+                    color: Colors.white,
+                    child: _UltimasTransacciones()
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )
       ),
     );
+    // return Scaffold(
+    //   key: _scaffoldKey,
+    //   body: Column(
+    //       children: [
+    //         _Tarjeta(),
+    //         Expanded(child: _UltimasTransacciones()),
+    //       ],
+    //     ),
+    //   floatingActionButton: FloatingActionButton(
+    //     elevation: 0.0,
+    //     backgroundColor: Colors.transparent,
+    //     child: Icon(Icons.arrow_back, color: Colors.white,),
+    //     onPressed: (){
+    //       Navigator.pop(context);
+    //     },
+    //   ),
+    //   floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+    // );
   }
 }
+
 
 class _UltimasTransacciones extends StatelessWidget {
 
@@ -76,26 +94,33 @@ class _Menu extends StatelessWidget {
   _Menu({@required this.dependientes});
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<LoginProvider>(context);
     return DefaultTabController(
+      initialIndex: provider.consumo,
       length: 2,
       child: Column(
         children: [
+          SizedBox(height: 20,),
           TabBar(
             indicatorColor: colores.verdeOscuro,
             labelColor: Colors.black,
+            onTap: (value){
+              provider.consumo=value;
+            },
             tabs: [
-              Tab(child: Text('Mis transacciones', style: TextStyle(fontWeight: FontWeight.bold),),),
-              Tab(child: Text('Dependientes', style: TextStyle(fontWeight: FontWeight.bold),),),
+              // Tab(child: Text('Mis transacciones', style: TextStyle(fontWeight: FontWeight.bold),),),
+              Tab(child: Text('Tarjetas', style: TextStyle(fontWeight: FontWeight.bold),),),
+              Tab(child: Text('Últimas Transacciones', style: TextStyle(fontWeight: FontWeight.bold),),),
+              // Tab(child: Text('Dependientes', style: TextStyle(fontWeight: FontWeight.bold),),),
             ],
           ),
           Expanded(
             child: TabBarView(
               children: [
-                _Transacciones(),
                 (this.dependientes.length == 0)
                 ? Center(child: Text('No tiene dependientes'),)
-                :_Dependientes(dependientes: dependientes,),
-                
+                :_Dependientes(dependientes: dependientes,),                
+                _Transacciones(),
               ],
             ),
           ),
@@ -126,26 +151,89 @@ class _Transacciones extends StatelessWidget {
     );
   }
 }
+
 class _Dependientes extends StatelessWidget {
   final List<Dependiente> dependientes;
   final colores = ColoresApp();
   _Dependientes({@required this.dependientes});
+  final prefs = PreferenciasUsuario();
+  final tarjetaService = TarjetaService();
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return ListView.builder(
       padding: EdgeInsets.zero,
       itemCount: dependientes.length,
       itemBuilder: ( _ , index ){
-        return ListTile(
-          title: Text(dependientes[index].nombre, style: TextStyle(fontSize: 14.0),),
-          subtitle: Text('${dependientes[index].apPaterno} ${dependientes[index].apMaterno}', style: TextStyle(fontSize: 12.0),),
-          leading: Icon(Icons.person, color: Colors.black,),
-          trailing: Icon(Icons.arrow_forward_ios, color: colores.verdeOscuro,),
-          onTap: (){
-            Navigator.pushNamed(context, 'historico_dependiente',arguments: dependientes[index]);
-          },
-        );
+        if (index==0) {
+          return Column(
+            children: [
+              FutureBuilder(
+                future: tarjetaService.obtenerSaldo(prefs.codigoSocio),
+                builder: (context, AsyncSnapshot<String> snapshot){
+                  if (snapshot.hasData) {   
+                    return ListTile(
+                      title: Text(prefs.nombreSocio, style: TextStyle(fontSize: 14.0),),
+                      subtitle: Text(prefs.apellidoSocio, style: TextStyle(fontSize: 12.0),),
+                      leading: Icon(Icons.person, color: Colors.black,),
+                      // trailing: Icon(Icons.arrow_forward_ios, color: colores.verdeOscuro,),
+                      trailing: Text('${snapshot.data} Bs.', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18 ), ),
+                      onTap: (){
+                        // Navigator.pushNamed(context, 'historico_dependiente',arguments: dependientes[index]);
+                        Navigator.pushNamed(context, 'tarjeta', arguments: {
+                          "codigo": prefs.codigoSocio,
+                          "monto": snapshot.data,
+                          "nombre": '${prefs.nombreSocio} ${prefs.apellidoSocio}',
+                          "titular": true,
+                          "ci": prefs.ciSocio
+                        });
+                      },
+                    );          
+                  } 
+                  return CircularProgressIndicator();
+                },
+              ),
+              ListTile(
+                title: Text(dependientes[index].nombre, style: TextStyle(fontSize: 14.0),),
+                subtitle: Text('${dependientes[index].apPaterno} ${dependientes[index].apMaterno}', style: TextStyle(fontSize: 12.0),),
+                leading: Icon(Icons.person, color: Colors.black,),
+                // trailing: Icon(Icons.arrow_forward_ios, color: colores.verdeOscuro,),
+                trailing: Text('${dependientes[index].saldoTarjeta} Bs.', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18 ), ),
+                onTap: (){
+                  // Navigator.pushNamed(context, 'historico_dependiente',arguments: dependientes[index]);
+                  Navigator.pushNamed(context, 'tarjeta', arguments: {
+                    "codigo": dependientes[index].codigo,
+                    "monto": dependientes[index].saldoTarjeta,
+                    "nombre": '${dependientes[index].nombre} ${dependientes[index].apPaterno} ${dependientes[index].apMaterno}',
+                    "titular": false,
+                    "ci": dependientes[index].ci
+                  });
+                },
+              ),
+            ],
+          );
+          
+        }else{
+          return ListTile(
+            title: Text(dependientes[index].nombre, style: TextStyle(fontSize: 14.0),),
+            subtitle: Text('${dependientes[index].apPaterno} ${dependientes[index].apMaterno}', style: TextStyle(fontSize: 12.0),),
+            leading: Icon(Icons.person, color: Colors.black,),
+            // trailing: Icon(Icons.arrow_forward_ios, color: colores.verdeOscuro,),
+            trailing: Text('${dependientes[index].saldoTarjeta} Bs.', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18 ), ),
+            onTap: (){
+              // Navigator.pushNamed(context, 'historico_dependiente',arguments: dependientes[index]);
+              Navigator.pushNamed(context, 'tarjeta', arguments: {
+                "codigo": dependientes[index].codigo,
+                "monto": dependientes[index].saldoTarjeta,
+                "nombre": '${dependientes[index].nombre} ${dependientes[index].apPaterno} ${dependientes[index].apMaterno}',
+                "titular": false,
+                "ci": dependientes[index].ci
+              });
+            },
+          );
+
+        }
       },
     );
   }

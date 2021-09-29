@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/services/disciplinas_service.dart';
@@ -19,7 +20,24 @@ class DisciplinasPage extends StatelessWidget {
           height: size.height,
           child: Stack(
             children: [
-              Image(image: AssetImage('assets/backgrounds/fondo_menu.jpg')),
+              CarouselSlider(
+                options: CarouselOptions(
+                  height: size.height*0.37,
+                  viewportFraction: 1,
+                  enableInfiniteScroll: false,
+                  autoPlay: true,
+                  autoPlayInterval: Duration(seconds: 3),
+                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  scrollDirection: Axis.horizontal
+                ),
+                items: [
+                  Image(image: AssetImage('assets/backgrounds/Instalaciones4.png'), fit: BoxFit.cover,width: size.width, height: size.height,),
+                  Image(image: AssetImage('assets/backgrounds/Instalaciones1.png'), fit: BoxFit.cover,width: size.width, height: size.height,),
+                  Image(image: AssetImage('assets/backgrounds/Instalaciones2.png'), fit: BoxFit.cover,width: size.width, height: size.height,),
+                  Image(image: AssetImage('assets/backgrounds/Instalaciones3.png'), fit: BoxFit.cover,width: size.width, height: size.height,),
+                ],
+              ),
               _MenuPrincipal()
             ],
           ),
@@ -58,7 +76,6 @@ class _MenuPrincipal extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight:Radius.circular(50) ),
         child: Container(
-          padding: EdgeInsets.only(left: 30, top: 40, right: 30, bottom: 0),
           height: size.height*0.65,
           width: size.width,
           color: Colors.white,
@@ -69,23 +86,26 @@ class _MenuPrincipal extends StatelessWidget {
                 return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: ( _ , index){
-                    return Column(
-                      children: [
-                        GestureDetector(
-                          onTap: (){
-                            Navigator.pushNamed(context, 'disciplina', arguments: snapshot.data[index]);
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              FadeInImage(placeholder: AssetImage('assets/icons/palmera.png'), image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${snapshot.data[index]["logo"]}'), width: 40,),
-                              SizedBox(width: 20,),
-                              Text(snapshot.data[index]["nombreDisciplina"], style: TextStyle( color: colores.verdeOscuro, fontWeight: FontWeight.bold, fontSize: 16 ),)
-                            ],
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 0, left:50, right:50, top: (index==0)?50:0 ),
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.pushNamed(context, 'disciplina', arguments: snapshot.data[index]);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FadeInImage(placeholder: AssetImage('assets/icons/palmera.png'), image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${snapshot.data[index]["logo"]}'), width: 40,),
+                                SizedBox(width: 20,),
+                                Text(snapshot.data[index]["nombreDisciplina"], style: TextStyle( color: colores.verdeOscuro, fontWeight: FontWeight.bold, fontSize: 16 ),)
+                              ],
+                            ),
                           ),
-                        ),
-                        Divider(thickness: 1, color: colores.verdeOscuro, height: 25,)
-                      ],
+                          Divider(thickness: 1, color: colores.verdeOscuro, height: 25,)
+                        ],
+                      ),
                     );
                   },
                 );  

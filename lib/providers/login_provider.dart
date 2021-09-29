@@ -8,6 +8,11 @@ class LoginProvider extends ChangeNotifier{
 
   String _mensajeAyuda = '';
 
+  int _menu = 0;
+  String _menuSelect;
+
+  int _consumo = 0;
+
 
   String get mensajeAyuda{
     return this._mensajeAyuda;
@@ -32,6 +37,31 @@ class LoginProvider extends ChangeNotifier{
 
   set password(String password){
     this._password = password;
+    notifyListeners();
+  }
+
+  int get menu{
+    return this._menu;
+  }
+
+  set menu(int menu){
+    this._menu = menu;
+    notifyListeners();
+  }
+  String get menuSelect{
+    return this._menuSelect;
+  }
+
+  set menuSelect(String menuSelect){
+    this._menuSelect = menuSelect;
+    notifyListeners();
+  }
+  int get consumo{
+    return this._consumo;
+  }
+
+  set consumo(int consumo){
+    this._consumo = consumo;
     notifyListeners();
   }
 }

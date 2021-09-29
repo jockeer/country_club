@@ -26,7 +26,8 @@ class Compra {
         this.idVenta,
         this.totalVenta,
         this.area,
-        this.fecha
+        this.fecha,
+        this.nombre
     });
 
     String codigo;
@@ -34,10 +35,12 @@ class Compra {
     double totalVenta;
     String area;
     String fecha;
+    String nombre;
 
     factory Compra.fromJson(Map<String, dynamic> json) => Compra(
       
         codigo: json["codigo"].toString(),
+        nombre: json["nombre"],
         idVenta: json["idventa"].toString(),
         totalVenta: json["total_venta"],
         area: json["area"],

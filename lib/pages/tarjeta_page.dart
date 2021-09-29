@@ -6,7 +6,8 @@ import 'package:country/providers/tarjeta_provider.dart';
 import 'package:country/services/socio_service.dart';
 
 import 'package:country/services/tarjeta_service.dart';
-import 'package:country/widgets/compra_widget.dart';
+import 'package:country/widgets/app_bar_widget.dart';
+import 'package:country/widgets/compras_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -19,39 +20,56 @@ class TarjetaPage extends StatefulWidget {
 }
 
 class _TarjetaPageState extends State<TarjetaPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final tarjetaService = TarjetaService();
+  final colores = ColoresApp();
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      key: _scaffoldKey,
-      body: RefreshIndicator(
-        onRefresh: _refreshPuntos,
-        child: Column(
+    final dynamic datos = ModalRoute.of(context).settings.arguments;
+    final size = MediaQuery.of(context).size;
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: appBarWidget(titulo: datos["nombre"], color: Colors.transparent,texto: Colors.white, arrowClaro: true, centrado: false, logo: false),
+        extendBodyBehindAppBar: true,
+        body: Container(
+          width: size.width,
+          height: size.height,
+          child: Stack(
             children: [
-              _Tarjeta(),
-              Expanded(child: _UltimasTransacciones()),
-              SizedBox(height: 20.0,),
-              Text('Puedes recargar tu tarjeta', style: TextStyle(color: Colors.black45), ),
-              SizedBox(height: 10.0,),
-              _ButtonRecargar(),
-              SizedBox(height: 20.0,),
+              Container(
+                width: size.width,
+                height: size.height*0.4,
+                color: colores.verdeOscuro,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Bs. '+ '${datos["monto"]}', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: size.width*0.12),),
+                    Text('Saldo', style: TextStyle(color: colores.verdeClaro, fontSize: size.width*0.04),),
+                  ],
+                ),
+              ),
+              // Image(image: AssetImage('assets/images/${provider.consumo==0 ? 'Tarjeta_consumo.png': 'tarjetaConsumo.jpg' }'), fit: BoxFit.fill, width: size.width, height: size.height*0.4,),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50)),
+                  child: Container(
+                    width: size.width,
+                    height: size.height*0.65,
+                    color: Colors.white,
+                    child: _UltimasTransacciones(codigo: datos["codigo"], datos: datos,)
+                  ),
+                ),
+              ),
             ],
-          )
-        
+          ),
+        )
       ),
-      floatingActionButton: FloatingActionButton(
-        elevation: 0.0,
-        backgroundColor: Colors.transparent,
-        child: Icon(Icons.arrow_back, color: Colors.white,),
-        onPressed: (){
-          Navigator.pop(context);
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
+
   }
 
   Future<void> _refreshPuntos() async {
@@ -65,42 +83,11 @@ class _TarjetaPageState extends State<TarjetaPage> {
   }
 }
 
-class _Tarjeta extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    final colores =ColoresApp();
-
-    final phoneSize = MediaQuery.of(context).size;
-    final prefs = PreferenciasUsuario();
-    final tarjetaService = TarjetaService();
-
-    return SafeArea(
-      child: Container(
-        width: phoneSize.width,
-        height: phoneSize.height*0.35,
-        color: colores.verdeOscuro,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FutureBuilder(
-              future: tarjetaService.obtenerSaldo(prefs.codigoSocio),
-              builder: (context, AsyncSnapshot<String> snapshot){
-                if (snapshot.hasData) {   
-                  return Text('Bs. '+ '${snapshot.data}', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: phoneSize.width*0.12, decoration: TextDecoration.underline),);          
-                } 
-                return CircularProgressIndicator();
-              },
-            ),
-            Text('Tarjeta de consumo', style: TextStyle(color: Colors.white38, fontSize: phoneSize.width*0.05),),
-          ],
-        ),
-      ),
-    );
-  }
-}
 class _UltimasTransacciones extends StatelessWidget {
   final _socioService = SocioService();
+  final String codigo;
+  final dynamic datos;
+  _UltimasTransacciones({@required this.codigo, @required this.datos});
   @override
   Widget build(BuildContext context) {
 
@@ -108,7 +95,7 @@ class _UltimasTransacciones extends StatelessWidget {
       future: _socioService.obtenerDependientes(),
       builder: (_, AsyncSnapshot<List<Dependiente>> snapshot){
         if (snapshot.hasData) {
-            return _Menu(dependientes: snapshot.data,);
+            return _Menu(dependientes: snapshot.data,codigo: this.codigo, datos: this.datos,);
           }
           return Center(child: CircularProgressIndicator(),);
       },
@@ -119,40 +106,64 @@ class _UltimasTransacciones extends StatelessWidget {
 class _Menu extends StatelessWidget {
   final List<Dependiente> dependientes;
   final colores = ColoresApp();
+  final String codigo;
+  final estilos = EstilosApp();
+  final dynamic datos;
 
-  _Menu({@required this.dependientes});
+  _Menu({@required this.dependientes, @required this.codigo, @required this.datos});
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<TarjetaProvider>(context, listen: false);
     return DefaultTabController(
+      initialIndex: 1,
       length: 2,
       child: Column(
         children: [
+          SizedBox(height: 20,),
           TabBar(
             indicatorColor: colores.verdeOscuro,
             labelColor: Colors.black,
             tabs: [
-              Tab(child: Text('Ultimas transacciones', style: TextStyle(fontWeight: FontWeight.bold),),),
-              Tab(child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Dependientes', style: TextStyle(fontWeight: FontWeight.bold),),
-                  SizedBox(width: 6,),
-                  Icon(Icons.credit_card)
-                ],
-              ),),
+              Tab(
+                child:Text('Tarjetas', style: TextStyle(fontWeight: FontWeight.bold),),
+              ),
+              Tab(child: Text('Transacciones', style: TextStyle(fontWeight: FontWeight.bold),),),
             ],
           ),
           Expanded(
             child: TabBarView(
               children: [
-                _Transacciones(),
                 (this.dependientes.length == 0)
                 ? Center(child: Text('No tiene dependientes'),)
                 :_Dependientes(dependientes: dependientes,),
+                _Transacciones(codigo: this.codigo,),
                 
               ],
             ),
           ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 60),
+            child: ElevatedButton(
+              onPressed: (){
+                if (this.datos["titular"]==true) {
+                  provider.tipoPago=1;
+                  provider.optRecarga=1;
+                  provider.montoRecarga='10.00';
+                  Navigator.pushNamed(context, 'metodo_pago');
+                }else{
+                  provider.tipoPago=3;
+                  provider.codigoTarjeta = this.datos["codigo"];
+                  provider.optRecarga=1;
+                  provider.montoRecarga='10.00';
+                  provider.dependiente = this.datos["nombre"];
+                  provider.ciDependiente= this.datos["ci"];
+                  Navigator.pushNamed(context, 'metodo_pago');
+                }
+              }, 
+              child: estilos.buttonChild(texto: 'RECARGAR'),
+              style: estilos.buttonStyle(expanded: true),
+            ),
+          )
         ],
       ),
     );
@@ -162,16 +173,18 @@ class _Menu extends StatelessWidget {
 class _Transacciones extends StatelessWidget {
   final _tarjetaService = TarjetaService();
   final prefs = PreferenciasUsuario();
+  final String codigo;
+  _Transacciones({ @required this.codigo});
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _tarjetaService.obtenerHistoricoCompras(prefs.codigoSocio),
+      future: _tarjetaService.obtenerHistoricoComprasEspecifico(this.codigo),
       builder: (BuildContext context, AsyncSnapshot<List<Compra>> snapshot ){
         if (snapshot.hasData) {
           if (snapshot.data[0]==null) {
             return Center(child: Text('no tiene conexion a internet'),);
           }
-          return CompraWidget(compras: snapshot.data);
+          return ComprasWidget(compras: snapshot.data);
         }
         else{
           return Center(child: CircularProgressIndicator(),);
@@ -214,23 +227,3 @@ class _Dependientes extends StatelessWidget {
   }
 }
 
-class _ButtonRecargar extends StatelessWidget {
-
-  final estilos = EstilosApp();
-
-  @override
-  Widget build(BuildContext context) {
-    final provider = Provider.of<TarjetaProvider>(context, listen: false);
-    return ElevatedButton(
-      onPressed: ()async{
-        provider.tipoPago=1;
-        provider.optRecarga=1;
-        provider.montoRecarga='10.00';
-        Navigator.pushNamed(context, 'metodo_pago');
-      //  Navigator.pushNamed(context, 'tarjeta_recarga');
-      },
-      child: estilos.buttonChild(texto: 'Recargar'),
-      style: estilos.buttonStyle(),
-    );
-  }
-}

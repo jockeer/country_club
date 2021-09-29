@@ -54,14 +54,14 @@ class _ReservaProcesoPageState extends State<ReservaProcesoPage> {
         ),
         inAsyncCall: provider.carga,
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Transform.rotate(child: Icon(Icons.priority_high_sharp,),angle: pi,),
-        backgroundColor: Color(0xff00472B),
-        onPressed: (){
-          _mostrarAlerta();
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      // floatingActionButton: FloatingActionButton(
+      //   child: Transform.rotate(child: Icon(Icons.priority_high_sharp,),angle: pi,),
+      //   backgroundColor: Color(0xff00472B),
+      //   onPressed: (){
+      //     _mostrarAlerta();
+      //   },
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
     );
   }
 
@@ -123,6 +123,7 @@ class _Calendar extends StatefulWidget {
   __CalendarState createState() => __CalendarState();
 }
 class __CalendarState extends State<_Calendar> {
+  final colores = ColoresApp();
   DateTime _currentDate;
   DateTime today = DateTime.now();
   @override
@@ -133,8 +134,10 @@ class __CalendarState extends State<_Calendar> {
       padding: EdgeInsets.all(0.0),
       margin: EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
       child: CalendarCarousel(
+        selectedDayBorderColor:colores.verdeMenuLateral,
+        selectedDayButtonColor: colores.verdeMenuLateral,
         todayButtonColor: Colors.transparent,
-        todayBorderColor: Colors.green,
+        todayBorderColor: colores.verdeClaro,
         todayTextStyle: TextStyle(color: Colors.black),
         locale: 'es',
         onDayPressed: (DateTime date, List events) {

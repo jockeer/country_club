@@ -20,7 +20,7 @@ class MensualidadPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBarWidget(titulo: 'Mensualidades', color: colores.verdeClaro, texto: Colors.white, arrowClaro: true),
+      appBar: appBarWidget(titulo: 'MENSUALIDADES', color: colores.verdeClaro, texto: Colors.white, arrowClaro: true),
       backgroundColor: colores.verdeClaro,
       body: SafeArea(
         child: Container(

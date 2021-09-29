@@ -93,7 +93,7 @@ class PushNotificationService {
 
   Future<void> obtenerDeviceToken()async {
     token = await FirebaseMessaging.instance.getToken();
-    //print("token del dispositivo:" + token);
+    print("token del dispositivo:" + token);
     final prefs = PreferenciasUsuario();
 
     prefs.deviceToken = token;

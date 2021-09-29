@@ -55,6 +55,7 @@ flutter:
     - assets/backgrounds/
     - assets/icons/
     - assets/images/
+    - assets/menu/
     - assets/reglamento/reglamento.pdf
 
   fonts:

@@ -53,7 +53,28 @@ class TarjetaService {
     // return "450";
   }
   Future<List<Compra>> obtenerHistoricoCompras(String codigoSocio) async{
-    // print('consulta a la bd');
+    // print('consulta a la bd');s
+
+    final conexion = await comprobarInternet();
+
+    if (!conexion) {
+      return [null];
+    }
+
+    // final url = Uri.http('190.186.228.218', 'appmovil/api/Tarjeta/GetCardHistoryID/$codigoSocio');
+    final url = Uri.http('190.186.228.218', 'appmovil/api/Tarjeta/GetCardHistoryFullID/$codigoSocio');
+
+    final respuesta = await _procesarInfo(url);
+    
+     if(respuesta == null)return null;
+
+    final compras = Compras.fromJsonList(respuesta);
+
+    return compras.items;
+  
+  }
+  Future<List<Compra>> obtenerHistoricoComprasEspecifico(String codigoSocio) async{
+    // print('consulta a la bd');s
 
     final conexion = await comprobarInternet();
 
@@ -62,6 +83,7 @@ class TarjetaService {
     }
 
     final url = Uri.http('190.186.228.218', 'appmovil/api/Tarjeta/GetCardHistoryID/$codigoSocio');
+    // final url = Uri.http('190.186.228.218', 'appmovil/api/Tarjeta/GetCardHistoryFullID/$codigoSocio');
 
     final respuesta = await _procesarInfo(url);
     

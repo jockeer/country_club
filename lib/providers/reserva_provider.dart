@@ -19,6 +19,16 @@ class ReservaProvider extends ChangeNotifier{
   bool _terminos = false;
   bool _carga = false;
 
+  String _fechaEvento='';
+
+  
+  set fechaEvento(String fechaEvento){
+    this._fechaEvento = fechaEvento;
+    notifyListeners();
+  }
+  String get fechaEvento{
+    return this._fechaEvento;
+  }
   set terminos(bool terminos){
     this._terminos = terminos;
     notifyListeners();
