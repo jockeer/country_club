@@ -1,8 +1,6 @@
 //2B:19:D6:16:ED:5C:98:4C:16:09:DD:D2:B0:21:25:9E:C5:E8:16:A0
 
 import 'package:country/helpers/preferencias_usuario.dart';
-import 'package:country/models/mensaje_model.dart';
-import 'package:country/services/inbox_servide.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -35,38 +33,41 @@ class PushNotificationService {
   static Future<void> _opbackgroundHandler(RemoteMessage message) async {
     //print('onBackground Handler ${ message.messageId }');
     //print('bacground');// aplicacion background
-
-    final mensaje =new MensajeInbox();
-    mensaje.idNotificacion=message.messageId ?? '0';
-    mensaje.titulo=message.notification.title ?? 'Notificacion';
-    mensaje.mensaje=message.notification.body ?? 'Mensaje';
-    mensaje.fecha=message.data["fecha"] ?? 'fecha';
-    await DBInboxService.db.nuevoMensaje(mensaje);
+    final prefs = PreferenciasUsuario();
+    prefs.mensajesNuevos= 1;
+    // final mensaje =new MensajeInbox();
+    // mensaje.idNotificacion=message.messageId ?? '0';
+    // mensaje.titulo=message.notification.title ?? 'Notificacion';
+    // mensaje.mensaje=message.notification.body ?? 'Mensaje';
+    // mensaje.fecha=message.data["fecha"] ?? 'fecha';
+    // await DBInboxService.db.nuevoMensaje(mensaje);
   }
 
   static Future<void> _onMessageHandler(RemoteMessage message) async {
     //print('onMessage Handler ${ message.messageId }');
     // print('Onmessa'); // Aplicacion abierta
 
+    final prefs = PreferenciasUsuario();
+    prefs.mensajesNuevos = 1;
 
-    final mensaje =new MensajeInbox();
-    mensaje.idNotificacion=message.messageId ?? '0';
-    mensaje.titulo=message.notification.title ?? 'Notificacion';
-    mensaje.mensaje=message.notification.body ?? 'Mensaje';
-    mensaje.fecha=message.data["fecha"] ?? 'fecha';
-    await DBInboxService.db.nuevoMensaje(mensaje);
+    // final mensaje =new MensajeInbox();
+    // mensaje.idNotificacion=message.messageId ?? '0';
+    // mensaje.titulo=message.notification.title ?? 'Notificacion';
+    // mensaje.mensaje=message.notification.body ?? 'Mensaje';
+    // mensaje.fecha=message.data["fecha"] ?? 'fecha';
+    // await DBInboxService.db.nuevoMensaje(mensaje);
   }
 
   static Future<void> _onMessageOpenApp(RemoteMessage message) async {
 
     final prefs = PreferenciasUsuario();
 
-    prefs.notificacionEnCola = [ 
-      message.messageId,  
-      message.notification.title ?? 'Notificacion', 
-      message.notification.body ?? 'Mensaje',
-      message.data["fecha"] ?? 'fecha'
-    ];
+    // prefs.notificacionEnCola = [ 
+    //   message.messageId,  
+    //   message.notification.title ?? 'Notificacion', 
+    //   message.notification.body ?? 'Mensaje',
+    //   message.data["fecha"] ?? 'fecha'
+    // ];
   }
 
   static Future initializeApp() async {

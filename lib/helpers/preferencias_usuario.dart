@@ -102,4 +102,11 @@ class PreferenciasUsuario {
   set notificacionEnCola(List<String> notificacionEnCola){
     _prefs.setStringList('notificacion',notificacionEnCola);
   }
+
+  get mensajesNuevos{
+    return _prefs.getInt('news') ?? 0 ;
+  }
+  set mensajesNuevos(int mensajesNuevos){
+    _prefs.setInt('news', mensajesNuevos);
+  }
 }

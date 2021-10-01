@@ -72,6 +72,7 @@ class MainMenuPage extends StatelessWidget {
 
 class _MenuPrincipal extends StatelessWidget {
   final comunicadosService = ComunicadosService();
+  final prefs = PreferenciasUsuario();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -119,7 +120,28 @@ class _MenuPrincipal extends StatelessWidget {
                       children: [
                         _OpcionMenu(titulo: 'EVENTOS', icono: 'eventos.png', ruta: 'eventos' ),
                         _OpcionMenu(titulo: 'COMUNICADOS', icono: 'comunicados.png', ruta: 'comunicados' ),
-                        _OpcionMenu(titulo: 'E-MAILS', icono: 'email.png', ruta: 'inbox' ),
+                        Stack(
+                          children: [ 
+                            _OpcionMenu(titulo: 'E-MAILS', icono: 'email.png', ruta: 'inbox' ),
+                            (prefs.mensajesNuevos==0||prefs.mensajesNuevos==0)
+                            ? Container()
+                            
+                            :Positioned(
+                              top: 0,
+                              right: size.width*0.060,
+                              child: Container(
+                                width: 25,
+                                height: 25,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(500)
+                                ),
+                                child: Text(prefs.mensajesNuevos.toString(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                              ),
+                            ),
+                          ]
+                        ),
                       ],
                     ),
                     Expanded(child: Container()),
@@ -139,6 +161,7 @@ class _MenuPrincipal extends StatelessWidget {
 class _OpcionMenu extends StatelessWidget {
   final String titulo, icono, ruta;
   final colores= ColoresApp();
+  final prefs = PreferenciasUsuario();
   _OpcionMenu({ @required this.titulo, @required this.icono, @required this.ruta });
 
   @override
@@ -149,6 +172,9 @@ class _OpcionMenu extends StatelessWidget {
       // height: size.width*0.3,
       child: GestureDetector(
         onTap: (){
+          if (this.ruta=='inbox') {
+            prefs.mensajesNuevos = 0;
+          }
           Navigator.pushNamed(context, this.ruta);
         },
         child: Column(

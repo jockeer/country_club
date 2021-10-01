@@ -42,7 +42,7 @@ class DisciplinaPage extends StatelessWidget {
               (provider.menuAlto)
               ? Container()
               // : Image(image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${disciplina["foto"]}')),
-              : Image(image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${(provider.banerTop==0)?disciplina["foto"]:(provider.banerTop==1)?disciplina["banerprofe"]:disciplina["banertorneo"]}')),
+              : Container(width: size.width,height: size.height*0.38 ,child: Image(image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${(provider.banerTop==0)?disciplina["foto"]:(provider.banerTop==1)?disciplina["banerprofe"]:disciplina["banertorneo"]}'),fit: BoxFit.fill,)),
               
               _MenuPrincipal(disciplina: disciplina,)
             ],

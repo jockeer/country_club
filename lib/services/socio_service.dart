@@ -155,13 +155,20 @@ class SocioService{
     final prefs = PreferenciasUsuario();
 
     final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/customers/customers');
-    // final urlCountry = Uri.https('190.186.228.218', 'appmovil/api/Asociado/SetTelCelDirID/${socio.codigo}/${socio.telefono}/${socio.celular}/${socio.direccion}/${socio.email}');
+    final urlCountry = Uri.http('190.186.228.218', 'appmovil/api/Asociado/SetTelCelDirID/${socio.codigo}/${socio.telefono}/${socio.celular}/${socio.direccion}/${socio.email}');
 
 
     final parametros = socio.toJson();
 
     parametros["access_token"] = await prefs.tokenReg;
     parametros["type"] = (Platform.isAndroid)?"ANDROID":"IOS";
+
+    try {
+        final respuesta = await _procesarInfo(urlCountry);
+        print(respuesta);
+    } catch (e) {
+      print("No actualizo datos del country");
+    }
     // print(parametros);
     try {
       final respuesta = await http.post(
