@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
+import 'package:country/services/comunicado_service.dart';
 import 'package:flutter/material.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
 
@@ -54,7 +55,14 @@ class MainMenuPage extends StatelessWidget {
               _scaffoldKey.currentState.openDrawer();
             },
           ),
-          Container(child: Text('Hola ${prefs.nombreSocio}!', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600), overflow: TextOverflow.ellipsis,))
+          Container(child: Text('¡Hola ${prefs.nombreSocio}!', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600,
+          shadows: [
+            Shadow(
+              offset: Offset(0, 0),
+              blurRadius: 15.0,
+              color: Colors.black,
+            ),
+          ]), overflow: TextOverflow.ellipsis,))
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -63,7 +71,7 @@ class MainMenuPage extends StatelessWidget {
 }
 
 class _MenuPrincipal extends StatelessWidget {
-
+  final comunicadosService = ComunicadosService();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -77,41 +85,50 @@ class _MenuPrincipal extends StatelessWidget {
           height: size.height*0.65,
           width: size.width,
           color: Colors.white,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(child: Container()),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _OpcionMenu(titulo: 'DISCIPLINAS', icono: 'disciplinas.png', ruta: 'disciplinas' ),
-                  _OpcionMenu(titulo: 'HORARIOS', icono: 'horarios.png', ruta: 'horarios' ),
-                  _OpcionMenu(titulo: 'MENSUALIDAD', icono: 'mensualidad.png', ruta: 'mensualidad' ),
-                ],
-              ),
-              Expanded(child: Container()),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _OpcionMenu(titulo: 'MENÚ RESTAURANT', icono: 'menu.png', ruta: 'menu' ),
-                  _OpcionMenu(titulo: 'TARJETA CONSUMO', icono: 'tarjeta.png', ruta: 'historico_tarjeta' ), // tarjeta
-                  _OpcionMenu(titulo: 'RESERVAS', icono: 'reservas.png', ruta: 'reservas' ),
-                ],
-              ),
-              Expanded(child: Container()),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _OpcionMenu(titulo: 'EVENTOS', icono: 'eventos.png', ruta: 'eventos' ),
-                  _OpcionMenu(titulo: 'COMUNICADOS', icono: 'comunicados.png', ruta: 'comunicados' ),
-                  _OpcionMenu(titulo: 'E-MAILS', icono: 'email.png', ruta: 'inbox' ),
-                ],
-              ),
-              Expanded(child: Container()),
-            ],
+          child: FutureBuilder(
+            future: comunicadosService.obtenerComunicados(context),
+            builder: (_, AsyncSnapshot snapshot){
+              if (snapshot.hasData) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(child: Container()),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _OpcionMenu(titulo: 'DISCIPLINAS', icono: 'disciplinas.png', ruta: 'disciplinas' ),
+                        _OpcionMenu(titulo: 'HORARIOS', icono: 'horarios.png', ruta: 'horarios' ),
+                        _OpcionMenu(titulo: 'MENSUALIDAD', icono: 'mensualidad.png', ruta: 'mensualidad' ),
+                      ],
+                    ),
+                    Expanded(child: Container()),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _OpcionMenu(titulo: 'MENÚ RESTAURANT', icono: 'menu.png', ruta: 'menu' ),
+                        _OpcionMenu(titulo: 'TARJETA CONSUMO', icono: 'tarjeta.png', ruta: 'historico_tarjeta' ), // tarjeta
+                        _OpcionMenu(titulo: 'RESERVAS', icono: 'reservas.png', ruta: 'reservas' ),
+                      ],
+                    ),
+                    Expanded(child: Container()),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _OpcionMenu(titulo: 'EVENTOS', icono: 'eventos.png', ruta: 'eventos' ),
+                        _OpcionMenu(titulo: 'COMUNICADOS', icono: 'comunicados.png', ruta: 'comunicados' ),
+                        _OpcionMenu(titulo: 'E-MAILS', icono: 'email.png', ruta: 'inbox' ),
+                      ],
+                    ),
+                    Expanded(child: Container()),
+                  ],
+                );
+              }
+              return Center(child: CircularProgressIndicator(),);
+            },
+            
           ),
         ),
       ),

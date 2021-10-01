@@ -1,8 +1,10 @@
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/providers/login_provider.dart';
 import 'package:country/services/menu_service.dart';
+import 'package:country/services/pdf_service.dart';
 import 'package:country/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -102,7 +104,7 @@ class _Menu extends StatelessWidget {
               children: lista.map((menu) {
                 return  _ImagenMenu(
                     img: menu["img"],
-                  );
+                );
               }).toList(),
             ),
           )
@@ -114,18 +116,30 @@ class _Menu extends StatelessWidget {
 
 class _ImagenMenu extends StatelessWidget {
   final String img;
+  final _pdfService = PdfService();
 
   _ImagenMenu({@required this.img});
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.only(top: 20),
-        child: Image(
-              image: NetworkImage(
-                  'https://laspalmascountryclub.com.bo/laspalmas/user-files/images/menu/$img')
-        ),
-      ),
+    return FutureBuilder(
+      future: _pdfService.loadPDF('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/menu/$img'),
+      builder: (context,AsyncSnapshot snapshot){
+        print(snapshot.data);
+        if (snapshot.hasData) {
+          if(snapshot.data == 'error'){
+            return Center(child: Text('Error al cargar archivo!', style: TextStyle(fontWeight: FontWeight.bold ),),);
+          }
+          return Container(
+            child: PDFView(
+              pageFling: false,
+              pageSnap: false,
+              filePath: snapshot.data.path,
+              swipeHorizontal: false,
+            ),
+          );
+        }
+        return Center(child: CircularProgressIndicator(),);
+      },
     );
   }
 }

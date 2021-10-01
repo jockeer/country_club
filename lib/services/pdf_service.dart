@@ -51,4 +51,22 @@ class PdfService{
 
 
     }
+  Future<File> terminos(String asset)async{
+    try {
+      var data =await rootBundle.load(asset);
+      var bytes = data.buffer.asUint8List();
+      var dir = await getApplicationDocumentsDirectory();
+      File file = File("${dir.path}/terminos.pdf");
+
+      File assetFile = await file.writeAsBytes(bytes);
+      return assetFile;
+
+
+    } catch (e) {
+      throw Exception("Error opening asset file");
+    }
+
+
+
+    }
 }

@@ -16,6 +16,16 @@ class RegistroProvider extends ChangeNotifier{
 
   bool _carga= false;
 
+  bool _terminos = false;
+
+  bool get terminos{
+    return this._terminos;
+  }
+
+  set terminos(bool terminos){
+    this._terminos = terminos;
+    notifyListeners();
+  }
   bool get carga{
     return this._carga;
   }

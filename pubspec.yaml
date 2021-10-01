@@ -57,6 +57,7 @@ flutter:
     - assets/images/
     - assets/menu/
     - assets/reglamento/reglamento.pdf
+    - assets/reglamento/terminos.pdf
 
   fonts:
     - family: Montserrat

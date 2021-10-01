@@ -5,15 +5,15 @@ import 'package:country/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 
-class ReglamentoPage extends StatelessWidget {
+class TerminosPage extends StatelessWidget {
   final pdfService = PdfService();
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(titulo: 'Reglamento'),
+      appBar: appBarWidget(titulo: 'Términos y Condiciones'),
       body: FutureBuilder(
-        future: pdfService.reglamento('assets/reglamento/reglamento.pdf'),
+        future: pdfService.terminos('assets/reglamento/terminos.pdf'),
         builder: (_,AsyncSnapshot<File> snapshot){
           if (snapshot.hasData) {
             return Container(

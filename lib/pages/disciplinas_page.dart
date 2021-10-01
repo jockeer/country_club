@@ -53,7 +53,14 @@ class DisciplinasPage extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-          Container(child: Text('Hola ${prefs.nombreSocio}!', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600), overflow: TextOverflow.ellipsis,))
+          Container(child: Text('¡Hola ${prefs.nombreSocio}!', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600,
+          shadows: [
+             Shadow(
+              offset: Offset(0, 0),
+              blurRadius: 15.0,
+              color: Colors.black,
+            ),
+          ]), overflow: TextOverflow.ellipsis,))
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -98,8 +105,7 @@ class _MenuPrincipal extends StatelessWidget {
                               if(snapshota.hasData){
                                 final List submenu = snapshota.data;
                                 return ExpansionTile(
-                                  iconColor: colores.verdeOscuro,
-                                  collapsedIconColor: colores.verdeOscuro,
+                                  
                                   leading: Image(image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${snapshot.data[index]["logo"]}'), width: 40,),
                                   title: GestureDetector(
                                     onTap: (){

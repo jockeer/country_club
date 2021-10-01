@@ -86,7 +86,7 @@ class _Servicios extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('PELUQUERIA', style: TextStyle(fontWeight: FontWeight.bold),),
+                  Text('PELUQUERÍA', style: TextStyle(fontWeight: FontWeight.bold),),
                   SizedBox(height: 10,), 
                   Text('Lunes a viernes 15:00 a 20:00'),
                   Text('Sábado y domingo (previa reserva)'),
@@ -143,7 +143,7 @@ class _Servicios extends StatelessWidget {
                   SizedBox(height: 10,), 
                   Text('Lunes 12:00 a 22:00'),
                   Text('Martes a viernes 6:00 a 22:00'),
-                  Text('Sabado 6:00 a 20:00'),   
+                  Text('Sábado 6:00 a 20:00'),   
                   Text('Domingo 10:00 a 18:00'),   
                 ],
               )
@@ -224,9 +224,9 @@ class _Restaurant extends StatelessWidget {
                   SizedBox(height: 20,),
                   Text('HOYO 19', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey[700]) ,),
                   SizedBox(height: 5,),
-                  Text('Lunes sin atencion'),
+                  Text('Lunes sin atención'),
                   Text('Martes, jueves y viernes 7:00 a 21:00'),
-                  Text('Miercoles y sabados 7:00 a 23:00'),
+                  Text('Miércoles y sábados 7:00 a 23:00'),
                   Text('Domingo 7:00 a 20:00'),
                   Row(
                     children: [
@@ -366,7 +366,7 @@ class _Administracion extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('CENTRAL TELEFONICA', style: TextStyle(fontWeight: FontWeight.bold),),
+                  Text('CENTRAL TELEFÓNICA', style: TextStyle(fontWeight: FontWeight.bold),),
                   Text('Lunes 11:00 a 19:00'),
                   Text('Martes a domingo 7:00 a 22:00'),
                   Row(

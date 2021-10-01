@@ -501,7 +501,7 @@ class _Datos extends StatelessWidget {
           ),
           subtitle: Text(this.reserva.cantidad + ' personas'),
           leading: Icon(
-            Icons.data_saver_off_sharp,
+            Icons.dashboard,
             color: colores.verdeOscuro,
           ),
           tileColor: Colors.white,

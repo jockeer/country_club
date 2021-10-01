@@ -55,7 +55,7 @@ class _Contacto extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Contactanos', style: TextStyle(fontSize: 20.0,color: colores.verdeOscuro, fontWeight: FontWeight.w500),),
+              Text('Contáctanos', style: TextStyle(fontSize: 20.0,color: colores.verdeOscuro, fontWeight: FontWeight.w500),),
               IconButton(
                 onPressed: (){
                   launch("tel://${this.contacto["phone"]}");

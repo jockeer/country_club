@@ -11,6 +11,7 @@ import 'package:country/pages/menu_select_page.dart';
 import 'package:country/pages/pdf_page.dart';
 import 'package:country/pages/politicas_page.dart';
 import 'package:country/pages/reglamento_page.dart';
+import 'package:country/pages/terms_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:country/pages/adminitrar_tarjetas_page.dart';
@@ -81,5 +82,6 @@ Map<String, WidgetBuilder> getAplicationRoutes(){
     'comunicados':( _ ) => ComunicadosPage(),
     'fronton':( _ ) => FrontonPage(),
     'extra':( _ ) => DisciplinaExtraPage(),
+    'terms':( _ ) => TerminosPage(),
   };
 }

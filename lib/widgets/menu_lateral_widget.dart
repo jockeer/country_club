@@ -21,54 +21,45 @@ class MenuLateralWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image(image: AssetImage('assets/icons/disciplinamenu.png'),width: 25,),
-              SizedBox(height: 5,),
-              Text('DISCIPLINAS', style: TextStyle(color: colores.verdeMenuLateral, fontSize: 10), textAlign: TextAlign.center,),
-              SizedBox(height: 15,),
-              Image(image: AssetImage('assets/icons/horariomenu.png'),width: 25,),
-              SizedBox(height: 5,),
-              Text('HORARIOS', style: TextStyle(color: colores.verdeMenuLateral, fontSize: 10), textAlign: TextAlign.center,),
-              SizedBox(height: 15,),
-              Image(image: AssetImage('assets/icons/mensualidadmenu.png'),width: 25,),
-              SizedBox(height: 5,),
-              Text('MENSUALIDAD', style: TextStyle(color: colores.verdeMenuLateral, fontSize: 10), textAlign: TextAlign.center,),
-              SizedBox(height: 15,),
-              Image(image: AssetImage('assets/icons/tarjetamenu.png'),width: 25,),
-              SizedBox(height: 5,),
-              Text('TARJETA CONSUMO', style: TextStyle(color: colores.verdeMenuLateral, fontSize: 10), textAlign: TextAlign.center,),
-              SizedBox(height: 15,),
-              Image(image: AssetImage('assets/icons/comunicadosmenu.png'),width: 25,),
-              SizedBox(height: 5,),
-              Text('COMUNICADOS', style: TextStyle(color: colores.verdeMenuLateral, fontSize: 10), textAlign: TextAlign.center,),
-              SizedBox(height: 15,),
-              Image(image: AssetImage('assets/icons/reservasmenu.png'),width: 25,),
-              SizedBox(height: 5,),
-              Text('RESERVAS', style: TextStyle(color: colores.verdeMenuLateral, fontSize: 10), textAlign: TextAlign.center,),
-              SizedBox(height: 15,),
-              Image(image: AssetImage('assets/icons/emailmenu.png'),width: 25,),
-              SizedBox(height: 5,),
-              Text('E-MAILS', style: TextStyle(color: colores.verdeMenuLateral, fontSize: 10), textAlign: TextAlign.center,),
-              SizedBox(height: 15,),
-              Image(image: AssetImage('assets/icons/menumenu.png'),width: 25,),
-              SizedBox(height: 5,),
-              Text('MENU RESTAURANTE', style: TextStyle(color: colores.verdeMenuLateral, fontSize: 10), textAlign: TextAlign.center,),
-              SizedBox(height: 15,),
-              Image(image: AssetImage('assets/icons/eventosmenu.png'),width: 25,),
-              SizedBox(height: 5,),
-              Text('EVENTOS', style: TextStyle(color: colores.verdeMenuLateral, fontSize: 10), textAlign: TextAlign.center,),
-              SizedBox(height: 15,),
-              Image(image: AssetImage('assets/icons/soportemenu.png'),width: 25,),
-              SizedBox(height: 5,),
-              Text('SOPORTE', style: TextStyle(color: colores.verdeMenuLateral, fontSize: 10), textAlign: TextAlign.center,),
-              SizedBox(height: 15,),
-              GestureDetector(onTap: (){Navigator.pushNamed(context, 'welcome');},child: Image(image: AssetImage('assets/icons/soportemenu.png'),width: 25,)),
-              SizedBox(height: 5,),
-              Text('SOPORTE', style: TextStyle(color: colores.verdeMenuLateral, fontSize: 10), textAlign: TextAlign.center,),
-              SizedBox(height: 15,),
+              _MenuItem(icon: 'disciplinamenu.png', titulo: 'DISCIPLINAS', ruta: 'disciplinas',),
+              _MenuItem(icon: 'horariomenu.png', titulo: 'HORARIOS', ruta: 'horarios',),
+              _MenuItem(icon: 'mensualidadmenu.png', titulo: 'MENSUALIDAD', ruta: 'mensualidad',),
+              _MenuItem(icon: 'tarjetamenu.png', titulo: 'TARJETA CONSUMO', ruta: 'historico_tarjeta',),
+              _MenuItem(icon: 'comunicadosmenu.png', titulo: 'COMUNICADOS', ruta: 'comunicados',),
+              _MenuItem(icon: 'reservasmenu.png', titulo: 'RESERVAS', ruta: 'reservas',),
+              _MenuItem(icon: 'emailmenu.png', titulo: 'E-MAILS', ruta: 'inbox',),
+              _MenuItem(icon: 'menumenu.png', titulo: 'MENÚ RESTAURANTE', ruta: 'menu',),
+              _MenuItem(icon: 'eventosmenu.png', titulo: 'EVENTOS', ruta: 'eventos',),
+              _MenuItem(icon: 'soportemenu.png', titulo: 'SOPORTE', ruta: 'contact',),
+              _MenuItem(icon: 'soportemenu.png', titulo: 'CERRAR SESIÓN', ruta: 'welcome',),
+
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _MenuItem extends StatelessWidget {
+  final String titulo, ruta, icon;
+  _MenuItem({ @required this.titulo, @required this.ruta, @required this.icon });
+  final colores = ColoresApp();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: (){
+            Navigator.pushNamed(context, this.ruta);
+          },
+          child: (ruta=='welcome')?Center(child: Icon(Icons.logout, size: 25, color: colores.verdeMenuLateral,)):Image(image: AssetImage('assets/icons/$icon'),width: 25,)
+        ),
+        SizedBox(height: 5,),
+        Text(this.titulo, style: TextStyle(color: colores.verdeMenuLateral, fontSize: 10), textAlign: TextAlign.center,),
+        SizedBox(height: 15,),
+      ],
     );
   }
 }

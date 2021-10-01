@@ -68,6 +68,7 @@ class _Formulario extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<RegistroProvider>(context);
     return ListView(
       children: [
         SizedBox(
@@ -76,7 +77,7 @@ class _Formulario extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30.0),
           child: Text(
-            "INGRESA INFORMACION ADICIONAL",
+            "INGRESA INFORMACIÓN ADICIONAL",
             textAlign: TextAlign.center,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
@@ -87,7 +88,7 @@ class _Formulario extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30.0),
           child: Text(
-            "Vamos a necesitar alguna informacion tuya para continuar con el registro",
+            "Vamos a necesitar alguna información tuya para continuar con el registro",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 14.0),
           ),
@@ -109,7 +110,7 @@ class _Formulario extends StatelessWidget {
                 ),
                 SizedBox(height: 15,),
                 estilos.inputLabel(
-                    label: 'Numero de Carnet', obligatorio: true, padding: false),
+                    label: 'Número de Carnet', obligatorio: true, padding: false),
                 _InputCi(ci: this.socio.ci),
                 SizedBox(height: 15,),
                 estilos.inputLabel(label: 'Origen', obligatorio: true, padding: false),
@@ -128,16 +129,30 @@ class _Formulario extends StatelessWidget {
                 SizedBox(
                   height: 20.0,
                 ),
+                SwitchListTile(
+                  title:TextButton(
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      alignment: Alignment.centerLeft
+                    ),
+                    child: Text('Términos y Condiciones (Leer)', style:TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline, color: Colors.black ) ),
+                    onPressed: (){
+                      Navigator.pushNamed(context, 'terms');
+                    },
+                  ),
+                  subtitle: Text('Términos y Condiciones de Uso y Privacidad'),
+                  value: provider.terminos,
+                  onChanged: (value)=>provider.terminos=value,
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
                 Center(
                     child: _BotonRegistrarSocio(
                   formState: this.formState,
                   socio: this.socio,
                 )),
-                Center(
-                    child: Image(
-                  image: AssetImage('assets/icons/logo.png'),
-                  width: 250.0,
-                ))
+
               ],
             ),
           ),
@@ -173,7 +188,7 @@ class _InputCi extends StatelessWidget {
       enabled: false,
       initialValue: this.ci,
       keyboardType: TextInputType.phone,
-      decoration: estilos.inputDecorationinicio(hintText: 'Numero de carnet'),
+      decoration: estilos.inputDecorationinicio(hintText: 'Número de carnet'),
     );
   }
 }
@@ -203,14 +218,14 @@ class _InputDireccion extends StatelessWidget {
     return TextFormField(
       initialValue: this.direccion,
       keyboardType: TextInputType.text,
-      decoration: estilos.inputDecorationinicio(hintText: 'Direccion'),
+      decoration: estilos.inputDecorationinicio(hintText: 'Dirección'),
       onChanged: (value) {
         provider.direccion = value;
       },
       validator: (value) {
         provider.direccion = value;
         if (value.isEmpty) {
-          return "la direccion no puede quedar vacia";
+          return "la dirección no puede quedar vacia";
         }
         return null;
       },
@@ -257,63 +272,20 @@ class _Celular extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: 100.0,
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(50.0),
-                bottomLeft: Radius.circular(50.0)),
-            color: colores.verdeOscuro,
+          margin: EdgeInsets.only(right: 10),
+          height: 49,
+          alignment: Alignment.center,
+            // padding: EdgeInsets.symmetric(horizontal: 10.0),
+            // color: Colors.red,
+            child: Text('+591')
           ),
-          child: DropdownButton(
-            icon: Icon(
-              Icons.arrow_circle_down_outlined,
-              color: Colors.white,
-            ),
-            isExpanded: true,
-            focusColor: Colors.white,
-            dropdownColor: Color(0xff009D47),
-            underline: Container(
-              height: 0.0,
-            ),
-            value: provider.codtel,
-            items: [
-              DropdownMenuItem(
-                child: Text(
-                  '+591',
-                  style: TextStyle(color: Colors.white),
-                ),
-                value: '+591',
-              ),
-              DropdownMenuItem(
-                child: Text(
-                  '+111',
-                  style: TextStyle(color: Colors.white),
-                ),
-                value: '+111',
-              ),
-            ],
-            onChanged: (opt) {
-              provider.codtel = opt;
-            },
-          ),
-        ),
+       
         Container(
           width: phoneSize.width * 0.4,
           child: TextFormField(
             initialValue: provider.celular,
             keyboardType: TextInputType.phone,
-            decoration: InputDecoration(
-                hintText: 'Telefono',
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(50.0),
-                        bottomRight: Radius.circular(50.0)),
-                    borderSide: BorderSide(color: Colors.black26)),
-                filled: true,
-                fillColor: Colors.white),
+            decoration: estilos.inputDecorationinicio(hintText: 'Teléfono'),
             onChanged: (value) {
               provider.celular = value;
             },
@@ -321,10 +293,10 @@ class _Celular extends StatelessWidget {
               provider.celular = value;
               final formValidator = FormValidator();
               if (value.isEmpty || value == '0') {
-                return 'ingrese un numero de telefono';
+                return 'ingrese un número de teléfono';
               } else {
                 if (!formValidator.isNumeric(value)) {
-                  return "Ingrese en telefono válido";
+                  return "Ingrese un teléfono válido";
                 } else {
                   return null;
                 }
@@ -341,6 +313,7 @@ class _BotonRegistrarSocio extends StatelessWidget {
   final GlobalKey<FormState> formState;
   final Socio socio;
   final estilos = EstilosApp();
+  final formValidator = FormValidator();
 
   _BotonRegistrarSocio({@required this.formState, @required this.socio});
 
@@ -353,6 +326,9 @@ class _BotonRegistrarSocio extends StatelessWidget {
       style: estilos.buttonStyle(),
       onPressed: () async {
         if (!this.formState.currentState.validate()) return;
+        if (!provider.terminos) {
+          return mostrarSnackBar(context, 'Acepte los términos para poder continuar');
+        }
         provider.carga = true;
         final conexion = await comprobarInternet();
         if (!conexion) {
