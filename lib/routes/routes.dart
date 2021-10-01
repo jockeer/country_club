@@ -1,7 +1,10 @@
 import 'package:country/pages/acercade_page.dart';
+import 'package:country/pages/comunicados_page.dart';
 import 'package:country/pages/contact_page.dart';
 import 'package:country/pages/disciplina_page.dart';
+import 'package:country/pages/disciplinas_extras_page.dart';
 import 'package:country/pages/disciplinas_page.dart';
+import 'package:country/pages/fronton_page.dart';
 import 'package:country/pages/historico_tarjeta_dependiente.dart';
 import 'package:country/pages/horarios_page.dart';
 import 'package:country/pages/menu_select_page.dart';
@@ -75,5 +78,8 @@ Map<String, WidgetBuilder> getAplicationRoutes(){
     'disciplina':( _ ) => DisciplinaPage(),
     'horarios':( _ ) => HorariosPage(),
     'menuselect':( _ ) => MenuSelectPage(),
+    'comunicados':( _ ) => ComunicadosPage(),
+    'fronton':( _ ) => FrontonPage(),
+    'extra':( _ ) => DisciplinaExtraPage(),
   };
 }

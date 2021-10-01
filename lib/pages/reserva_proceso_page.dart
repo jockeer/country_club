@@ -1,5 +1,4 @@
 
-import 'dart:math';
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/models/cabana_model.dart';
 import 'package:country/widgets/sesion_caducada_widget.dart';
@@ -54,26 +53,10 @@ class _ReservaProcesoPageState extends State<ReservaProcesoPage> {
         ),
         inAsyncCall: provider.carga,
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   child: Transform.rotate(child: Icon(Icons.priority_high_sharp,),angle: pi,),
-      //   backgroundColor: Color(0xff00472B),
-      //   onPressed: (){
-      //     _mostrarAlerta();
-      //   },
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
     );
   }
 
-  void _mostrarAlerta(){
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: ( context ){
-        return _DialogInfo();
-      }
-    );
-  }
+
 }
 
 class _Cabana extends StatelessWidget {
@@ -364,57 +347,7 @@ class _HoraReserva extends StatelessWidget {
   }
 }
 
-class _DialogInfo extends StatelessWidget {
 
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      titlePadding: EdgeInsets.all(0.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      title: Container(decoration: BoxDecoration(color: Color(0xff64A640), borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))) ,padding: EdgeInsets.symmetric(vertical: 20.0) , child: Text('Horario de atencion',style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold ),textAlign: TextAlign.center, ),),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween ,children: [
-            Text('Lunes'),
-            Container(decoration: BoxDecoration(color: Colors.grey[300],borderRadius: BorderRadius.circular(20.0)), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0) ,child: Text('12:00 - 22:00'),)
-          ],),
-          SizedBox(height: 20.0,),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween ,children: [
-            Text('Martes a Viernes'),
-            Container(decoration: BoxDecoration(color: Colors.grey[300],borderRadius: BorderRadius.circular(20.0)), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0) ,child: Text('6:00 - 22:00'),)
-          ],),
-          SizedBox(height: 20.0,),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween ,children: [
-            Text('Sabado'),
-            Container(decoration: BoxDecoration(color: Colors.grey[300],borderRadius: BorderRadius.circular(20.0)), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0) ,child: Text('6:30 - 20:00'),)
-          ],),
-          SizedBox(height: 20.0,),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween ,children: [
-            Text('Domingo'),
-            Container(decoration: BoxDecoration(color: Colors.grey[300],borderRadius: BorderRadius.circular(20.0)), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0) ,child: Text('10:00 - 18:00'),)
-          ],),
-        
-        ],
-      ),
-      actions: [
-        Center(
-          child: ElevatedButton(
-            child: Text('Aceptar', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16.0),),
-            onPressed: (){
-              Navigator.of(context).pop();
-            },
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 50.0),
-              primary: Color(0xff00472B),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 class _MotivoEvento extends StatelessWidget {
   final estilos = EstilosApp();

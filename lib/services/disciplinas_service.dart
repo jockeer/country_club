@@ -18,6 +18,24 @@ class DisciplinasService {
 
 
   }
+  Future obtenerSubDisciplinas (int idPadre) async{
+
+    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/obenterSubDisciplinas');
+
+    final resp = await http.post(
+      url,
+      body: {
+        "idPadre":idPadre.toString()
+      }
+    );
+
+    final respDecoded = await jsonDecode(resp.body);
+
+    print(respDecoded);
+    return respDecoded["Data"];
+
+
+  }
 
   Future obetenerProfesores(String id) async {
     final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/profesoresPorDisciplina?id=${int.parse(id)}');

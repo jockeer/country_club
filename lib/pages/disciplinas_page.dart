@@ -1,9 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
+import 'package:country/providers/disciplina_provider.dart';
 import 'package:country/services/disciplinas_service.dart';
-import 'package:country/widgets/menu_lateral_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DisciplinasPage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -13,7 +14,6 @@ class DisciplinasPage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldKey,
-      drawer: MenuLateralWidget(),
       body: SafeArea(
         child: Container(
           width: size.width,
@@ -48,9 +48,9 @@ class DisciplinasPage extends StatelessWidget {
           FloatingActionButton(
             elevation: 0.0,
             backgroundColor: Colors.transparent,
-            child: Icon(Icons.menu, color: Colors.white,),
+            child: Icon(Icons.arrow_back, color: Colors.white,),
             onPressed: (){
-              _scaffoldKey.currentState.openDrawer();
+              Navigator.pop(context);
             },
           ),
           Container(child: Text('Hola ${prefs.nombreSocio}!', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600), overflow: TextOverflow.ellipsis,))
@@ -68,6 +68,7 @@ class _MenuPrincipal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<DisciplinaProvider>(context);
     final size = MediaQuery.of(context).size;
     return Positioned(
       bottom: 0,
@@ -87,22 +88,69 @@ class _MenuPrincipal extends StatelessWidget {
                   itemCount: snapshot.data.length,
                   itemBuilder: ( _ , index){
                     return Padding(
-                      padding: EdgeInsets.only(bottom: 0, left:50, right:50, top: (index==0)?50:0 ),
+                      padding: EdgeInsets.only(bottom: 0, left:50, right:50, top: (index==0)?30:0 ),
                       child: Column(
                         children: [
-                          GestureDetector(
-                            onTap: (){
-                              Navigator.pushNamed(context, 'disciplina', arguments: snapshot.data[index]);
+                          (snapshot.data[index]["desplegable"]!="0")
+                          ?FutureBuilder(
+                            future: disciplinasService.obtenerSubDisciplinas(4),
+                            builder: ( _, AsyncSnapshot snapshota ){
+                              if(snapshota.hasData){
+                                final List submenu = snapshota.data;
+                                return ExpansionTile(
+                                  iconColor: colores.verdeOscuro,
+                                  collapsedIconColor: colores.verdeOscuro,
+                                  leading: Image(image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${snapshot.data[index]["logo"]}'), width: 40,),
+                                  title: GestureDetector(
+                                    onTap: (){
+                                      provider.banerTop=0;
+                                      provider.menuAlto=false;
+                                      if (snapshot.data[index]["torneo"]=="1") {
+                                        Navigator.pushNamed(context, 'disciplina', arguments: snapshot.data[index]);
+                                      }else{
+                                        Navigator.pushNamed(context, 'fronton', arguments: snapshot.data[index]);
+                                      }
+                                    },
+                                    child: Text(snapshot.data[index]["nombreDisciplina"], style: TextStyle( color: colores.verdeOscuro, fontWeight: FontWeight.bold, fontSize: 16 ),)
+                                  ),
+                                  children: submenu.map((e){
+                                    return GestureDetector(
+                                      onTap: (){
+                                        provider.banerTop=0;
+                                        provider.menuAlto=false;
+                                        if (snapshot.data[index]["torneo"]=="1") {
+                                        Navigator.pushNamed(context, 'disciplina', arguments: e);
+                                      }else{
+                                        Navigator.pushNamed(context, 'fronton', arguments: e);
+                                      }
+                                      },
+                                      child: Center(
+                                        child: Padding(
+                                        padding: EdgeInsets.symmetric(vertical: 8),
+                                        child: Text(e["nombreDisciplina"], style: TextStyle(color: colores.verdeOscuro),),
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                );
+                              }
+                              return Center(child: CircularProgressIndicator(),);
                             },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                FadeInImage(placeholder: AssetImage('assets/icons/palmera.png'), image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${snapshot.data[index]["logo"]}'), width: 40,),
-                                SizedBox(width: 20,),
-                                Text(snapshot.data[index]["nombreDisciplina"], style: TextStyle( color: colores.verdeOscuro, fontWeight: FontWeight.bold, fontSize: 16 ),)
-                              ],
-                            ),
-                          ),
+                          )
+                          :ListTile(
+                              dense:true,
+                              leading: Image(image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${snapshot.data[index]["logo"]}'), width: 40,),
+                              title: Text(snapshot.data[index]["nombreDisciplina"], style: TextStyle( color: colores.verdeOscuro, fontWeight: FontWeight.bold, fontSize: 16 ),),
+                              onTap: (){
+                                provider.banerTop=0;
+                                provider.menuAlto=false;
+                                if (snapshot.data[index]["torneo"]=="1") {
+                                  Navigator.pushNamed(context, 'disciplina', arguments: snapshot.data[index]);
+                                }else{
+                                  Navigator.pushNamed(context, 'fronton', arguments: snapshot.data[index]);
+                                }
+                              },
+                            ),                
                           Divider(thickness: 1, color: colores.verdeOscuro, height: 25,)
                         ],
                       ),
@@ -111,7 +159,6 @@ class _MenuPrincipal extends StatelessWidget {
                 );  
               }
               return Center(child: CircularProgressIndicator(),);
-
             },
           )
         ),

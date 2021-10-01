@@ -19,7 +19,7 @@ class EventosPage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: colores.gris,
-      appBar: appBarWidget(titulo: 'Eventos', color: colores.gris, texto: Colors.green, logoClaro: true),
+      appBar: appBarWidget(titulo: 'EVENTOS', color: colores.gris, texto: Colors.green, logoClaro: true),
       body: SafeArea(
         child: Container(
           width: size.width,

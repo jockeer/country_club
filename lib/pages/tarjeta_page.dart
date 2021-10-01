@@ -72,15 +72,15 @@ class _TarjetaPageState extends State<TarjetaPage> {
 
   }
 
-  Future<void> _refreshPuntos() async {
+  // Future<void> _refreshPuntos() async {
 
-    final prefs = PreferenciasUsuario();
-    await tarjetaService.obtenerSaldo(prefs.codigoSocio);
-    setState(() {
-    });
+  //   final prefs = PreferenciasUsuario();
+  //   await tarjetaService.obtenerSaldo(prefs.codigoSocio);
+  //   setState(() {
+  //   });
 
 
-  }
+  // }
 }
 
 class _UltimasTransacciones extends StatelessWidget {

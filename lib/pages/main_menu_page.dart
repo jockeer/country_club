@@ -106,7 +106,7 @@ class _MenuPrincipal extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _OpcionMenu(titulo: 'EVENTOS', icono: 'eventos.png', ruta: 'eventos' ),
-                  _OpcionMenu(titulo: 'COMUNICADOS', icono: 'comunicados.png', ruta: 'eventos' ),
+                  _OpcionMenu(titulo: 'COMUNICADOS', icono: 'comunicados.png', ruta: 'comunicados' ),
                   _OpcionMenu(titulo: 'E-MAILS', icono: 'email.png', ruta: 'inbox' ),
                 ],
               ),
@@ -139,7 +139,7 @@ class _OpcionMenu extends StatelessWidget {
           children: [
             Image( image: AssetImage('assets/icons/$icono'), width: size.width*0.130,),
             SizedBox(height: 10,),
-            Text( this.titulo, style: TextStyle( fontSize: size.width*0.033, fontWeight: FontWeight.w500, color: colores.verde),maxLines: 2,textAlign: TextAlign.center,)
+            Text( this.titulo, style: TextStyle( fontSize: size.width*0.035 , fontWeight: FontWeight.w500, color: colores.verde),maxLines: 2,textAlign: TextAlign.center,)
           ],
         ),
       ),

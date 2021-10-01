@@ -161,7 +161,6 @@ class _Dependientes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return ListView.builder(
       padding: EdgeInsets.zero,
       itemCount: dependientes.length,

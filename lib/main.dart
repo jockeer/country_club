@@ -1,4 +1,5 @@
 import 'package:country/helpers/datos_constantes.dart';
+import 'package:country/providers/disciplina_provider.dart';
 import 'package:country/providers/eventos_provider.dart';
 import 'package:country/providers/tarjetas_credito_provider.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +71,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => EventosProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DisciplinaProvider(),
         ),
       ],
       child: MaterialApp(

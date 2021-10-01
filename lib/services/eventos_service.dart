@@ -45,7 +45,32 @@ class EventosService{
     try {
       final respuesta = await http.get(url);
       final decoded = jsonDecode(respuesta.body);
-      final lista = await Eventos.fromJsonList(decoded["fechaIniciales"], context);
+      final lista = Eventos.fromJsonList(decoded["fechaIniciales"], context);
+    
+      return lista;
+
+    } catch (e) {
+      return null;
+    }
+
+  }
+  Future<dynamic> obtenerTorneosCalendario(BuildContext context, int id)async{
+    
+    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/getTorneos');
+    final conexion = await comprobarInternet();
+    if (!conexion) {
+      return null;
+    }
+    try {
+      final respuesta = await http.post(
+        url,
+        body: {
+          "idDisciplina": id.toString()
+        }
+      );
+      final decoded = jsonDecode(respuesta.body);
+
+      final lista = Eventos.fromJsonList(decoded["fechaIniciales"], context);
     
       return lista;
 
@@ -66,6 +91,29 @@ class EventosService{
         url,
         body: {
           "fecha":fecha
+        }
+      );
+      final decoded = jsonDecode(respuesta.body);
+      // final lista = await Eventos.fromJsonList(decoded["fechaIniciales"], context);
+      print(decoded["Data"]);
+      return decoded["Data"];
+
+    } catch (e) {
+      return null;
+    }
+  }
+  Future obtenerTorneosPorFecha(String fecha, int id) async {
+    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/getTorneosByDate');
+    final conexion = await comprobarInternet();
+    if (!conexion) {
+      return null;
+    }
+    try {
+      final respuesta = await http.post(
+        url,
+        body: {
+          "fecha":fecha,
+          "id": id.toString()
         }
       );
       final decoded = jsonDecode(respuesta.body);
