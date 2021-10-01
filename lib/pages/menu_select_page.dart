@@ -58,7 +58,7 @@ final _menuService = MenuService();
         floatingActionButton: FloatingActionButton(
           child: Image(image: AssetImage('assets/icons/whatsapp.png'),width: 40,),
           onPressed: ()async{
-            var whatsappUrl ="whatsapp://send?phone=59176597228&text=Me%20gustaria%20hacer%20un%20pedido";
+            var whatsappUrl ="whatsapp://send?phone=59169051176&text=Me%20gustaria%20hacer%20un%20pedido";
             await canLaunch(whatsappUrl)? launch(whatsappUrl):print("open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
           },
         ),

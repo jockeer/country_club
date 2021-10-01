@@ -156,8 +156,8 @@ class _OptCabana extends StatelessWidget {
                           Text(this.titulo.toUpperCase(),style: TextStyle(fontWeight: FontWeight.bold) ,),
                           SizedBox(height: 5,),
                           Text('CAPACIDAD: $cantidad PERSONAS'),
-                          SizedBox(height: 5,),
-                          Text('DIMENSION: 300 M2')
+                          // SizedBox(height: 5,),
+                          // Text('DIMENSION: 300 M2')
                         ],
                       ),
                     ),
