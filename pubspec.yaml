@@ -1,9 +1,7 @@
 name: country
 description: A new Flutter project.
 
-
-publish_to: 'none' 
-
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -22,9 +20,9 @@ dependencies:
   flutter_credit_card: ^2.0.0
   http:
   modal_progress_hud_nsn: ^0.1.0-nullsafety-1
-  flutter_pdfview: ^1.0.4
+  flutter_pdfview: ^1.2.1
   path_provider: ^2.0.2
-  photo_view: ^0.12.0
+  photo_view: ^0.13.0
   provider: ^5.0.0
   sentry_flutter: ^5.1.0
   shared_preferences: ^2.0.5
@@ -46,10 +44,7 @@ flutter_icons:
   adaptive_icon_background: "assets/icons/miniatura.png"
 
 flutter:
-
-
   uses-material-design: true
-
 
   assets:
     - assets/backgrounds/
@@ -65,5 +60,3 @@ flutter:
         - asset: assets/fonts/Montserrat-Bold.otf
         - asset: assets/fonts/Montserrat-Light.otf
         - asset: assets/fonts/Montserrat-Regular.otf
-        
-

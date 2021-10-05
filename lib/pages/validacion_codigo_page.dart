@@ -14,16 +14,15 @@ import 'package:country/utils/show_snack_bar.dart';
 import 'package:country/providers/registro_provider.dart';
 
 class ValidacionCodigoPage extends StatelessWidget {
-
   final formState = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<RegistroProvider>(context);
     final size = MediaQuery.of(context).size;
-    
+
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         final FocusScopeNode focus = FocusScope.of(context);
         if (!focus.hasPrimaryFocus && focus.hasFocus) {
           FocusManager.instance.primaryFocus.unfocus();
@@ -38,19 +37,25 @@ class ValidacionCodigoPage extends StatelessWidget {
               child: Stack(
                 children: [
                   Column(
-                      children: [
-                        SizedBox(height: size.height*0.12,),
-                        TopIcon(),
-                        SizedBox(height: size.height*0.05,),
-                        _Formulario(formState:formState),
-                      ],
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.12,
+                      ),
+                      TopIcon(),
+                      SizedBox(
+                        height: size.height * 0.05,
+                      ),
+                      _Formulario(formState: formState),
+                    ],
                   ),
                 ],
               ),
             ),
           ),
         ),
-        floatingActionButton: FloatingButtonWidget(color: Colors.black,),
+        floatingActionButton: FloatingButtonWidget(
+          color: Colors.black,
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       ),
     );
@@ -75,13 +80,21 @@ class _Formulario extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                estilos.inputLabel(label: 'Código del Socio',padding: false),
+                estilos.inputLabel(label: 'Código del Socio', padding: false),
                 _InputCodigoSocio(),
-                SizedBox( height: 20.0,),
-                estilos.inputLabel(label: 'Carnet de identidad',padding: false),
+                SizedBox(
+                  height: 20.0,
+                ),
+                estilos.inputLabel(
+                    label: 'Carnet de identidad', padding: false),
                 _InputCISocio(),
-                SizedBox( height: 50.0,),
-                Center(child: _ButtonNext(formState: this.formState,)),
+                SizedBox(
+                  height: 50.0,
+                ),
+                Center(
+                    child: _ButtonNext(
+                  formState: this.formState,
+                )),
               ],
             ),
           ),
@@ -92,7 +105,6 @@ class _Formulario extends StatelessWidget {
 }
 
 class _ButtonNext extends StatelessWidget {
-  
   final GlobalKey<FormState> formState;
   final estilos = EstilosApp();
   final socioService = SocioService();
@@ -105,17 +117,21 @@ class _ButtonNext extends StatelessWidget {
     final provider = Provider.of<RegistroProvider>(context);
     return ElevatedButton(
       style: estilos.buttonStyle(),
-      child: estilos.buttonChild(texto: 'Validar'),
-      onPressed: ()async {
-
+      child: estilos.buttonChild(texto: 'VALIDAR'),
+      onPressed: () async {
         if (!this.formState.currentState.validate()) return;
-        
-        final conexion = await comprobarInternet();
-        if (!conexion) return showDialog(context: context, builder: (context){ return NoInternetWidget(); });
-        
-        provider.carga=true;
 
-        final socio = await socioService.getSocio(provider.codigo, provider.ci);  
+        final conexion = await comprobarInternet();
+        if (!conexion)
+          return showDialog(
+              context: context,
+              builder: (context) {
+                return NoInternetWidget();
+              });
+
+        provider.carga = true;
+
+        final socio = await socioService.getSocio(provider.codigo, provider.ci);
 
         if (socio != null) {
           final message = await tokenService.obtenerToken();
@@ -127,12 +143,13 @@ class _ButtonNext extends StatelessWidget {
             FocusScope.of(context).unfocus();
           }
         } else {
-          mostrarSnackBar(context, 'Los datos del socio no son válidos por favor actualice su informacion');
+          mostrarSnackBar(context,
+              'Los datos del socio no son válidos por favor actualice su informacion');
         }
-        provider.carga=false;
-      },    
-    ); 
-  }   
+        provider.carga = false;
+      },
+    );
+  }
 }
 
 class _InputCodigoSocio extends StatelessWidget {
