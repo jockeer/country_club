@@ -27,8 +27,7 @@ class _TarjetaPageState extends State<TarjetaPage> {
   Widget build(BuildContext context) {
     final dynamic datos = ModalRoute.of(context).settings.arguments;
     final size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
         backgroundColor: Colors.white,
         appBar: appBarWidget(titulo: datos["nombre"], color: Colors.transparent,texto: Colors.white, arrowClaro: true, centrado: false, logo: false),
         extendBodyBehindAppBar: true,
@@ -49,7 +48,6 @@ class _TarjetaPageState extends State<TarjetaPage> {
                   ],
                 ),
               ),
-              // Image(image: AssetImage('assets/images/${provider.consumo==0 ? 'Tarjeta_consumo.png': 'tarjetaConsumo.jpg' }'), fit: BoxFit.fill, width: size.width, height: size.height*0.4,),
               Positioned(
                 bottom: 0,
                 left: 0,
@@ -67,20 +65,8 @@ class _TarjetaPageState extends State<TarjetaPage> {
             ],
           ),
         )
-      ),
-    );
-
+      );
   }
-
-  // Future<void> _refreshPuntos() async {
-
-  //   final prefs = PreferenciasUsuario();
-  //   await tarjetaService.obtenerSaldo(prefs.codigoSocio);
-  //   setState(() {
-  //   });
-
-
-  // }
 }
 
 class _UltimasTransacciones extends StatelessWidget {
