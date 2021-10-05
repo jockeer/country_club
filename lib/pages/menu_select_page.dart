@@ -14,9 +14,8 @@ final _menuService = MenuService();
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final provider = Provider.of<LoginProvider>(context);
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
+    return Scaffold(
+        backgroundColor: Colors.black,
         appBar: appBarWidget(titulo: 'MENÚ', color: Colors.transparent,texto: Colors.white, arrowClaro: true),
         extendBodyBehindAppBar: true,
         body: FutureBuilder(
@@ -28,7 +27,7 @@ final _menuService = MenuService();
                 height: size.height,
                 child: Stack(
                   children: [
-                    Image(image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/banerMenu/${provider.menuSelect}'),fit: BoxFit.fill, height: size.height*0.4, width: size.width,),
+                    Image(image: NetworkImage('https://laspalmascountryclub.com.bo/laspalmas/user-files/images/banerMenu/${provider.menuSelect}'),fit: BoxFit.fill, height: size.height*0.41, width: size.width,),
                     Positioned(
                       bottom: 0,
                       left: 0,
@@ -37,7 +36,7 @@ final _menuService = MenuService();
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50)),
                         child: Container(
                           width: size.width,
-                          height: size.height*0.63,
+                          height: size.height*0.65,
                           color: Colors.white,
                           child: _Menu(
                             lista: snapshot.data,
@@ -62,8 +61,7 @@ final _menuService = MenuService();
             await canLaunch(whatsappUrl)? launch(whatsappUrl):print("open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
           },
         ),
-      ),
-    );
+      );
   }
 }
 

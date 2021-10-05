@@ -13,8 +13,7 @@ class MenuPage extends StatelessWidget {
     return Scaffold(
       appBar: appBarWidget(titulo: 'MENÚ', color: Colors.white, texto: Colors.grey),
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Container(
+      body: Container(
           width: size.width,
           height: size.height,
           child: Stack(
@@ -45,7 +44,6 @@ class MenuPage extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
 }

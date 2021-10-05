@@ -9,8 +9,7 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
+      body: Stack(
           children: [
             ListViewWidget(),
             Center(
@@ -26,7 +25,7 @@ class WelcomePage extends StatelessWidget {
             ButtonsBottom(),
           ],
         ),
-      ),
+      
     );
   }
 }

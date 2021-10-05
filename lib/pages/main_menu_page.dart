@@ -16,15 +16,14 @@ class MainMenuPage extends StatelessWidget {
       drawerScrimColor:Colors.transparent,
       key: _scaffoldKey,
       drawer: MenuLateralWidget(),
-      body: SafeArea(
-        child: Container(
+      body: Container(
           width: size.width,
           height: size.height,
           child: Stack(
             children: [
               CarouselSlider(
                 options: CarouselOptions(
-                  height: size.height*0.37,
+                  height: size.height*0.40,
                   viewportFraction: 1,
                   enableInfiniteScroll: false,
                   autoPlay: true,
@@ -43,8 +42,7 @@ class MainMenuPage extends StatelessWidget {
               _MenuPrincipal()
             ],
           ),
-        )
-      ),
+        ),
       floatingActionButton: Row(
         children: [
           FloatingActionButton(
@@ -83,7 +81,7 @@ class _MenuPrincipal extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight:Radius.circular(50) ),
         child: Container(
-          height: size.height*0.65,
+          height: size.height*0.655,
           width: size.width,
           color: Colors.white,
           child: FutureBuilder(

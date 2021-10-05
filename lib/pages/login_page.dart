@@ -33,8 +33,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
-        child: SafeArea(
-          child: GestureDetector(
+        child: GestureDetector(
             onTap: (){
               final FocusScopeNode focus = FocusScope.of(context);
               if (!focus.hasPrimaryFocus && focus.hasFocus) {
@@ -57,7 +56,6 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
           ),
-        ),
         inAsyncCall: indicator,
         // dismissible: false,
       ),
