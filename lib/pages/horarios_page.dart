@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
@@ -260,12 +262,17 @@ class _Servicios extends StatelessWidget {
   }
 
   void abrirWhatassp(String numero) async {
-    var whatsappUrl =
-        "whatsapp://send?phone=591$numero&text=Quisiera%20consultar%20sobre%20los%20horarios";
-    await canLaunch(whatsappUrl)
-        ? launch(whatsappUrl)
-        : print(
-            "open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
+    final whatsaapANDROID = "whatsapp://send?phone=591$numero";
+    final whatsaapIOS = "https://wa.me/$numero";
+    if (Platform.isIOS) {
+      await canLaunch(whatsaapIOS)
+        ? await launch(whatsaapIOS, forceSafariVC: false)
+        :print("instale whatsaap");
+    }else{
+      await canLaunch(whatsaapANDROID)
+      ? await launch(whatsaapANDROID)
+      :print('instale Whastaap');
+    }
   }
 }
 
