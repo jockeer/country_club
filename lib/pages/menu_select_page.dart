@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/providers/login_provider.dart';
 import 'package:country/services/menu_service.dart';
@@ -70,12 +72,17 @@ class MenuSelectPage extends StatelessWidget {
           width: 40,
         ),
         onPressed: () async {
-          var whatsappUrl =
-              "whatsapp://send?phone=59169051176&text=Me%20gustaria%20hacer%20un%20pedido";
-          await canLaunch(whatsappUrl)
-              ? launch(whatsappUrl)
-              : print(
-                  "open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
+          final whatsaapANDROID = "whatsapp://send?phone=59169051176";
+          final whatsaapIOS = "https://wa.me/69051176";
+          if (Platform.isIOS) {
+            await canLaunch(whatsaapIOS)
+                ? await launch(whatsaapIOS, forceSafariVC: false)
+                : print("instale whatsaap");
+          } else {
+            await canLaunch(whatsaapANDROID)
+                ? await launch(whatsaapANDROID)
+                : print('instale Whastaap');
+          }
         },
       ),
     );
