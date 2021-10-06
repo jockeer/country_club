@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/services/comunicado_service.dart';
+import 'package:country/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
 
@@ -12,6 +13,9 @@ class MainMenuPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: appBarWidget(titulo: '¡Hola ${prefs.nombreSocio}!', logoClaro: true, color: Colors.transparent, main: true, centrado: false, arrowClaro: true),
+      backgroundColor: Colors.black,
       drawerScrimColor: Colors.transparent,
       key: _scaffoldKey,
       drawer: MenuLateralWidget(),
@@ -35,25 +39,21 @@ class MainMenuPage extends StatelessWidget {
                   image: AssetImage('assets/backgrounds/Instalaciones4.png'),
                   fit: BoxFit.cover,
                   width: size.width,
-                  height: size.height,
                 ),
                 Image(
                   image: AssetImage('assets/backgrounds/Instalaciones1.png'),
                   fit: BoxFit.cover,
                   width: size.width,
-                  height: size.height,
                 ),
                 Image(
                   image: AssetImage('assets/backgrounds/Instalaciones2.png'),
                   fit: BoxFit.cover,
                   width: size.width,
-                  height: size.height,
                 ),
                 Image(
                   image: AssetImage('assets/backgrounds/Instalaciones3.png'),
                   fit: BoxFit.cover,
                   width: size.width,
-                  height: size.height,
                 ),
               ],
             ),
@@ -61,37 +61,37 @@ class MainMenuPage extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: Row(
-        children: [
-          FloatingActionButton(
-            elevation: 0.0,
-            backgroundColor: Colors.transparent,
-            child: Icon(
-              Icons.menu,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              _scaffoldKey.currentState.openDrawer();
-            },
-          ),
-          Container(
-              child: Text(
-            '¡Hola ${prefs.nombreSocio}!',
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-                shadows: [
-                  Shadow(
-                    offset: Offset(0, 0),
-                    blurRadius: 15.0,
-                    color: Colors.black,
-                  ),
-                ]),
-            overflow: TextOverflow.ellipsis,
-          ))
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      // floatingActionButton: Row(
+      //   children: [
+      //     FloatingActionButton(
+      //       elevation: 0.0,
+      //       backgroundColor: Colors.transparent,
+      //       child: Icon(
+      //         Icons.menu,
+      //         color: Colors.white,
+      //       ),
+      //       onPressed: () {
+      //         _scaffoldKey.currentState.openDrawer();
+      //       },
+      //     ),
+      //     Container(
+      //         child: Text(
+      //       '¡Hola ${prefs.nombreSocio}!',
+      //       style: TextStyle(
+      //           color: Colors.white,
+      //           fontWeight: FontWeight.w600,
+      //           shadows: [
+      //             Shadow(
+      //               offset: Offset(0, 0),
+      //               blurRadius: 15.0,
+      //               color: Colors.black,
+      //             ),
+      //       ]),
+      //       overflow: TextOverflow.ellipsis,
+      //     ))
+      //   ],
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
 }
@@ -139,7 +139,7 @@ class _MenuPrincipal extends StatelessWidget {
                             ruta: 'mensualidad'),
                       ],
                     ),
-                    Expanded(child: Container()),
+                    SizedBox(height: 40,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,7 +158,7 @@ class _MenuPrincipal extends StatelessWidget {
                             ruta: 'reservas'),
                       ],
                     ),
-                    Expanded(child: Container()),
+                    SizedBox(height: 40,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,

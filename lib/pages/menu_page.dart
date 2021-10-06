@@ -11,7 +11,7 @@ class MenuPage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar:
-          appBarWidget(titulo: 'MENÚ', color: Colors.white, texto: Colors.grey),
+          appBarWidget(titulo: 'MENÚ', color: Colors.white, texto: Colors.grey, logoClaro: true),
       backgroundColor: Colors.white,
       body: Container(
         width: size.width,

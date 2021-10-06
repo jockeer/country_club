@@ -29,6 +29,7 @@ class ComunicadosService{
     final decoded = await json.decode(respuesta.body);
 
     if (decoded.containsKey("error")) {
+      prefs.token='';
       mostrarSnackBar(context, 'Su sesión caduco inicie sesión nuevamente');
       Navigator.pushReplacementNamed(context, 'welcome');
       return [null];
