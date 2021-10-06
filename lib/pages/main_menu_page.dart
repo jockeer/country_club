@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/services/comunicado_service.dart';
+import 'package:country/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
 
@@ -12,6 +13,9 @@ class MainMenuPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: appBarWidget(
+          titulo: '¡Hola ${prefs.nombreSocio}!', color: Colors.transparent),
       drawerScrimColor: Colors.transparent,
       key: _scaffoldKey,
       drawer: MenuLateralWidget(),
@@ -139,7 +143,10 @@ class _MenuPrincipal extends StatelessWidget {
                             ruta: 'mensualidad'),
                       ],
                     ),
-                    Expanded(child: Container()),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    // Expanded(child: Container()),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,7 +165,10 @@ class _MenuPrincipal extends StatelessWidget {
                             ruta: 'reservas'),
                       ],
                     ),
-                    Expanded(child: Container()),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    // Expanded(child: Container()),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
