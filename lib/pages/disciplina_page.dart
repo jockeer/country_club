@@ -295,7 +295,7 @@ class _Profesores extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Divider()
+                  // Divider()
                 ],
               );
             },
@@ -309,11 +309,17 @@ class _Profesores extends StatelessWidget {
   }
 
   void abrirWhatassp(String telefono) async {
-    var whatsappUrl = "whatsapp://send?phone=591$telefono";
-    await canLaunch(whatsappUrl)
-        ? launch(whatsappUrl)
-        : print(
-            "open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
+    final whatsaapANDROID = "whatsapp://send?phone=591$telefono";
+      final whatsaapIOS = "https://wa.me/$telefono";
+      if (Platform.isIOS) {
+        await canLaunch(whatsaapIOS)
+            ? await launch(whatsaapIOS, forceSafariVC: false)
+            : print("instale whatsaap");
+      } else {
+        await canLaunch(whatsaapANDROID)
+            ? await launch(whatsaapANDROID)
+            : print('instale Whastaap');
+      }
   }
 }
 
@@ -463,7 +469,7 @@ class _Calendario extends StatelessWidget {
                                         child: ListTile(
                                           dense: false,
                                           title: Text(
-                                            snapshot.data[index]["subtitle"],
+                                            snapshot.data[index]["title"],
                                             style: TextStyle(
                                                 color: Colors.grey,
                                                 fontWeight: FontWeight.bold),
@@ -484,6 +490,7 @@ class _Calendario extends StatelessWidget {
                             },
                           ),
                   ),
+                  SizedBox(height: 200,)
                 ],
               );
             } else {

@@ -291,15 +291,12 @@ class _Celular extends StatelessWidget {
             },
             validator: (value) {
               provider.celular = value;
-              final formValidator = FormValidator();
               if (value.isEmpty || value == '0') {
                 return 'ingrese un número de teléfono';
               } else {
-                if (!formValidator.isNumeric(value)) {
-                  return "Ingrese un teléfono válido";
-                } else {
-                  return null;
-                }
+                
+                return null;
+                
               }
             },
           ),

@@ -14,7 +14,7 @@ class ReservasPage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWidget(titulo: 'Reservas', texto: colores.verdeClaro),
+      appBar: appBarWidget(titulo: 'Reservas', texto: colores.verdeClaro, logoClaro: true),
       body: Container(
           width: size.width,
           height: size.height,

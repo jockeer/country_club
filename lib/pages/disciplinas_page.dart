@@ -3,6 +3,7 @@ import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
 import 'package:country/providers/disciplina_provider.dart';
 import 'package:country/services/disciplinas_service.dart';
+import 'package:country/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +14,9 @@ class DisciplinasPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.black,
+      appBar: appBarWidget(titulo: '¡Hola ${prefs.nombreSocio}!', logoClaro: true, color: Colors.transparent, main: true, centrado: false, arrowClaro: true),
       key: _scaffoldKey,
       body: Container(
         width: size.width,
@@ -21,7 +25,7 @@ class DisciplinasPage extends StatelessWidget {
           children: [
             CarouselSlider(
               options: CarouselOptions(
-                  height: size.height * 0.37,
+                  height: size.height * 0.40,
                   viewportFraction: 1,
                   enableInfiniteScroll: false,
                   autoPlay: true,
@@ -34,25 +38,21 @@ class DisciplinasPage extends StatelessWidget {
                   image: AssetImage('assets/backgrounds/Instalaciones4.png'),
                   fit: BoxFit.cover,
                   width: size.width,
-                  height: size.height,
                 ),
                 Image(
                   image: AssetImage('assets/backgrounds/Instalaciones1.png'),
                   fit: BoxFit.cover,
                   width: size.width,
-                  height: size.height,
                 ),
                 Image(
                   image: AssetImage('assets/backgrounds/Instalaciones2.png'),
                   fit: BoxFit.cover,
                   width: size.width,
-                  height: size.height,
                 ),
                 Image(
                   image: AssetImage('assets/backgrounds/Instalaciones3.png'),
                   fit: BoxFit.cover,
                   width: size.width,
-                  height: size.height,
                 ),
               ],
             ),
@@ -60,37 +60,37 @@ class DisciplinasPage extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: Row(
-        children: [
-          FloatingActionButton(
-            elevation: 0.0,
-            backgroundColor: Colors.transparent,
-            child: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          Container(
-              child: Text(
-            '¡Hola ${prefs.nombreSocio}!',
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-                shadows: [
-                  Shadow(
-                    offset: Offset(0, 0),
-                    blurRadius: 15.0,
-                    color: Colors.black,
-                  ),
-                ]),
-            overflow: TextOverflow.ellipsis,
-          ))
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      // floatingActionButton: Row(
+      //   children: [
+      //     FloatingActionButton(
+      //       elevation: 0.0,
+      //       backgroundColor: Colors.transparent,
+      //       child: Icon(
+      //         Icons.arrow_back,
+      //         color: Colors.white,
+      //       ),
+      //       onPressed: () {
+      //         Navigator.pop(context);
+      //       },
+      //     ),
+      //     Container(
+      //         child: Text(
+      //       '¡Hola ${prefs.nombreSocio}!',
+      //       style: TextStyle(
+      //           color: Colors.white,
+      //           fontWeight: FontWeight.w600,
+      //           shadows: [
+      //             Shadow(
+      //               offset: Offset(0, 0),
+      //               blurRadius: 15.0,
+      //               color: Colors.black,
+      //             ),
+      //           ]),
+      //       overflow: TextOverflow.ellipsis,
+      //     ))
+      //   ],
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
 }

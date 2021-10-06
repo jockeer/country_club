@@ -22,7 +22,9 @@ class MenuSelectPage extends StatelessWidget {
           titulo: 'MENÚ',
           color: Colors.transparent,
           texto: Colors.white,
-          arrowClaro: true),
+          arrowClaro: true,
+          logoClaro: true
+      ),
       extendBodyBehindAppBar: true,
       body: FutureBuilder(
         future: _menuService.obtenerMenu(),

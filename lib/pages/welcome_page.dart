@@ -17,7 +17,7 @@ class WelcomePage extends StatelessWidget {
               children: [
                 Image(
                     image: AssetImage('assets/icons/logoconletraploma.png'),
-                    width: size.width * 0.6),
+                    width: size.width * 0.4),
                 SizedBox(
                   height: size.height * 0.15,
                 ),
@@ -26,7 +26,9 @@ class WelcomePage extends StatelessWidget {
                   style: TextStyle(
                       fontFamily: 'Montserrat',
                       color: ColoresApp().verde,
-                      fontWeight: FontWeight.w600),
+                      fontWeight: FontWeight.w600,
+                      fontSize: size.width*0.03
+                  ),
                 )
               ],
             ),

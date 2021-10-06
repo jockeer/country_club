@@ -6,7 +6,7 @@ class TopIcon extends StatelessWidget {
     final phoneSize = MediaQuery.of(context).size;
     return Image(
       image: AssetImage('assets/icons/logo.png'),
-      width: phoneSize.width * 0.55,
+      width: phoneSize.width * 0.45,
     );
   }
 }
