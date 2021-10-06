@@ -10,66 +10,68 @@ class MenuPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar:
-          appBarWidget(titulo: 'MENÚ', color: Colors.white, texto: Colors.grey, logoClaro: true),
-      backgroundColor: Colors.white,
-      body: Container(
-        width: size.width,
-        height: size.height,
-        child: Stack(
-          children: [
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50)),
-                child: Container(
-                    width: size.width,
-                    height: size.height * 0.85,
-                    child: ListView(
-                      physics: BouncingScrollPhysics(),
-                      children: [
-                        _MenuItem(
-                          foto: 'desayunos.jpg',
-                          titulo: 'DESAYUNO',
-                          cat: 0,
-                        ),
-                        _MenuItem(
-                          foto: 'rapida.jpg',
-                          titulo: 'COMIDA RAPIDA',
-                          cat: 8,
-                        ),
-                        _MenuItem(
-                          foto: 'entradas.jpg',
-                          titulo: 'ENTRADAS',
-                          cat: 1,
-                        ),
-                        _MenuItem(
-                          foto: 'principal.jpg',
-                          titulo: 'PLATO PRINCIPAL',
-                          cat: 3,
-                        ),
-                        _MenuItem(
-                          foto: 'postres.jpg',
-                          titulo: 'POSTRES',
-                          cat: 11,
-                        ),
-                        _MenuItem(
-                          foto: 'pernil.png',
-                          titulo: 'CATERING',
-                          cat: 5,
-                        ),
-                      ],
-                    )),
-              ),
-            )
-          ],
-        ),
-      )
-    );
+        appBar: appBarWidget(
+            titulo: 'MENÚ',
+            color: Colors.white,
+            texto: Colors.grey,
+            logoClaro: true),
+        backgroundColor: Colors.white,
+        body: Container(
+          width: size.width,
+          height: size.height,
+          child: Stack(
+            children: [
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50)),
+                  child: Container(
+                      width: size.width,
+                      height: size.height * 0.85,
+                      child: ListView(
+                        physics: BouncingScrollPhysics(),
+                        children: [
+                          _MenuItem(
+                            foto: 'desayunos.jpg',
+                            titulo: 'DESAYUNO',
+                            cat: 0,
+                          ),
+                          _MenuItem(
+                            foto: 'rapida.jpg',
+                            titulo: 'COMIDA RAPIDA',
+                            cat: 8,
+                          ),
+                          _MenuItem(
+                            foto: 'entradas.jpg',
+                            titulo: 'ENTRADAS',
+                            cat: 1,
+                          ),
+                          _MenuItem(
+                            foto: 'principal.jpg',
+                            titulo: 'PLATO PRINCIPAL',
+                            cat: 3,
+                          ),
+                          _MenuItem(
+                            foto: 'postres.jpg',
+                            titulo: 'POSTRES',
+                            cat: 11,
+                          ),
+                          _MenuItem(
+                            foto: 'pernil.png',
+                            titulo: 'CATERING',
+                            cat: 13,
+                          ),
+                        ],
+                      )),
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }
 
@@ -96,7 +98,7 @@ class _MenuItem extends StatelessWidget {
                         ? 'pastas.jpg'
                         : cat == 11
                             ? 'postres.jpg'
-                            : cat == 5
+                            : cat == 13
                                 ? 'Pernil.jpg'
                                 : 'Pernil.jpg');
         Navigator.pushNamed(context, 'menuselect');

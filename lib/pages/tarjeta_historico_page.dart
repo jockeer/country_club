@@ -22,7 +22,8 @@ class HistoricoTarjetaPage extends StatelessWidget {
           titulo: 'TARJETA CONSUMO',
           color: Colors.transparent,
           texto: Colors.white,
-          arrowClaro: true),
+          arrowClaro: true,
+          logoClaro: true),
       extendBodyBehindAppBar: true,
       body: Container(
         width: size.width,
@@ -81,13 +82,12 @@ class _UltimasTransacciones extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<LoginProvider>(context);
     return FutureBuilder(
       future: _socioService.obtenerDependientes(),
       builder: (_, AsyncSnapshot<List<Dependiente>> snapshot) {
         if (snapshot.hasData) {
-          return _Menu(
-            dependientes: snapshot.data,
-          );
+          return _Menu(dependientes: snapshot.data, provider: provider);
         }
         return Center(
           child: CircularProgressIndicator(),
@@ -97,11 +97,43 @@ class _UltimasTransacciones extends StatelessWidget {
   }
 }
 
-class _Menu extends StatelessWidget {
+class _Menu extends StatefulWidget {
   final List<Dependiente> dependientes;
-  final colores = ColoresApp();
+  final LoginProvider provider;
+  _Menu({@required this.dependientes, @required this.provider});
 
-  _Menu({@required this.dependientes});
+  @override
+  State<_Menu> createState() => _MenuState();
+}
+
+class _MenuState extends State<_Menu> with SingleTickerProviderStateMixin {
+  final colores = ColoresApp();
+  TabController _tabController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _tabController = TabController(
+        vsync: this, length: 2, initialIndex: this.widget.provider.consumo);
+
+    super.initState();
+
+    _tabController.addListener(() {
+      cambio();
+    });
+  }
+
+  void cambio() {
+    print(_tabController.index);
+    this.widget.provider.consumo = _tabController.index;
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<LoginProvider>(context);
@@ -114,6 +146,7 @@ class _Menu extends StatelessWidget {
             height: 20,
           ),
           TabBar(
+            controller: _tabController,
             indicatorColor: colores.verdeOscuro,
             labelColor: Colors.black,
             onTap: (value) {
@@ -138,13 +171,14 @@ class _Menu extends StatelessWidget {
           ),
           Expanded(
             child: TabBarView(
+              controller: _tabController,
               children: [
-                (this.dependientes.length == 0)
+                (this.widget.dependientes.length == 0)
                     ? Center(
                         child: Text('No tiene dependientes'),
                       )
                     : _Dependientes(
-                        dependientes: dependientes,
+                        dependientes: widget.dependientes,
                       ),
                 _Transacciones(),
               ],

@@ -16,7 +16,13 @@ class DisciplinasPage extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.black,
-      appBar: appBarWidget(titulo: '¡Hola ${prefs.nombreSocio}!', logoClaro: true, color: Colors.transparent, main: true, centrado: false, arrowClaro: true),
+      appBar: appBarWidget(
+          titulo: '¡Hola ${prefs.nombreSocio}!',
+          logoClaro: true,
+          color: Colors.transparent,
+          main: true,
+          centrado: false,
+          arrowClaro: true),
       key: _scaffoldKey,
       body: Container(
         width: size.width,
@@ -126,7 +132,7 @@ class _MenuPrincipal extends StatelessWidget {
                             bottom: 0,
                             left: 50,
                             right: 50,
-                            top: (index == 0) ? 30 : 0),
+                            top: (index == 0) ? 0 : 0),
                         child: Column(
                           children: [
                             (snapshot.data[index]["desplegable"] != "0")

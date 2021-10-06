@@ -5,14 +5,13 @@ import 'package:country/models/cabana_model.dart';
 import 'package:country/utils/comprobar_conexion.dart';
 import 'package:http/http.dart' as http;
 
-class CabanaService{
-
+class CabanaService {
   final constantes = DatosConstantes();
 
-  Future<List<Cabana>> obtenerCabanas()async{
-
-    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/get_cabanas');
-    //print(url); 
+  Future<List<Cabana>> obtenerCabanas() async {
+    final url = Uri.https(
+        constantes.dominio, 'laspalmas/ste/api-v1/services/get_cabanas');
+    //print(url);
 
     final conexion = await comprobarInternet();
     if (!conexion) {
@@ -22,16 +21,15 @@ class CabanaService{
 
     final decoded = jsonDecode(respuesta.body);
 
-    
     final cabanas = Cabanas.fromJsonList(decoded["Data"]);
 
     return cabanas.items;
-
   }
 
-  Future<List> obtenerFotos(String idCabana) async{
-    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/ ?idcabana=$idCabana');
-    //print(url); 
+  Future<List> obtenerFotos(String idCabana) async {
+    final url = Uri.https(constantes.dominio,
+        'laspalmas/ste/api-v1/services/get_cabanas_fotos?idcabana=$idCabana');
+    //print(url);
 
     final conexion = await comprobarInternet();
     if (!conexion) {

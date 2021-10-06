@@ -54,19 +54,59 @@ class DisciplinaPage extends StatelessWidget {
                             'https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${(provider.banerTop == 0) ? disciplina["foto"] : (provider.banerTop == 1) ? disciplina["banerprofe"] : disciplina["banertorneo"]}'),
                         fit: BoxFit.cover,
                       )),
-              _MenuPrincipal(
-                disciplina: disciplina,
-              )
+              _MenuPrincipal(disciplina: disciplina, provider: provider)
             ],
           ),
         ));
   }
 }
 
-class _MenuPrincipal extends StatelessWidget {
+class _MenuPrincipal extends StatefulWidget {
   final dynamic disciplina;
+  final DisciplinaProvider provider;
 
-  _MenuPrincipal({@required this.disciplina});
+  _MenuPrincipal({@required this.disciplina, @required this.provider});
+
+  @override
+  State<_MenuPrincipal> createState() => _MenuPrincipalState();
+}
+
+class _MenuPrincipalState extends State<_MenuPrincipal>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
+  @override
+  void initState() {
+    // TODO: implement initState
+    if (this.widget.disciplina["handicap"] == null ||
+        this.widget.disciplina["handicap"] == "") {
+      _tabController = TabController(vsync: this, length: 4, initialIndex: 0);
+    } else {
+      _tabController = TabController(vsync: this, length: 5, initialIndex: 0);
+    }
+
+    super.initState();
+
+    _tabController.addListener(() {
+      cambio();
+    });
+  }
+
+  void cambio() {
+    print(_tabController.index);
+    this.widget.provider.banerTop = _tabController.index;
+    if (_tabController.index == 3 || _tabController.index == 4) {
+      this.widget.provider.menuAlto = true;
+    } else {
+      this.widget.provider.menuAlto = false;
+    }
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<DisciplinaProvider>(context);
@@ -85,13 +125,14 @@ class _MenuPrincipal extends StatelessWidget {
             width: size.width,
             color: Colors.white,
             child: DefaultTabController(
-              length: (disciplina["handicap"] == null ||
-                      disciplina["handicap"] == "")
+              length: (widget.disciplina["handicap"] == null ||
+                      widget.disciplina["handicap"] == "")
                   ? 4
                   : 5,
               child: Column(
                 children: [
                   TabBar(
+                    controller: _tabController,
                     onTap: (value) {
                       provider.banerTop = value;
                       if (value == 3 || value == 4) {
@@ -104,8 +145,8 @@ class _MenuPrincipal extends StatelessWidget {
                     indicatorColor: Colors.green,
                     indicatorWeight: 2.0,
                     labelColor: Colors.black,
-                    tabs: (disciplina["handicap"] == null ||
-                            disciplina["handicap"] == "")
+                    tabs: (widget.disciplina["handicap"] == null ||
+                            widget.disciplina["handicap"] == "")
                         ? [
                             Tab(
                               child: Text(
@@ -167,32 +208,36 @@ class _MenuPrincipal extends StatelessWidget {
                   ),
                   Expanded(
                     child: TabBarView(
-                      children: (disciplina["handicap"] == null ||
-                              disciplina["handicap"] == "")
+                      controller: _tabController,
+                      children: (widget.disciplina["handicap"] == null ||
+                              widget.disciplina["handicap"] == "")
                           ? [
                               _Horarios(
-                                horario: disciplina['horario'],
+                                horario: widget.disciplina['horario'],
                               ),
                               _Profesores(
-                                disciplina: this.disciplina,
+                                disciplina: this.widget.disciplina,
                               ),
                               _Calendario(
-                                idDisciplina: int.parse(disciplina['id']),
+                                idDisciplina:
+                                    int.parse(widget.disciplina['id']),
                               ),
-                              _Reglamento(reglamento: disciplina['reglamento'])
+                              _Reglamento(
+                                  reglamento: widget.disciplina['reglamento'])
                             ]
                           : [
                               _Horarios(
-                                horario: disciplina['horario'],
+                                horario: widget.disciplina['horario'],
                               ),
                               _Profesores(
-                                disciplina: this.disciplina,
+                                disciplina: this.widget.disciplina,
                               ),
                               _Calendario(
-                                  idDisciplina: int.parse(disciplina['id'])),
+                                  idDisciplina:
+                                      int.parse(widget.disciplina['id'])),
                               Handicap(),
                               _Reglamento(
-                                reglamento: disciplina['reglamento'],
+                                reglamento: widget.disciplina['reglamento'],
                               )
                             ],
                     ),
@@ -310,16 +355,16 @@ class _Profesores extends StatelessWidget {
 
   void abrirWhatassp(String telefono) async {
     final whatsaapANDROID = "whatsapp://send?phone=591$telefono";
-      final whatsaapIOS = "https://wa.me/$telefono";
-      if (Platform.isIOS) {
-        await canLaunch(whatsaapIOS)
-            ? await launch(whatsaapIOS, forceSafariVC: false)
-            : print("instale whatsaap");
-      } else {
-        await canLaunch(whatsaapANDROID)
-            ? await launch(whatsaapANDROID)
-            : print('instale Whastaap');
-      }
+    final whatsaapIOS = "https://wa.me/$telefono";
+    if (Platform.isIOS) {
+      await canLaunch(whatsaapIOS)
+          ? await launch(whatsaapIOS, forceSafariVC: false)
+          : print("instale whatsaap");
+    } else {
+      await canLaunch(whatsaapANDROID)
+          ? await launch(whatsaapANDROID)
+          : print('instale Whastaap');
+    }
   }
 }
 
@@ -490,7 +535,9 @@ class _Calendario extends StatelessWidget {
                             },
                           ),
                   ),
-                  SizedBox(height: 200,)
+                  SizedBox(
+                    height: 50,
+                  )
                 ],
               );
             } else {
@@ -520,7 +567,7 @@ class __CalendarState extends State<_Calendar> {
     final providerEvento = Provider.of<EventosProvider>(context);
     // DateTime fecha = DateTime(today.year, today.month, today.day);
     return Container(
-      height: 340,
+      height: 380,
       padding: EdgeInsets.all(0.0),
       margin: EdgeInsets.symmetric(horizontal: 50.0, vertical: 0.0),
       child: CalendarCarousel(

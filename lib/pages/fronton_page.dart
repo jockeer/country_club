@@ -46,6 +46,7 @@ class FrontonPage extends StatelessWidget {
 
               _MenuPrincipal(
                 disciplina: disciplina,
+                provider: provider,
               )
             ],
           ),
@@ -53,10 +54,52 @@ class FrontonPage extends StatelessWidget {
   }
 }
 
-class _MenuPrincipal extends StatelessWidget {
+class _MenuPrincipal extends StatefulWidget {
   final dynamic disciplina;
+  final DisciplinaProvider provider;
 
-  _MenuPrincipal({@required this.disciplina});
+  _MenuPrincipal({@required this.disciplina, @required this.provider});
+
+  @override
+  State<_MenuPrincipal> createState() => _MenuPrincipalState();
+}
+
+class _MenuPrincipalState extends State<_MenuPrincipal>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
+  @override
+  void initState() {
+    // TODO: implement initState
+    if (this.widget.disciplina["reglamento"] == null ||
+        this.widget.disciplina["reglamento"] == "") {
+      _tabController = TabController(vsync: this, length: 2, initialIndex: 0);
+    } else {
+      _tabController = TabController(vsync: this, length: 3, initialIndex: 0);
+    }
+
+    super.initState();
+
+    _tabController.addListener(() {
+      cambio();
+    });
+  }
+
+  void cambio() {
+    print(_tabController.index);
+    this.widget.provider.banerTop = _tabController.index;
+    if (_tabController.index == 2 || _tabController.index == 4) {
+      this.widget.provider.menuAlto = true;
+    } else {
+      this.widget.provider.menuAlto = false;
+    }
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<DisciplinaProvider>(context);
@@ -75,13 +118,14 @@ class _MenuPrincipal extends StatelessWidget {
             width: size.width,
             color: Colors.white,
             child: DefaultTabController(
-              length: (disciplina["reglamento"] == null ||
-                      disciplina["reglamento"] == "")
+              length: (widget.disciplina["reglamento"] == null ||
+                      widget.disciplina["reglamento"] == "")
                   ? 2
                   : 3,
               child: Column(
                 children: [
                   TabBar(
+                    controller: _tabController,
                     enableFeedback: false,
                     onTap: (value) {
                       provider.banerTop = value;
@@ -95,8 +139,8 @@ class _MenuPrincipal extends StatelessWidget {
                     indicatorColor: Colors.green,
                     indicatorWeight: 2.0,
                     labelColor: Colors.black,
-                    tabs: (disciplina["reglamento"] == null ||
-                            disciplina["reglamento"] == "")
+                    tabs: (widget.disciplina["reglamento"] == null ||
+                            widget.disciplina["reglamento"] == "")
                         ? [
                             Tab(
                               child: Text(
@@ -134,24 +178,26 @@ class _MenuPrincipal extends StatelessWidget {
                   ),
                   Expanded(
                     child: TabBarView(
-                      children: (disciplina["reglamento"] == null ||
-                              disciplina["reglamento"] == "")
+                      controller: _tabController,
+                      children: (widget.disciplina["reglamento"] == null ||
+                              widget.disciplina["reglamento"] == "")
                           ? [
                               _Horarios(
-                                horario: disciplina['horario'],
+                                horario: widget.disciplina['horario'],
                               ),
                               _Profesores(
-                                disciplina: this.disciplina,
+                                disciplina: this.widget.disciplina,
                               ),
                             ]
                           : [
                               _Horarios(
-                                horario: disciplina['horario'],
+                                horario: widget.disciplina['horario'],
                               ),
                               _Profesores(
-                                disciplina: this.disciplina,
+                                disciplina: this.widget.disciplina,
                               ),
-                              _Reglamento(reglamento: disciplina['reglamento'])
+                              _Reglamento(
+                                  reglamento: widget.disciplina['reglamento'])
                             ],
                     ),
                   )
@@ -229,7 +275,7 @@ class _Profesores extends StatelessWidget {
                                 style: TextStyle(),
                               ),
                               SizedBox(
-                                height: 3,
+                                height: 5,
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -269,11 +315,17 @@ class _Profesores extends StatelessWidget {
   }
 
   void abrirWhatassp(String telefono) async {
-    var whatsappUrl = "whatsapp://send?phone=591$telefono";
-    await canLaunch(whatsappUrl)
-        ? launch(whatsappUrl)
-        : print(
-            "open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
+    final whatsaapANDROID = "whatsapp://send?phone=591$telefono";
+    final whatsaapIOS = "https://wa.me/$telefono";
+    if (Platform.isIOS) {
+      await canLaunch(whatsaapIOS)
+          ? await launch(whatsaapIOS, forceSafariVC: false)
+          : print("instale whatsaap");
+    } else {
+      await canLaunch(whatsaapANDROID)
+          ? await launch(whatsaapANDROID)
+          : print('instale Whastaap');
+    }
   }
 }
 

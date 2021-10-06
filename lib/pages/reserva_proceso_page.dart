@@ -1,4 +1,3 @@
-
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/models/cabana_model.dart';
 import 'package:country/widgets/sesion_caducada_widget.dart';
@@ -14,11 +13,11 @@ import 'package:country/widgets/app_bar_widget.dart';
 import 'package:country/widgets/no_internet_widget.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'show CalendarCarousel;
+import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
+    show CalendarCarousel;
 import 'package:provider/provider.dart';
 
 class ReservaProcesoPage extends StatefulWidget {
-
   @override
   _ReservaProcesoPageState createState() => _ReservaProcesoPageState();
 }
@@ -28,15 +27,15 @@ class _ReservaProcesoPageState extends State<ReservaProcesoPage> {
   final colores = ColoresApp();
   @override
   Widget build(BuildContext context) {
-
     final provider = Provider.of<ReservaProvider>(context, listen: true);
     final List<Cabana> cabanas = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWidget(titulo: 'Reservas', texto:colores.verdeClaro),
+      appBar: appBarWidget(
+          titulo: 'Reservas', texto: colores.verdeClaro, logoClaro: true),
       body: ModalProgressHUD(
         child: GestureDetector(
-          onTap: (){
+          onTap: () {
             final FocusScopeNode focus = FocusScope.of(context);
             if (!focus.hasPrimaryFocus && focus.hasFocus) {
               FocusManager.instance.primaryFocus.unfocus();
@@ -44,7 +43,9 @@ class _ReservaProcesoPageState extends State<ReservaProcesoPage> {
           },
           child: ListView(
             children: [
-              SizedBox(height: 20.0,),
+              SizedBox(
+                height: 20.0,
+              ),
               _Cabana(cabanas: cabanas),
               _Calendar(),
               _FormularioReservas(formState: formState)
@@ -55,12 +56,9 @@ class _ReservaProcesoPageState extends State<ReservaProcesoPage> {
       ),
     );
   }
-
-
 }
 
 class _Cabana extends StatelessWidget {
-
   final List<Cabana> cabanas;
 
   _Cabana({@required this.cabanas});
@@ -71,29 +69,32 @@ class _Cabana extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50.0),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.0),
-        border: Border.all(color: Colors.grey[400])
-      ),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20.0),
+          border: Border.all(color: Colors.grey[400])),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: DropdownButton(
           underline: Container(
             height: 0.0,
           ),
-          
           icon: Icon(Icons.arrow_circle_down_outlined),
           isExpanded: true,
           value: provider.codigoCab,
           items: cabanas.map((cabana) {
-            return DropdownMenuItem(child: Text(cabana.nombreCabana, style: TextStyle(color: Colors.black),), value: cabana.id,);
+            return DropdownMenuItem(
+              child: Text(
+                cabana.nombreCabana,
+                style: TextStyle(color: Colors.black),
+              ),
+              value: cabana.id,
+            );
           }).toList(),
-          onChanged: (opt)async{
-            provider.codigoCab=opt;
+          onChanged: (opt) async {
+            provider.codigoCab = opt;
             final cabana = this.cabanas.where((cab) => cab.id == opt).toList();
             // print(cabana[0].cantidad);
-            provider.maxPersonas=cabana[0].cantidad;
-
+            provider.maxPersonas = cabana[0].cantidad;
           },
         ),
       ),
@@ -105,6 +106,7 @@ class _Calendar extends StatefulWidget {
   @override
   __CalendarState createState() => __CalendarState();
 }
+
 class __CalendarState extends State<_Calendar> {
   final colores = ColoresApp();
   DateTime _currentDate;
@@ -117,7 +119,7 @@ class __CalendarState extends State<_Calendar> {
       padding: EdgeInsets.all(0.0),
       margin: EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
       child: CalendarCarousel(
-        selectedDayBorderColor:colores.verdeMenuLateral,
+        selectedDayBorderColor: colores.verdeMenuLateral,
         selectedDayButtonColor: colores.verdeMenuLateral,
         todayButtonColor: Colors.transparent,
         todayBorderColor: colores.verdeClaro,
@@ -125,13 +127,14 @@ class __CalendarState extends State<_Calendar> {
         locale: 'es',
         onDayPressed: (DateTime date, List events) {
           // print(DateTime(date.year,date.month,date.day));
-          provider.fecha = DateTime(date.year,date.month,date.day).toString(); 
+          provider.fecha = DateTime(date.year, date.month, date.day).toString();
           setState(() {
-            _currentDate=DateTime(date.year,date.month,date.day);
+            _currentDate = DateTime(date.year, date.month, date.day);
           });
         },
         iconColor: Colors.black,
-        headerTextStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16.0),
+        headerTextStyle: TextStyle(
+            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16.0),
         headerTitleTouchable: true,
         weekendTextStyle: TextStyle(
           color: Colors.green,
@@ -142,12 +145,11 @@ class __CalendarState extends State<_Calendar> {
         // weekFormat: false,
         height: 420.0,
         selectedDateTime: _currentDate,
-        daysHaveCircularBorder: true, 
+        daysHaveCircularBorder: true,
       ),
     );
   }
 }
-
 
 class _FormularioReservas extends StatelessWidget {
   final GlobalKey<FormState> formState;
@@ -159,7 +161,7 @@ class _FormularioReservas extends StatelessWidget {
 
   _FormularioReservas({@required this.formState});
 
-  @override 
+  @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ReservaProvider>(context);
     return Padding(
@@ -175,63 +177,93 @@ class _FormularioReservas extends StatelessWidget {
                   child: Column(
                     children: [
                       Text('hora de la reserva'),
-                      SizedBox(height: 10.0,),
+                      SizedBox(
+                        height: 10.0,
+                      ),
                       _HoraReserva(),
                     ],
                   ),
                 ),
-                SizedBox(width: 20.0,),
+                SizedBox(
+                  width: 20.0,
+                ),
                 Expanded(
                   child: Column(
                     children: [
                       Text('Personas  Max ${provider.maxPersonas}'),
-                      SizedBox(height: 10.0,),
+                      SizedBox(
+                        height: 10.0,
+                      ),
                       _CantidadPersonas(),
                     ],
                   ),
                 )
               ],
             ),
-            SizedBox(height: 20.0,),
+            SizedBox(
+              height: 20.0,
+            ),
             estilos.inputLabel(label: 'Motivo del evento', obligatorio: true),
             _MotivoEvento(),
             estilos.inputLabel(label: 'Reserva:', obligatorio: true),
-            RadioListTile(title: Text('Personal'),value: '1', groupValue: provider.destinatario, onChanged: (value){provider.destinatario=value;}),
-            RadioListTile(title: Text('Otra persona'),value: '2', groupValue: provider.destinatario, onChanged: (value){provider.destinatario=value;}),
+            RadioListTile(
+                title: Text('Personal'),
+                value: '1',
+                groupValue: provider.destinatario,
+                onChanged: (value) {
+                  provider.destinatario = value;
+                }),
+            RadioListTile(
+                title: Text('Otra persona'),
+                value: '2',
+                groupValue: provider.destinatario,
+                onChanged: (value) {
+                  provider.destinatario = value;
+                }),
             (provider.destinatario == '1')
-            ?Container()
-            :Column(
-              children: [
-              estilos.inputLabel(label: 'Celular de Contacto', obligatorio: true),
-              _CelularContacto(),
-              estilos.inputLabel(label: 'Nombre de Contacto', obligatorio: true),
-              _NombreContacto(),
-
-              ],
-            ),
+                ? Container()
+                : Column(
+                    children: [
+                      estilos.inputLabel(
+                          label: 'Celular de Contacto', obligatorio: true),
+                      _CelularContacto(),
+                      estilos.inputLabel(
+                          label: 'Nombre de Contacto', obligatorio: true),
+                      _NombreContacto(),
+                    ],
+                  ),
             estilos.inputLabel(label: 'Requerimientos extras'),
             _RequerimientosExtras(),
-            SizedBox(height: 20.0,),
-
+            SizedBox(
+              height: 20.0,
+            ),
             SwitchListTile(
-              title:TextButton(
+              title: TextButton(
                 style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  alignment: Alignment.centerLeft
-                ),
-                child: Text('Términos y Condiciones (Leer)', style:TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline, color: Colors.black ) ),
-                onPressed: (){
+                    padding: EdgeInsets.zero, alignment: Alignment.centerLeft),
+                child: Text('Términos y Condiciones (Leer)',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                        color: Colors.black)),
+                onPressed: () {
                   Navigator.pushNamed(context, 'reglamento');
                 },
               ),
-              subtitle: Text('Al realizar una reserva estas aceptando los reglamentos internos para realizar un evento'),
+              subtitle: Text(
+                  'Al realizar una reserva estas aceptando los reglamentos internos para realizar un evento'),
               value: provider.terminos,
-              onChanged: (value)=>provider.terminos=value,
+              onChanged: (value) => provider.terminos = value,
             ),
-            SizedBox(height: 20.0,),
-            _ButtonReserva(formState: this.formState,),
-         
-            SizedBox(height: 20.0,)
+            SizedBox(
+              height: 20.0,
+            ),
+            _ButtonReserva(
+              formState: this.formState,
+            ),
+            SizedBox(
+              height: 20.0,
+            )
           ],
         ),
       ),
@@ -240,22 +272,19 @@ class _FormularioReservas extends StatelessWidget {
 }
 
 class _RequerimientosExtras extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    
     final provider = Provider.of<ReservaProvider>(context);
 
     return TextFormField(
       keyboardType: TextInputType.multiline,
       maxLines: 8,
       decoration: InputDecoration(
-        hintText: 'Requerimientos extras',
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-        filled:true,
-        fillColor: Colors.white
-      ),
-      onChanged: (value){
+          hintText: 'Requerimientos extras',
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+          filled: true,
+          fillColor: Colors.white),
+      onChanged: (value) {
         provider.reqExtras = value;
       },
     );
@@ -267,7 +296,6 @@ class _CantidadPersonas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final provider = Provider.of<ReservaProvider>(context);
 
     return TextFormField(
@@ -275,12 +303,12 @@ class _CantidadPersonas extends StatelessWidget {
       textAlign: TextAlign.center,
       keyboardType: TextInputType.phone,
       decoration: estilos.inputDecoration(hintText: '0'),
-      onChanged: (value){
+      onChanged: (value) {
         provider.cantPersonas = value;
       },
-      validator: (value){
+      validator: (value) {
         final formValdidator = FormValidator();
-        if ( value.isEmpty ) return 'La cantidad debe ser un numero';
+        if (value.isEmpty) return 'La cantidad debe ser un numero';
         if (formValdidator.isNumeric(value)) {
           return null;
         } else {
@@ -292,62 +320,66 @@ class _CantidadPersonas extends StatelessWidget {
 }
 
 class _HoraReserva extends StatelessWidget {
-
-  final TextEditingController _inputFileTimeController = TextEditingController();
+  final TextEditingController _inputFileTimeController =
+      TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ReservaProvider>(context,listen: true);
+    final provider = Provider.of<ReservaProvider>(context, listen: true);
     return TextFormField(
       enableInteractiveSelection: false,
       controller: _inputFileTimeController,
       textAlign: TextAlign.center,
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.zero,
-        hintStyle: TextStyle(fontSize: 30.0, color: Colors.black, fontWeight: FontWeight.bold,),
-        hintText: provider.hora,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-        filled:true,
-        fillColor: Colors.white
-      ),
-      onTap: (){
+          contentPadding: EdgeInsets.zero,
+          hintStyle: TextStyle(
+            fontSize: 30.0,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+          hintText: provider.hora,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+          filled: true,
+          fillColor: Colors.white),
+      onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
         _selectTime(context, provider);
       },
-      validator: (value){
-        if(provider.hora == '00:00'){
+      validator: (value) {
+        if (provider.hora == '00:00') {
           return 'La hora debe ser elegida';
-        }else{
+        } else {
           return null;
         }
       },
     );
   }
-  void _selectTime(BuildContext context, ReservaProvider provider) async {
-      
-      TimeOfDay picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-      helpText: 'Confirma tu hora',
-      initialEntryMode: TimePickerEntryMode.dial,
-      builder: (BuildContext context, Widget child){
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-          child: child,
-        );
-      }
-    );
 
-    if ( picked != null ) {
-      final horas = ((picked.hour.toString().length < 2)  ? '0${picked.hour}' : picked.hour);
-      final minutos = ((picked.minute.toString().length < 2)  ? '0${picked.minute}' : picked.minute);
-      provider.hora = '$horas:$minutos'; 
+  void _selectTime(BuildContext context, ReservaProvider provider) async {
+    TimeOfDay picked = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+        helpText: 'Confirma tu hora',
+        initialEntryMode: TimePickerEntryMode.dial,
+        builder: (BuildContext context, Widget child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child,
+          );
+        });
+
+    if (picked != null) {
+      final horas = ((picked.hour.toString().length < 2)
+          ? '0${picked.hour}'
+          : picked.hour);
+      final minutos = ((picked.minute.toString().length < 2)
+          ? '0${picked.minute}'
+          : picked.minute);
+      provider.hora = '$horas:$minutos';
       // print(provider.hora);
     }
   }
 }
-
-
 
 class _MotivoEvento extends StatelessWidget {
   final estilos = EstilosApp();
@@ -357,18 +389,19 @@ class _MotivoEvento extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.text,
       decoration: estilos.inputDecoration(hintText: 'Motivo del evento'),
-      validator: (value){
+      validator: (value) {
         if (value.isEmpty) {
           return "Indique el motivo del evento";
         }
         return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         provider.motivoReserva = value;
       },
     );
   }
 }
+
 class _CelularContacto extends StatelessWidget {
   final estilos = EstilosApp();
   @override
@@ -377,13 +410,13 @@ class _CelularContacto extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.phone,
       decoration: estilos.inputDecoration(hintText: 'Celular de contacto'),
-      validator: (value){
+      validator: (value) {
         if (value.isEmpty) {
           return "Digite un numero de contacto";
         }
         return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         provider.telefono = value;
       },
     );
@@ -398,14 +431,14 @@ class _NombreContacto extends StatelessWidget {
     final provider = Provider.of<ReservaProvider>(context, listen: true);
     return TextFormField(
       decoration: estilos.inputDecoration(hintText: 'Nombre de contacto'),
-      validator: (value){
+      validator: (value) {
         if (value.isEmpty) {
           return "Ingrese un nombre";
         }
         return null;
       },
-      onChanged: (value){
-        provider.nombre=value;
+      onChanged: (value) {
+        provider.nombre = value;
       },
     );
   }
@@ -420,52 +453,69 @@ class _DialogExito extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       titlePadding: EdgeInsets.only(top: 10.0),
       contentPadding: EdgeInsets.zero,
-      title: Image(image: AssetImage('assets/icons/logo.png'), height: 80.0,),
+      title: Image(
+        image: AssetImage('assets/icons/logo.png'),
+        height: 80.0,
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('¡Muchas Gracias!', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),),
-          SizedBox(height: 10.0,),
+          Text(
+            '¡Muchas Gracias!',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
           RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
-              style: TextStyle(color: Colors.black87,fontSize: 14.0),
-              children: [
-                TextSpan(text: 'Estimado Asociado su '),
-                TextSpan(text: 'Pre-reserva', style: TextStyle(fontWeight: FontWeight.bold)),
-                TextSpan(text: ' ha sido registrada satisfactoriamente, en breve nos comunicaremos con usted para la confirmación de sus datos.'),
-              ]
-
-            ),
+                style: TextStyle(color: Colors.black87, fontSize: 14.0),
+                children: [
+                  TextSpan(text: 'Estimado Asociado su '),
+                  TextSpan(
+                      text: 'Pre-reserva',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  TextSpan(
+                      text:
+                          ' ha sido registrada satisfactoriamente, en breve nos comunicaremos con usted para la confirmación de sus datos.'),
+                ]),
           ),
-          SizedBox(height: 20.0,),
-          Image(image: AssetImage('assets/images/notificacion.png'),width: 200,)
+          SizedBox(
+            height: 20.0,
+          ),
+          Image(
+            image: AssetImage('assets/images/notificacion.png'),
+            width: 200,
+          )
         ],
       ),
       actions: [
         Center(
-          child:Padding(
-            padding: EdgeInsets.only(bottom: 10.0),
-            child: ElevatedButton(
-              onPressed: (){
-                Navigator.popUntil(context, ModalRoute.withName('main_menu'));
-                // Navigator.popUntil(context, ModalRoute.withName('main_menu'));
-              }, 
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                child: Text('Aceptar', style: TextStyle(fontSize: 18.0),),
-              ), 
-              style: estilos.buttonStyle()
-            )
-          )
-        )
+            child: Padding(
+                padding: EdgeInsets.only(bottom: 10.0),
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.popUntil(
+                          context, ModalRoute.withName('main_menu'));
+                      // Navigator.popUntil(context, ModalRoute.withName('main_menu'));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10.0),
+                      child: Text(
+                        'Aceptar',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                    ),
+                    style: estilos.buttonStyle())))
       ],
     );
   }
 }
 
 class _ButtonReserva extends StatelessWidget {
-
   final GlobalKey<FormState> formState;
   final estilos = EstilosApp();
   final prefs = PreferenciasUsuario();
@@ -480,19 +530,23 @@ class _ButtonReserva extends StatelessWidget {
       child: ElevatedButton(
         style: estilos.buttonStyle(),
         child: estilos.buttonChild(texto: 'Realizar Reserva'),
-        onPressed: ()async{
+        onPressed: () async {
           if (provider.fecha.isEmpty) {
             return mostrarSnackBar(context, 'Debe elegir una fecha');
           }
-          if(provider.terminos==false){
-            return mostrarSnackBar(context, 'Debe aceptar los terminos y condiciones para realizar una reserva');
+          if (provider.terminos == false) {
+            return mostrarSnackBar(context,
+                'Debe aceptar los terminos y condiciones para realizar una reserva');
           }
-          if(int.parse(provider.cantPersonas)  > int.parse(provider.maxPersonas) ){
-            return mostrarSnackBar(context, 'Esta cabaña no acepta tantas personas');
+          if (int.parse(provider.cantPersonas) >
+              int.parse(provider.maxPersonas)) {
+            return mostrarSnackBar(
+                context, 'Esta cabaña no acepta tantas personas');
           }
 
-          if(!this.formState.currentState.validate()){
-            return mostrarSnackBar(context, 'Debe llenar todos los campos correctamente');
+          if (!this.formState.currentState.validate()) {
+            return mostrarSnackBar(
+                context, 'Debe llenar todos los campos correctamente');
           }
 
           provider.carga = true;
@@ -503,14 +557,12 @@ class _ButtonReserva extends StatelessWidget {
           nuevaReserva.fecha = provider.fecha;
           nuevaReserva.hora = provider.hora;
           nuevaReserva.cantidad = provider.cantPersonas;
-          if (provider.destinatario=='1') {
+          if (provider.destinatario == '1') {
             nuevaReserva.nombre = prefs.nombreSocio;
             nuevaReserva.celular = prefs.telefonoSocio;
-          }
-          else{
+          } else {
             nuevaReserva.nombre = provider.nombre;
             nuevaReserva.celular = provider.telefono;
-
           }
           nuevaReserva.requerimientos = provider.reqExtras;
           nuevaReserva.motivo = provider.motivoReserva;
@@ -519,27 +571,29 @@ class _ButtonReserva extends StatelessWidget {
           provider.carga = false;
           print(nuevaReserva.toJson());
 
-          if (respuesta==null) {
-            return showDialog(context: context, builder: (context){ return NoInternetWidget(); });
+          if (respuesta == null) {
+            return showDialog(
+                context: context,
+                builder: (context) {
+                  return NoInternetWidget();
+                });
           }
-          if (respuesta["Status"]==false) {
+          if (respuesta["Status"] == false) {
             return mostrarSnackBar(context, respuesta["Message"]);
           }
           if (respuesta.containsKey("error")) {
             return showDialog(
-              context: context, 
-              builder: (context){
-                return SessionCaducadaWidget();
-              }
-            );
-          }else{
+                context: context,
+                builder: (context) {
+                  return SessionCaducadaWidget();
+                });
+          } else {
             return showDialog(
-              context: context, 
-              builder: (context){
-                return _DialogExito();
-              }
-            );
-          } 
+                context: context,
+                builder: (context) {
+                  return _DialogExito();
+                });
+          }
         },
       ),
     );

@@ -23,8 +23,7 @@ class MenuSelectPage extends StatelessWidget {
           color: Colors.transparent,
           texto: Colors.white,
           arrowClaro: true,
-          logoClaro: true
-      ),
+          logoClaro: true),
       extendBodyBehindAppBar: true,
       body: FutureBuilder(
         future: _menuService.obtenerMenu(),
@@ -54,9 +53,8 @@ class MenuSelectPage extends StatelessWidget {
                           width: size.width,
                           height: size.height * 0.65,
                           color: Colors.white,
-                          child: _Menu(
-                            lista: snapshot.data,
-                          )),
+                          child:
+                              _Menu(lista: snapshot.data, provider: provider)),
                     ),
                   ),
                 ],
@@ -91,32 +89,68 @@ class MenuSelectPage extends StatelessWidget {
   }
 }
 
-class _Menu extends StatelessWidget {
+class _Menu extends StatefulWidget {
   final List<dynamic> lista;
+  final LoginProvider provider;
+  _Menu({@required this.lista, @required this.provider});
+
+  @override
+  State<_Menu> createState() => _MenuState();
+}
+
+class _MenuState extends State<_Menu> with SingleTickerProviderStateMixin {
   final colores = ColoresApp();
-  _Menu({@required this.lista});
+  TabController _tabController;
+  @override
+  void initState() {
+    // TODO: implement initState
+    _tabController = TabController(
+        vsync: this,
+        length: this.widget.lista.length,
+        initialIndex: this.widget.provider.menu);
+
+    super.initState();
+
+    _tabController.addListener(() {
+      cambio();
+    });
+  }
+
+  void cambio() {
+    print(_tabController.index);
+    this.widget.provider.menuSelect =
+        this.widget.lista[_tabController.index]["imgBaner"];
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<LoginProvider>(context);
     return DefaultTabController(
-      initialIndex: provider.menu,
-      length: lista.length,
+      initialIndex: this.widget.provider.menu,
+      length: widget.lista.length,
       child: Column(
         children: [
           SizedBox(
             height: 30,
           ),
           TabBar(
+            controller: _tabController,
             physics: BouncingScrollPhysics(),
             onTap: (value) {
-              provider.menuSelect = this.lista[value]["imgBaner"];
+              this.widget.provider.menuSelect =
+                  this.widget.lista[value]["imgBaner"];
               // provider.menuSelect = int.parse(value.toString());
             },
             indicatorColor: colores.verdeClaro,
             isScrollable: true,
             labelColor: colores.verde,
             unselectedLabelColor: Colors.black,
-            tabs: lista.map((categoria) {
+            tabs: widget.lista.map((categoria) {
               return Tab(
                 child: Text(
                   categoria["categoria"],
@@ -127,7 +161,8 @@ class _Menu extends StatelessWidget {
           ),
           Expanded(
             child: TabBarView(
-              children: lista.map((menu) {
+              controller: _tabController,
+              children: widget.lista.map((menu) {
                 return _ImagenMenu(
                   img: menu["img"],
                 );
