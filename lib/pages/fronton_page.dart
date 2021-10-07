@@ -69,7 +69,6 @@ class _MenuPrincipalState extends State<_MenuPrincipal>
   TabController _tabController;
   @override
   void initState() {
-    // TODO: implement initState
     if (this.widget.disciplina["reglamento"] == null ||
         this.widget.disciplina["reglamento"] == "") {
       _tabController = TabController(vsync: this, length: 2, initialIndex: 0);
@@ -316,7 +315,7 @@ class _Profesores extends StatelessWidget {
 
   void abrirWhatassp(String telefono) async {
     final whatsaapANDROID = "whatsapp://send?phone=591$telefono";
-    final whatsaapIOS = "https://wa.me/$telefono";
+    final whatsaapIOS = "https://wa.me/591$telefono";
     if (Platform.isIOS) {
       await canLaunch(whatsaapIOS)
           ? await launch(whatsaapIOS, forceSafariVC: false)

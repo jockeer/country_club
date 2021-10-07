@@ -5,7 +5,6 @@ import 'package:country/services/database_service.dart';
 import 'package:country/utils/form_validator.dart';
 import 'package:country/utils/show_snack_bar.dart';
 import 'package:country/widgets/floating_button_widget.dart';
-import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:country/widgets/tarjeta_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

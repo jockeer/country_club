@@ -263,7 +263,7 @@ class _Servicios extends StatelessWidget {
 
   void abrirWhatassp(String numero) async {
     final whatsaapANDROID = "whatsapp://send?phone=591$numero";
-    final whatsaapIOS = "https://wa.me/$numero";
+    final whatsaapIOS = "https://wa.me/591$numero";
     if (Platform.isIOS) {
       await canLaunch(whatsaapIOS)
           ? await launch(whatsaapIOS, forceSafariVC: false)
@@ -408,7 +408,7 @@ class _Restaurant extends StatelessWidget {
 
   void abrirWhatassp(String numero) async {
     final whatsaapANDROID = "whatsapp://send?phone=591$numero";
-    final whatsaapIOS = "https://wa.me/$numero";
+    final whatsaapIOS = "https://wa.me/591$numero";
     if (Platform.isIOS) {
       await canLaunch(whatsaapIOS)
           ? await launch(whatsaapIOS, forceSafariVC: false)
@@ -632,7 +632,7 @@ class _Administracion extends StatelessWidget {
 
   void abrirWhatassp(String numero) async {
     final whatsaapANDROID = "whatsapp://send?phone=591$numero";
-    final whatsaapIOS = "https://wa.me/$numero";
+    final whatsaapIOS = "https://wa.me/591$numero";
     if (Platform.isIOS) {
       await canLaunch(whatsaapIOS)
           ? await launch(whatsaapIOS, forceSafariVC: false)

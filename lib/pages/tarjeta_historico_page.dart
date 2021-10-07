@@ -112,7 +112,6 @@ class _MenuState extends State<_Menu> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
     _tabController = TabController(
         vsync: this, length: 2, initialIndex: this.widget.provider.consumo);
 

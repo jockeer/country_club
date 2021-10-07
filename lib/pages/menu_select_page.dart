@@ -73,7 +73,7 @@ class MenuSelectPage extends StatelessWidget {
         ),
         onPressed: () async {
           final whatsaapANDROID = "whatsapp://send?phone=59169051176";
-          final whatsaapIOS = "https://wa.me/69051176";
+          final whatsaapIOS = "https://wa.me/59169051176";
           if (Platform.isIOS) {
             await canLaunch(whatsaapIOS)
                 ? await launch(whatsaapIOS, forceSafariVC: false)
@@ -103,7 +103,6 @@ class _MenuState extends State<_Menu> with SingleTickerProviderStateMixin {
   TabController _tabController;
   @override
   void initState() {
-    // TODO: implement initState
     _tabController = TabController(
         vsync: this,
         length: this.widget.lista.length,
