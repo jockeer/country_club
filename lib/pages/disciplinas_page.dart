@@ -118,7 +118,7 @@ class _MenuPrincipal extends StatelessWidget {
                                             iconColor: colores.verde,
                                             leading: Padding(
                                               padding:
-                                                  EdgeInsets.only(left: 30),
+                                                  EdgeInsets.only(left: 60),
                                               child: Image(
                                                 image: NetworkImage(
                                                     'https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${snapshot.data[index]["logo"]}'),
@@ -151,7 +151,8 @@ class _MenuPrincipal extends StatelessWidget {
                                                           colores.verdeOscuro,
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      fontSize: 16),
+                                                      fontSize:
+                                                          size.width * 0.04),
                                                 )),
                                             children: submenu.map((e) {
                                               return GestureDetector(
@@ -196,7 +197,7 @@ class _MenuPrincipal extends StatelessWidget {
                                 : ListTile(
                                     dense: true,
                                     leading: Padding(
-                                      padding: EdgeInsets.only(left: 30),
+                                      padding: EdgeInsets.only(left: 60),
                                       child: Image(
                                         image: NetworkImage(
                                             'https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${snapshot.data[index]["logo"]}'),
@@ -208,7 +209,7 @@ class _MenuPrincipal extends StatelessWidget {
                                       style: TextStyle(
                                           color: colores.verdeOscuro,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 16),
+                                          fontSize: size.width * 0.04),
                                     ),
                                     onTap: () {
                                       provider.banerTop = 0;

@@ -129,6 +129,7 @@ class _MenuState extends State<_Menu> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return DefaultTabController(
       initialIndex: this.widget.provider.menu,
       length: widget.lista.length,
@@ -153,7 +154,9 @@ class _MenuState extends State<_Menu> with SingleTickerProviderStateMixin {
               return Tab(
                 child: Text(
                   categoria["categoria"],
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: size.width * 0.033),
                 ),
               );
             }).toList(),

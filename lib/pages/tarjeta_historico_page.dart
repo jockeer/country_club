@@ -135,6 +135,7 @@ class _MenuState extends State<_Menu> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final provider = Provider.of<LoginProvider>(context);
     return DefaultTabController(
       initialIndex: provider.consumo,
@@ -156,13 +157,17 @@ class _MenuState extends State<_Menu> with SingleTickerProviderStateMixin {
               Tab(
                 child: Text(
                   'Tarjetas',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: size.width * 0.033),
                 ),
               ),
               Tab(
                 child: Text(
                   'Últimas Transacciones',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: size.width * 0.033),
                 ),
               ),
               // Tab(child: Text('Dependientes', style: TextStyle(fontWeight: FontWeight.bold),),),

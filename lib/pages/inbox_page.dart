@@ -58,19 +58,25 @@ class InboxPage extends StatelessWidget {
                               Tab(
                                 child: Text(
                                   'Personales',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: size.width * 0.033),
                                 ),
                               ),
                               Tab(
                                 child: Text(
                                   'Generales',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: size.width * 0.033),
                                 ),
                               ),
                               Tab(
                                 child: Text(
                                   'Todos',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: size.width * 0.033),
                                 ),
                               ),
                             ],
@@ -160,7 +166,7 @@ class _Todos extends StatelessWidget {
                             ? Container()
                             : Image(
                                 image: NetworkImage(
-                                    'https://laspalmascountryclub.com.bo/laspalmas/user-files/images/${provider.mensajeALL["img"]}')),
+                                    'https://laspalmascountryclub.com.bo/laspalmas/user-files/images/inbox/${provider.mensajeALL["img"]}')),
                         SizedBox(
                           height: 30,
                         ),
@@ -278,7 +284,7 @@ class _Generales extends StatelessWidget {
                             ? Container()
                             : Image(
                                 image: NetworkImage(
-                                    'https://laspalmascountryclub.com.bo/laspalmas/user-files/images/${provider.mensajeGeneral["img"]}')),
+                                    'https://laspalmascountryclub.com.bo/laspalmas/user-files/images/inbox/${provider.mensajeGeneral["img"]}')),
                         SizedBox(
                           height: 30,
                         ),
@@ -399,7 +405,7 @@ class _Personales extends StatelessWidget {
                             ? Container()
                             : Image(
                                 image: NetworkImage(
-                                    'https://laspalmascountryclub.com.bo/laspalmas/user-files/images/${provider.mensajePersonal["img"]}')),
+                                    'https://laspalmascountryclub.com.bo/laspalmas/user-files/images/inbox/${provider.mensajePersonal["img"]}')),
                         SizedBox(
                           height: 30,
                         ),

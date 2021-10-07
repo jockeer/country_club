@@ -50,19 +50,25 @@ class HorariosPage extends StatelessWidget {
                               Tab(
                                 child: Text(
                                   'Administración',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: size.width * 0.033),
                                 ),
                               ),
                               Tab(
                                 child: Text(
                                   'Restaurant',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: size.width * 0.033),
                                 ),
                               ),
                               Tab(
                                 child: Text(
                                   'Servicios',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: size.width * 0.033),
                                 ),
                               ),
                             ],
@@ -453,7 +459,11 @@ class _Administracion extends StatelessWidget {
                 SizedBox(
                   height: 5,
                 ),
-                Text('Lunes a viernes 8:00 a 12:00/15:00 a 19:00'),
+                Text('Lunes a viernes'),
+                SizedBox(
+                  height: 5,
+                ),
+                Text('8:00 a 12:00/15:00 a 19:00'),
                 SizedBox(
                   height: 5,
                 ),

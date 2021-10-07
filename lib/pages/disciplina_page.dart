@@ -150,25 +150,33 @@ class _MenuPrincipalState extends State<_MenuPrincipal>
                             Tab(
                               child: Text(
                                 'Horarios',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             ),
                             Tab(
                               child: Text(
                                 'Profesores',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             ),
                             Tab(
                               child: Text(
                                 'Torneos',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             ),
                             Tab(
                               child: Text(
                                 'Reglamento',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             )
                           ]
@@ -176,31 +184,41 @@ class _MenuPrincipalState extends State<_MenuPrincipal>
                             Tab(
                               child: Text(
                                 'Horarios',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             ),
                             Tab(
                               child: Text(
                                 'Profesores',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             ),
                             Tab(
                               child: Text(
                                 'Torneos',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             ),
                             Tab(
                               child: Text(
                                 'Handicap',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             ),
                             Tab(
                               child: Text(
                                 'Reglamento',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             )
                           ],
@@ -263,6 +281,7 @@ class _Profesores extends StatelessWidget {
       builder: (_, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
+            padding: EdgeInsets.symmetric(vertical: 20),
             physics: BouncingScrollPhysics(),
             itemCount: snapshot.data.length,
             itemBuilder: (_, index) {
@@ -470,15 +489,15 @@ class _Calendario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<EventosProvider>(context);
-    return SingleChildScrollView(
-      child: FutureBuilder(
-          future: eventosService.obtenerTorneosCalendario(
-              context, this.idDisciplina),
-          builder: (_, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              EventList<Event> _markedDateMap =
-                  new EventList<Event>(events: snapshot.data.events);
-              return Column(
+    return FutureBuilder(
+        future:
+            eventosService.obtenerTorneosCalendario(context, this.idDisciplina),
+        builder: (_, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            EventList<Event> _markedDateMap =
+                new EventList<Event>(events: snapshot.data.events);
+            return SingleChildScrollView(
+              child: Column(
                 children: [
                   _Calendar(
                     markedDateMap: _markedDateMap,
@@ -493,18 +512,16 @@ class _Calendario extends StatelessWidget {
                             builder: (_, AsyncSnapshot snapshot) {
                               if (snapshot.hasData) {
                                 if (snapshot.data.length == 0) {
-                                  return Padding(
-                                    padding:
-                                        EdgeInsets.only(right: 50, bottom: 50),
-                                    child: Center(
-                                      child: Text('Sin Torneos'),
-                                    ),
+                                  return Center(
+                                    child: Text('Sin Torneos'),
                                   );
                                 }
                                 return Container(
                                   height: 200,
                                   width: double.infinity,
                                   child: ListView.builder(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 0, horizontal: 20),
                                     itemCount: snapshot.data.length,
                                     itemBuilder: (_, index) {
                                       return Padding(
@@ -538,14 +555,14 @@ class _Calendario extends StatelessWidget {
                     height: 50,
                   )
                 ],
-              );
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          }),
-    );
+              ),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        });
   }
 }
 
@@ -570,6 +587,8 @@ class __CalendarState extends State<_Calendar> {
       padding: EdgeInsets.all(0.0),
       margin: EdgeInsets.symmetric(horizontal: 50.0, vertical: 0.0),
       child: CalendarCarousel(
+        customGridViewPhysics: ScrollPhysics(),
+        staticSixWeekFormat: true,
         markedDatesMap: this.widget.markedDateMap,
         selectedDayBorderColor: colores.verdeMenuLateral,
         selectedDayButtonColor: colores.verdeMenuLateral,

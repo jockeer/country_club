@@ -56,13 +56,17 @@ class MensualidadPage extends StatelessWidget {
                               Tab(
                                 child: Text(
                                   'Pagos Pendientes',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: size.width * 0.033),
                                 ),
                               ),
                               Tab(
                                 child: Text(
                                   'Pagos Realizados',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: size.width * 0.033),
                                 ),
                               ),
                             ],

@@ -144,13 +144,17 @@ class _MenuPrincipalState extends State<_MenuPrincipal>
                             Tab(
                               child: Text(
                                 'Horarios',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             ),
                             Tab(
                               child: Text(
                                 'Coordinacion',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             ),
                           ]
@@ -158,19 +162,25 @@ class _MenuPrincipalState extends State<_MenuPrincipal>
                             Tab(
                               child: Text(
                                 'Horarios',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             ),
                             Tab(
                               child: Text(
                                 'Profesores',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             ),
                             Tab(
                               child: Text(
                                 'Reglamento',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             )
                           ],
@@ -222,6 +232,7 @@ class _Profesores extends StatelessWidget {
       builder: (_, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
+            padding: EdgeInsets.symmetric(vertical: 20),
             physics: BouncingScrollPhysics(),
             itemCount: snapshot.data.length,
             itemBuilder: (_, index) {

@@ -14,7 +14,8 @@ class ReservasPage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWidget(titulo: 'Reservas', texto: colores.verdeClaro, logoClaro: true),
+      appBar: appBarWidget(
+          titulo: 'Reservas', texto: colores.verdeClaro, logoClaro: true),
       body: Container(
           width: size.width,
           height: size.height,
@@ -81,6 +82,7 @@ class _Cabanas extends StatelessWidget {
             galeria: 'palmeras',
             cabanas: this.cabanas,
             cantidad: cabanas[index].cantidad,
+            dimension: cabanas[index].dimension,
           );
         },
       ),
@@ -94,6 +96,7 @@ class _OptCabana extends StatelessWidget {
   final String galeria;
   final String idcab;
   final String cantidad;
+  final String dimension;
   final List<Cabana> cabanas;
 
   const _OptCabana(
@@ -102,7 +105,8 @@ class _OptCabana extends StatelessWidget {
       @required this.idcab,
       this.galeria,
       this.cabanas,
-      @required this.cantidad});
+      @required this.cantidad,
+      @required this.dimension});
 
   @override
   Widget build(BuildContext context) {
@@ -188,8 +192,10 @@ class _OptCabana extends StatelessWidget {
                                 height: 5,
                               ),
                               Text('CAPACIDAD: $cantidad PERSONAS'),
-                              // SizedBox(height: 5,),
-                              // Text('DIMENSION: 300 M2')
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text('DIMENSION: $dimension')
                             ],
                           ),
                         ),
