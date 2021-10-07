@@ -385,6 +385,7 @@ class _Reglamento extends StatelessWidget {
             child: PDFView(
               pageFling: false,
               pageSnap: false,
+              fitEachPage: false,
               filePath: snapshot.data.path,
               swipeHorizontal: false,
             ),
@@ -423,6 +424,7 @@ class _Horarios extends StatelessWidget {
             child: PDFView(
               pageFling: false,
               pageSnap: false,
+              fitEachPage: false,
               filePath: snapshot.data.path,
               swipeHorizontal: false,
             ),

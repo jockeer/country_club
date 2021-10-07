@@ -202,6 +202,7 @@ class _ImagenMenu extends StatelessWidget {
             child: PDFView(
               pageFling: false,
               pageSnap: false,
+              fitEachPage: false,
               filePath: snapshot.data.path,
               swipeHorizontal: false,
             ),

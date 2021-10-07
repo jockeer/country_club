@@ -32,7 +32,7 @@ class HistoricoTarjetaPage extends StatelessWidget {
           children: [
             Image(
               image: AssetImage(
-                  'assets/images/${provider.consumo == 0 ? 'Tarjeta_consumo.png' : 'tarjetaConsumo.jpg'}'),
+                  'assets/images/${provider.consumo == 0 ? 'tarjeta_consumo2.jpg' : 'tarjetaConsumo.jpg'}'),
               fit: BoxFit.fill,
               width: size.width,
               height: size.height * 0.4,
