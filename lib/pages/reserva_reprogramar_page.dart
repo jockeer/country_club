@@ -11,6 +11,7 @@ import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:country/widgets/success_dialog_widget.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
@@ -70,7 +71,7 @@ class _ReservaReproPageState extends State<ReservaReproPage> {
       elevation: 2.0,
       backgroundColor: colores.verdeOscuro,
       expandedHeight: 200.0,
-      brightness: Brightness.dark,
+      systemOverlayStyle: SystemUiOverlayStyle.light,
       floating: false,
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(

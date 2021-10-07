@@ -69,7 +69,6 @@ class _MenuPrincipalState extends State<_MenuPrincipal>
   TabController _tabController;
   @override
   void initState() {
-    // TODO: implement initState
     if (this.widget.disciplina["reglamento"] == null ||
         this.widget.disciplina["reglamento"] == "") {
       _tabController = TabController(vsync: this, length: 2, initialIndex: 0);
@@ -145,13 +144,17 @@ class _MenuPrincipalState extends State<_MenuPrincipal>
                             Tab(
                               child: Text(
                                 'Horarios',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             ),
                             Tab(
                               child: Text(
                                 'Coordinacion',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             ),
                           ]
@@ -159,19 +162,25 @@ class _MenuPrincipalState extends State<_MenuPrincipal>
                             Tab(
                               child: Text(
                                 'Horarios',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             ),
                             Tab(
                               child: Text(
                                 'Profesores',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             ),
                             Tab(
                               child: Text(
                                 'Reglamento',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.034),
                               ),
                             )
                           ],
@@ -223,6 +232,7 @@ class _Profesores extends StatelessWidget {
       builder: (_, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
+            padding: EdgeInsets.symmetric(vertical: 20),
             physics: BouncingScrollPhysics(),
             itemCount: snapshot.data.length,
             itemBuilder: (_, index) {
@@ -316,7 +326,7 @@ class _Profesores extends StatelessWidget {
 
   void abrirWhatassp(String telefono) async {
     final whatsaapANDROID = "whatsapp://send?phone=591$telefono";
-    final whatsaapIOS = "https://wa.me/$telefono";
+    final whatsaapIOS = "https://wa.me/591$telefono";
     if (Platform.isIOS) {
       await canLaunch(whatsaapIOS)
           ? await launch(whatsaapIOS, forceSafariVC: false)
@@ -375,6 +385,7 @@ class _Reglamento extends StatelessWidget {
             child: PDFView(
               pageFling: false,
               pageSnap: false,
+              fitEachPage: false,
               filePath: snapshot.data.path,
               swipeHorizontal: false,
             ),
@@ -413,6 +424,7 @@ class _Horarios extends StatelessWidget {
             child: PDFView(
               pageFling: false,
               pageSnap: false,
+              fitEachPage: false,
               filePath: snapshot.data.path,
               swipeHorizontal: false,
             ),

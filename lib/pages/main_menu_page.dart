@@ -67,37 +67,6 @@ class MainMenuPage extends StatelessWidget {
           ],
         ),
       ),
-      // floatingActionButton: Row(
-      //   children: [
-      //     FloatingActionButton(
-      //       elevation: 0.0,
-      //       backgroundColor: Colors.transparent,
-      //       child: Icon(
-      //         Icons.menu,
-      //         color: Colors.white,
-      //       ),
-      //       onPressed: () {
-      //         _scaffoldKey.currentState.openDrawer();
-      //       },
-      //     ),
-      //     Container(
-      //         child: Text(
-      //       '¡Hola ${prefs.nombreSocio}!',
-      //       style: TextStyle(
-      //           color: Colors.white,
-      //           fontWeight: FontWeight.w600,
-      //           shadows: [
-      //             Shadow(
-      //               offset: Offset(0, 0),
-      //               blurRadius: 15.0,
-      //               color: Colors.black,
-      //             ),
-      //       ]),
-      //       overflow: TextOverflow.ellipsis,
-      //     ))
-      //   ],
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
 }
@@ -251,17 +220,15 @@ class _OpcionMenu extends StatelessWidget {
           children: [
             Image(
               image: AssetImage('assets/icons/$icono'),
-              width: size.width * 0.130,
+              width: size.width * 0.125,
             ),
             SizedBox(
               height: 10,
             ),
             Text(
               this.titulo,
-              style: TextStyle(
-                  fontSize: size.width * 0.035,
-                  fontWeight: FontWeight.w500,
-                  color: colores.verde),
+              style:
+                  TextStyle(fontSize: size.width * 0.033, color: colores.verde),
               maxLines: 2,
               textAlign: TextAlign.center,
             )

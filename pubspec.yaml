@@ -40,8 +40,8 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icons/miniatura.png"
-  adaptive_icon_background: "assets/icons/miniatura.png"
+  image_path: "assets/icons/Iconoredondo.png"
+  adaptive_icon_background: "assets/icons/Iconoredondo.png"
 
 flutter:
   uses-material-design: true

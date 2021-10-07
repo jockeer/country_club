@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DisciplinasPage extends StatelessWidget {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final prefs = PreferenciasUsuario();
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,6 @@ class DisciplinasPage extends StatelessWidget {
           main: true,
           centrado: false,
           arrowClaro: true),
-      key: _scaffoldKey,
       body: Container(
         width: size.width,
         height: size.height,
@@ -66,37 +64,6 @@ class DisciplinasPage extends StatelessWidget {
           ],
         ),
       ),
-      // floatingActionButton: Row(
-      //   children: [
-      //     FloatingActionButton(
-      //       elevation: 0.0,
-      //       backgroundColor: Colors.transparent,
-      //       child: Icon(
-      //         Icons.arrow_back,
-      //         color: Colors.white,
-      //       ),
-      //       onPressed: () {
-      //         Navigator.pop(context);
-      //       },
-      //     ),
-      //     Container(
-      //         child: Text(
-      //       '¡Hola ${prefs.nombreSocio}!',
-      //       style: TextStyle(
-      //           color: Colors.white,
-      //           fontWeight: FontWeight.w600,
-      //           shadows: [
-      //             Shadow(
-      //               offset: Offset(0, 0),
-      //               blurRadius: 15.0,
-      //               color: Colors.black,
-      //             ),
-      //           ]),
-      //       overflow: TextOverflow.ellipsis,
-      //     ))
-      //   ],
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
 }
@@ -125,6 +92,7 @@ class _MenuPrincipal extends StatelessWidget {
               builder: (_, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
+                    padding: EdgeInsets.only(top: 60),
                     itemCount: snapshot.data.length,
                     itemBuilder: (_, index) {
                       return Padding(
@@ -142,69 +110,83 @@ class _MenuPrincipal extends StatelessWidget {
                                     builder: (_, AsyncSnapshot snapshota) {
                                       if (snapshota.hasData) {
                                         final List submenu = snapshota.data;
-                                        return ExpansionTile(
-                                          leading: Image(
-                                            image: NetworkImage(
-                                                'https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${snapshot.data[index]["logo"]}'),
-                                            width: 40,
-                                          ),
-                                          title: GestureDetector(
-                                              onTap: () {
-                                                provider.banerTop = 0;
-                                                provider.menuAlto = false;
-                                                if (snapshot.data[index]
-                                                        ["torneo"] ==
-                                                    "1") {
-                                                  Navigator.pushNamed(
-                                                      context, 'disciplina',
-                                                      arguments:
-                                                          snapshot.data[index]);
-                                                } else {
-                                                  Navigator.pushNamed(
-                                                      context, 'fronton',
-                                                      arguments:
-                                                          snapshot.data[index]);
-                                                }
-                                              },
-                                              child: Text(
-                                                snapshot.data[index]
-                                                    ["nombreDisciplina"],
-                                                style: TextStyle(
-                                                    color: colores.verdeOscuro,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16),
-                                              )),
-                                          children: submenu.map((e) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                provider.banerTop = 0;
-                                                provider.menuAlto = false;
-                                                if (snapshot.data[index]
-                                                        ["torneo"] ==
-                                                    "1") {
-                                                  Navigator.pushNamed(
-                                                      context, 'disciplina',
-                                                      arguments: e);
-                                                } else {
-                                                  Navigator.pushNamed(
-                                                      context, 'fronton',
-                                                      arguments: e);
-                                                }
-                                              },
-                                              child: Center(
-                                                child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 8),
-                                                  child: Text(
-                                                    e["nombreDisciplina"],
-                                                    style: TextStyle(
-                                                        color: colores
-                                                            .verdeOscuro),
+                                        return Theme(
+                                          data: ThemeData().copyWith(
+                                              dividerColor: Colors.transparent),
+                                          child: ExpansionTile(
+                                            collapsedIconColor: colores.verde,
+                                            iconColor: colores.verde,
+                                            leading: Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 60),
+                                              child: Image(
+                                                image: NetworkImage(
+                                                    'https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${snapshot.data[index]["logo"]}'),
+                                                width: 40,
+                                              ),
+                                            ),
+                                            title: GestureDetector(
+                                                onTap: () {
+                                                  provider.banerTop = 0;
+                                                  provider.menuAlto = false;
+                                                  if (snapshot.data[index]
+                                                          ["torneo"] ==
+                                                      "1") {
+                                                    Navigator.pushNamed(
+                                                        context, 'disciplina',
+                                                        arguments: snapshot
+                                                            .data[index]);
+                                                  } else {
+                                                    Navigator.pushNamed(
+                                                        context, 'fronton',
+                                                        arguments: snapshot
+                                                            .data[index]);
+                                                  }
+                                                },
+                                                child: Text(
+                                                  snapshot.data[index]
+                                                      ["nombreDisciplina"],
+                                                  style: TextStyle(
+                                                      color:
+                                                          colores.verdeOscuro,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize:
+                                                          size.width * 0.04),
+                                                )),
+                                            children: submenu.map((e) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  provider.banerTop = 0;
+                                                  provider.menuAlto = false;
+                                                  if (snapshot.data[index]
+                                                          ["torneo"] ==
+                                                      "1") {
+                                                    Navigator.pushNamed(
+                                                        context, 'disciplina',
+                                                        arguments: e);
+                                                  } else {
+                                                    Navigator.pushNamed(
+                                                        context, 'fronton',
+                                                        arguments: e);
+                                                  }
+                                                },
+                                                child: Center(
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 8),
+                                                    child: Text(
+                                                      e["nombreDisciplina"],
+                                                      style: TextStyle(
+                                                          color: colores
+                                                              .verdeOscuro),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            );
-                                          }).toList(),
+                                              );
+                                            }).toList(),
+                                          ),
                                         );
                                       }
                                       return Center(
@@ -214,17 +196,20 @@ class _MenuPrincipal extends StatelessWidget {
                                   )
                                 : ListTile(
                                     dense: true,
-                                    leading: Image(
-                                      image: NetworkImage(
-                                          'https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${snapshot.data[index]["logo"]}'),
-                                      width: 40,
+                                    leading: Padding(
+                                      padding: EdgeInsets.only(left: 60),
+                                      child: Image(
+                                        image: NetworkImage(
+                                            'https://laspalmascountryclub.com.bo/laspalmas/user-files/images/disciplinas/${snapshot.data[index]["logo"]}'),
+                                        width: 40,
+                                      ),
                                     ),
                                     title: Text(
                                       snapshot.data[index]["nombreDisciplina"],
                                       style: TextStyle(
                                           color: colores.verdeOscuro,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 16),
+                                          fontSize: size.width * 0.04),
                                     ),
                                     onTap: () {
                                       provider.banerTop = 0;

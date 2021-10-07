@@ -73,7 +73,7 @@ class MenuSelectPage extends StatelessWidget {
         ),
         onPressed: () async {
           final whatsaapANDROID = "whatsapp://send?phone=59169051176";
-          final whatsaapIOS = "https://wa.me/69051176";
+          final whatsaapIOS = "https://wa.me/59169051176";
           if (Platform.isIOS) {
             await canLaunch(whatsaapIOS)
                 ? await launch(whatsaapIOS, forceSafariVC: false)
@@ -103,7 +103,6 @@ class _MenuState extends State<_Menu> with SingleTickerProviderStateMixin {
   TabController _tabController;
   @override
   void initState() {
-    // TODO: implement initState
     _tabController = TabController(
         vsync: this,
         length: this.widget.lista.length,
@@ -130,6 +129,7 @@ class _MenuState extends State<_Menu> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return DefaultTabController(
       initialIndex: this.widget.provider.menu,
       length: widget.lista.length,
@@ -154,7 +154,9 @@ class _MenuState extends State<_Menu> with SingleTickerProviderStateMixin {
               return Tab(
                 child: Text(
                   categoria["categoria"],
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: size.width * 0.033),
                 ),
               );
             }).toList(),
@@ -200,6 +202,7 @@ class _ImagenMenu extends StatelessWidget {
             child: PDFView(
               pageFling: false,
               pageSnap: false,
+              fitEachPage: false,
               filePath: snapshot.data.path,
               swipeHorizontal: false,
             ),

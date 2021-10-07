@@ -32,7 +32,7 @@ class HistoricoTarjetaPage extends StatelessWidget {
           children: [
             Image(
               image: AssetImage(
-                  'assets/images/${provider.consumo == 0 ? 'Tarjeta_consumo.png' : 'tarjetaConsumo.jpg'}'),
+                  'assets/images/${provider.consumo == 0 ? 'tarjeta_consumo2.jpg' : 'tarjetaConsumo.jpg'}'),
               fit: BoxFit.fill,
               width: size.width,
               height: size.height * 0.4,
@@ -112,7 +112,6 @@ class _MenuState extends State<_Menu> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
     _tabController = TabController(
         vsync: this, length: 2, initialIndex: this.widget.provider.consumo);
 
@@ -136,6 +135,7 @@ class _MenuState extends State<_Menu> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final provider = Provider.of<LoginProvider>(context);
     return DefaultTabController(
       initialIndex: provider.consumo,
@@ -157,13 +157,17 @@ class _MenuState extends State<_Menu> with SingleTickerProviderStateMixin {
               Tab(
                 child: Text(
                   'Tarjetas',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: size.width * 0.033),
                 ),
               ),
               Tab(
                 child: Text(
                   'Últimas Transacciones',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: size.width * 0.033),
                 ),
               ),
               // Tab(child: Text('Dependientes', style: TextStyle(fontWeight: FontWeight.bold),),),

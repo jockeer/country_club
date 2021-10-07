@@ -12,9 +12,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-
 class TarjetaPage extends StatefulWidget {
-
   @override
   _TarjetaPageState createState() => _TarjetaPageState();
 }
@@ -29,7 +27,13 @@ class _TarjetaPageState extends State<TarjetaPage> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: appBarWidget(titulo: datos["nombre"], color: Colors.transparent,texto: Colors.white, arrowClaro: true, centrado: false, logo: false),
+        appBar: appBarWidget(
+            titulo: datos["nombre"],
+            color: Colors.transparent,
+            texto: Colors.white,
+            arrowClaro: true,
+            centrado: false,
+            logo: false),
         extendBodyBehindAppBar: true,
         body: Container(
           width: size.width,
@@ -38,13 +42,24 @@ class _TarjetaPageState extends State<TarjetaPage> {
             children: [
               Container(
                 width: size.width,
-                height: size.height*0.4,
+                height: size.height * 0.4,
                 color: colores.verdeOscuro,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Bs. '+ '${datos["monto"]}', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: size.width*0.12),),
-                    Text('Saldo', style: TextStyle(color: colores.verdeClaro, fontSize: size.width*0.04),),
+                    Text(
+                      'Bs. ' + '${datos["monto"]}',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: size.width * 0.12),
+                    ),
+                    Text(
+                      'Saldo',
+                      style: TextStyle(
+                          color: colores.verdeClaro,
+                          fontSize: size.width * 0.04),
+                    ),
                   ],
                 ),
               ),
@@ -53,19 +68,22 @@ class _TarjetaPageState extends State<TarjetaPage> {
                 left: 0,
                 right: 0,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50)),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50)),
                   child: Container(
-                    width: size.width,
-                    height: size.height*0.65,
-                    color: Colors.white,
-                    child: _UltimasTransacciones(codigo: datos["codigo"], datos: datos,)
-                  ),
+                      width: size.width,
+                      height: size.height * 0.65,
+                      color: Colors.white,
+                      child: _UltimasTransacciones(
+                        codigo: datos["codigo"],
+                        datos: datos,
+                      )),
                 ),
               ),
             ],
           ),
-        )
-      );
+        ));
   }
 }
 
@@ -76,14 +94,19 @@ class _UltimasTransacciones extends StatelessWidget {
   _UltimasTransacciones({@required this.codigo, @required this.datos});
   @override
   Widget build(BuildContext context) {
-
     return FutureBuilder(
       future: _socioService.obtenerDependientes(),
-      builder: (_, AsyncSnapshot<List<Dependiente>> snapshot){
+      builder: (_, AsyncSnapshot<List<Dependiente>> snapshot) {
         if (snapshot.hasData) {
-            return _Menu(dependientes: snapshot.data,codigo: this.codigo, datos: this.datos,);
-          }
-          return Center(child: CircularProgressIndicator(),);
+          return _Menu(
+            dependientes: snapshot.data,
+            codigo: this.codigo,
+            datos: this.datos,
+          );
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
       },
     );
   }
@@ -96,56 +119,79 @@ class _Menu extends StatelessWidget {
   final estilos = EstilosApp();
   final dynamic datos;
 
-  _Menu({@required this.dependientes, @required this.codigo, @required this.datos});
+  _Menu(
+      {@required this.dependientes,
+      @required this.codigo,
+      @required this.datos});
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final provider = Provider.of<TarjetaProvider>(context, listen: false);
     return DefaultTabController(
       initialIndex: 1,
       length: 2,
       child: Column(
         children: [
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           TabBar(
             indicatorColor: colores.verdeOscuro,
             labelColor: Colors.black,
             tabs: [
               Tab(
-                child:Text('Tarjetas', style: TextStyle(fontWeight: FontWeight.bold),),
+                child: Text(
+                  'Tarjetas',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: size.width * 0.033),
+                ),
               ),
-              Tab(child: Text('Transacciones', style: TextStyle(fontWeight: FontWeight.bold),),),
+              Tab(
+                child: Text(
+                  'Transacciones',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: size.width * 0.033),
+                ),
+              ),
             ],
           ),
           Expanded(
             child: TabBarView(
               children: [
                 (this.dependientes.length == 0)
-                ? Center(child: Text('No tiene dependientes'),)
-                :_Dependientes(dependientes: dependientes,),
-                _Transacciones(codigo: this.codigo,),
-                
+                    ? Center(
+                        child: Text('No tiene dependientes'),
+                      )
+                    : _Dependientes(
+                        dependientes: dependientes,
+                      ),
+                _Transacciones(
+                  codigo: this.codigo,
+                ),
               ],
             ),
           ),
           Container(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 60),
             child: ElevatedButton(
-              onPressed: (){
-                if (this.datos["titular"]==true) {
-                  provider.tipoPago=1;
-                  provider.optRecarga=1;
-                  provider.montoRecarga='10.00';
+              onPressed: () {
+                if (this.datos["titular"] == true) {
+                  provider.tipoPago = 1;
+                  provider.optRecarga = 1;
+                  provider.montoRecarga = '10.00';
                   Navigator.pushNamed(context, 'metodo_pago');
-                }else{
-                  provider.tipoPago=3;
+                } else {
+                  provider.tipoPago = 3;
                   provider.codigoTarjeta = this.datos["codigo"];
-                  provider.optRecarga=1;
-                  provider.montoRecarga='10.00';
+                  provider.optRecarga = 1;
+                  provider.montoRecarga = '10.00';
                   provider.dependiente = this.datos["nombre"];
-                  provider.ciDependiente= this.datos["ci"];
+                  provider.ciDependiente = this.datos["ci"];
                   Navigator.pushNamed(context, 'metodo_pago');
                 }
-              }, 
+              },
               child: estilos.buttonChild(texto: 'RECARGAR'),
               style: estilos.buttonStyle(expanded: true),
             ),
@@ -160,25 +206,29 @@ class _Transacciones extends StatelessWidget {
   final _tarjetaService = TarjetaService();
   final prefs = PreferenciasUsuario();
   final String codigo;
-  _Transacciones({ @required this.codigo});
+  _Transacciones({@required this.codigo});
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _tarjetaService.obtenerHistoricoComprasEspecifico(this.codigo),
-      builder: (BuildContext context, AsyncSnapshot<List<Compra>> snapshot ){
+      builder: (BuildContext context, AsyncSnapshot<List<Compra>> snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data[0]==null) {
-            return Center(child: Text('no tiene conexion a internet'),);
+          if (snapshot.data[0] == null) {
+            return Center(
+              child: Text('no tiene conexion a internet'),
+            );
           }
           return ComprasWidget(compras: snapshot.data);
-        }
-        else{
-          return Center(child: CircularProgressIndicator(),);
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         }
       },
     );
   }
 }
+
 class _Dependientes extends StatelessWidget {
   final List<Dependiente> dependientes;
   final colores = ColoresApp();
@@ -191,20 +241,29 @@ class _Dependientes extends StatelessWidget {
     return ListView.builder(
       padding: EdgeInsets.zero,
       itemCount: dependientes.length,
-      itemBuilder: ( _ , index ){
+      itemBuilder: (_, index) {
         return ListTile(
-          title: Text(dependientes[index].nombre, style: TextStyle(fontSize: 14.0),),
-          subtitle: Text('${dependientes[index].apPaterno} ${dependientes[index].apMaterno} - ${dependientes[index].codigo}', style: TextStyle(fontSize: 12.0),),
-          leading: Icon(Icons.person, color: Colors.black,),
+          title: Text(
+            dependientes[index].nombre,
+            style: TextStyle(fontSize: 14.0),
+          ),
+          subtitle: Text(
+            '${dependientes[index].apPaterno} ${dependientes[index].apMaterno} - ${dependientes[index].codigo}',
+            style: TextStyle(fontSize: 12.0),
+          ),
+          leading: Icon(
+            Icons.person,
+            color: Colors.black,
+          ),
           trailing: Text('${dependientes[index].saldoTarjeta} Bs.'),
-          
-          onTap: (){
-            provider.tipoPago=3;
+          onTap: () {
+            provider.tipoPago = 3;
             provider.codigoTarjeta = dependientes[index].codigo;
-            provider.optRecarga=1;
-            provider.montoRecarga='10.00';
-            provider.dependiente = '${dependientes[index].nombre} ${dependientes[index].apPaterno} ${dependientes[index].apMaterno}';
-            provider.ciDependiente= dependientes[index].ci;
+            provider.optRecarga = 1;
+            provider.montoRecarga = '10.00';
+            provider.dependiente =
+                '${dependientes[index].nombre} ${dependientes[index].apPaterno} ${dependientes[index].apMaterno}';
+            provider.ciDependiente = dependientes[index].ci;
             Navigator.pushNamed(context, 'metodo_pago');
           },
         );
@@ -212,4 +271,3 @@ class _Dependientes extends StatelessWidget {
     );
   }
 }
-
