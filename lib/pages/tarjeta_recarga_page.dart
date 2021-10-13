@@ -197,8 +197,8 @@ class _Tarjeta extends StatelessWidget {
       height: phoneSize.height * 0.35,
       decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/images/Tarjeta_consumo.png'),
-              fit: BoxFit.fill)),
+              image: AssetImage('assets/images/tarjeta_consumo2.jpg'),
+              fit: BoxFit.cover)),
     );
   }
 }

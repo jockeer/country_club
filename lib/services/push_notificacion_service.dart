@@ -29,7 +29,7 @@ class PushNotificationService {
     //print('onBackground Handler ${ message.messageId }');
     //print('bacground');// aplicacion background
     final prefs = PreferenciasUsuario();
-    prefs.mensajesNuevos = 1;
+    prefs.mensajesNuevos = prefs.mensajesNuevos + 1;
     // final mensaje =new MensajeInbox();
     // mensaje.idNotificacion=message.messageId ?? '0';
     // mensaje.titulo=message.notification.title ?? 'Notificacion';
@@ -43,7 +43,7 @@ class PushNotificationService {
     // print('Onmessa'); // Aplicacion abierta
 
     final prefs = PreferenciasUsuario();
-    prefs.mensajesNuevos = 1;
+    prefs.mensajesNuevos = prefs.mensajesNuevos + 1;
 
     // final mensaje =new MensajeInbox();
     // mensaje.idNotificacion=message.messageId ?? '0';
