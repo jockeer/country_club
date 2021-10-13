@@ -12,10 +12,9 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
 class DetalleRecargaPage extends StatelessWidget {
-
   final prefs = PreferenciasUsuario();
   final estilos = EstilosApp();
-  final _tarjetaService= TarjetaService();
+  final _tarjetaService = TarjetaService();
   final formStat = GlobalKey<FormState>();
 
   @override
@@ -23,18 +22,18 @@ class DetalleRecargaPage extends StatelessWidget {
     final provider = Provider.of<TarjetaProvider>(context);
     final TarjetaCredito tarjeta = ModalRoute.of(context).settings.arguments;
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         final FocusScopeNode focus = FocusScope.of(context);
-          if (!focus.hasPrimaryFocus && focus.hasFocus) {
-            FocusManager.instance.primaryFocus.unfocus();
-          }
+        if (!focus.hasPrimaryFocus && focus.hasFocus) {
+          FocusManager.instance.primaryFocus.unfocus();
+        }
       },
       child: ModalProgressHUD(
-
         inAsyncCall: provider.carga,
         child: Scaffold(
           backgroundColor: Colors.white,
-          appBar: appBarWidget(titulo: 'Detalle - Transaccion'),
+          appBar:
+              appBarWidget(titulo: 'Detalle - Transaccion', logoClaro: true),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30.0),
             child: Container(
@@ -47,45 +46,90 @@ class DetalleRecargaPage extends StatelessWidget {
                     width: double.infinity,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20.0),
-                      child: Text('¡Ultimo Paso!', style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),),
+                      child: Text(
+                        '¡Ultimo Paso!',
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                   Divider(),
-                  _Detalle(tarjeta: tarjeta,formStat: formStat,),
-                 
+                  _Detalle(
+                    tarjeta: tarjeta,
+                    formStat: formStat,
+                  ),
+
                   Divider(),
                   //Expanded(child: Container()),
                   ElevatedButton(
-                      onPressed: ()async{
-                        if (!formStat.currentState.validate()) return;
-                        provider.carga=true;
-                        if (provider.tipoPago == 3) {
-                          final rsp = await _tarjetaService.recargarTarjeta(provider.montoRecarga,provider.codigoTarjeta, tarjeta, provider.glosa, provider.ciDependiente);
-                          provider.carga=false;
-                          if (rsp==null) return mostrarSnackBar(context, 'Error al recargar la tarjeta del dependiente');
-                          return showDialog(context: context, builder: (context){return SuccessDialogWidget(mensaje: 'Abono de ${provider.montoRecarga} realizado con exito', ruta: 'main_menu');});
-                          
-                        }else if(provider.tipoPago == 1){             
-                          final rsp = await _tarjetaService.recargarTarjeta(provider.montoRecarga,prefs.codigoSocio, tarjeta, provider.glosa, prefs.ciSocio);
-                          provider.carga=false;
-                          if (rsp==null) return mostrarSnackBar(context, 'Error al recargar la tarjeta');
+                    onPressed: () async {
+                      if (!formStat.currentState.validate()) return;
+                      provider.carga = true;
+                      if (provider.tipoPago == 3) {
+                        final rsp = await _tarjetaService.recargarTarjeta(
+                            provider.montoRecarga,
+                            provider.codigoTarjeta,
+                            tarjeta,
+                            provider.glosa,
+                            provider.ciDependiente);
+                        provider.carga = false;
+                        if (rsp == null)
+                          return mostrarSnackBar(context,
+                              'Error al recargar la tarjeta del dependiente');
+                        return showDialog(
+                            context: context,
+                            builder: (context) {
+                              return SuccessDialogWidget(
+                                  mensaje:
+                                      'Abono de ${provider.montoRecarga} realizado con exito',
+                                  ruta: 'main_menu');
+                            });
+                      } else if (provider.tipoPago == 1) {
+                        final rsp = await _tarjetaService.recargarTarjeta(
+                            provider.montoRecarga,
+                            prefs.codigoSocio,
+                            tarjeta,
+                            provider.glosa,
+                            prefs.ciSocio);
+                        provider.carga = false;
+                        if (rsp == null)
+                          return mostrarSnackBar(
+                              context, 'Error al recargar la tarjeta');
 
-                          return showDialog(context: context, builder: (context){return SuccessDialogWidget(mensaje: 'Abono de ${provider.montoRecarga} realizado con exito', ruta: 'main_menu');});
-                        }
-                        else if(provider.tipoPago == 2){
-                          final rsp = await _tarjetaService.pagoMensualidad(provider.montoRecarga, tarjeta, provider.glosa, provider.deuda);
-                          provider.carga=false;
-                          if (rsp == null) return mostrarSnackBar(context, 'Error al pagar la deuda'); 
-                          return showDialog(context: context, builder: (context){return SuccessDialogWidget(mensaje: 'Deuda pagada con exito', ruta: 'main_menu');});
-                        }
-                        
-                      }, 
-                      child: estilos.buttonChild(texto: (provider.tipoPago == 1 || provider.tipoPago == 3) ?'Realizar Recarga': 'Realizar Pago'),
-                      style: estilos.buttonStyle(),
+                        return showDialog(
+                            context: context,
+                            builder: (context) {
+                              return SuccessDialogWidget(
+                                  mensaje:
+                                      'Abono de ${provider.montoRecarga} realizado con exito',
+                                  ruta: 'main_menu');
+                            });
+                      } else if (provider.tipoPago == 2) {
+                        final rsp = await _tarjetaService.pagoMensualidad(
+                            provider.montoRecarga,
+                            tarjeta,
+                            provider.glosa,
+                            provider.deuda);
+                        provider.carga = false;
+                        if (rsp == null)
+                          return mostrarSnackBar(
+                              context, 'Error al pagar la deuda');
+                        return showDialog(
+                            context: context,
+                            builder: (context) {
+                              return SuccessDialogWidget(
+                                  mensaje: 'Deuda pagada con exito',
+                                  ruta: 'main_menu');
+                            });
+                      }
+                    },
+                    child: estilos.buttonChild(
+                        texto:
+                            (provider.tipoPago == 1 || provider.tipoPago == 3)
+                                ? 'Realizar Recarga'
+                                : 'Realizar Pago'),
+                    style: estilos.buttonStyle(),
                   ),
-                  
-                  PieLogoWidget()             
-                  
                 ],
               ),
             ),
@@ -113,78 +157,91 @@ class _Detalle extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            color: Colors.black12,
-            width: double.infinity,
-            child:(provider.tipoPago==1)
-            ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('Recarga de Tarjeta de Socio',style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
-            )
-            : (provider.tipoPago==3)
-            ?Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('Recarga de Tarjeta de Dependiente',style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
-            )
-            : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('Pago de Membresia',style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
-            )
-            
-          ),
+              color: Colors.black12,
+              width: double.infinity,
+              child: (provider.tipoPago == 1)
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Recarga de Tarjeta de Socio',
+                        style: TextStyle(
+                            fontSize: 14.0, fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  : (provider.tipoPago == 3)
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Recarga de Tarjeta de Dependiente',
+                            style: TextStyle(
+                                fontSize: 14.0, fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Pago de Membresia',
+                            style: TextStyle(
+                                fontSize: 14.0, fontWeight: FontWeight.bold),
+                          ),
+                        )),
           Divider(),
           _Info(titulo: 'Código del socio: ', texto: prefs.codigoSocio),
-          
           (provider.tipoPago == 3)
-          ?_Info(titulo: 'Código del dependiente: ', texto: provider.codigoTarjeta) 
-          :Container(),
-
+              ? _Info(
+                  titulo: 'Código del dependiente: ',
+                  texto: provider.codigoTarjeta)
+              : Container(),
           _Info(titulo: 'Titular: ', texto: prefs.nombreSocio),
-          
           (provider.tipoPago == 3)
-          ? _Info(titulo: 'Dependiente: ', texto: provider.dependiente)
-          :Container(),
-          _Info(titulo: 'Monto: ', texto: provider.montoRecarga + ' Bs.'), 
-          _Info(titulo: 'Número de Tarjeta: ', texto: '**** **** **** '+tarjeta.cardNumber.substring(tarjeta.cardNumber.length-4)),
-
+              ? _Info(titulo: 'Dependiente: ', texto: provider.dependiente)
+              : Container(),
+          _Info(titulo: 'Monto: ', texto: provider.montoRecarga + ' Bs.'),
+          _Info(
+              titulo: 'Número de Tarjeta: ',
+              texto: '**** **** **** ' +
+                  tarjeta.cardNumber.substring(tarjeta.cardNumber.length - 4)),
           Container(
-            child: (provider.tipoPago==2)
-            ?Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _Info(titulo: 'Codigo de Deuda: ', texto: provider.deuda.idDeuda.toString()),
-                _Info(titulo: 'Detalle: ', texto: provider.deuda.detalle),
-                _Info(titulo: 'Tipo: ', texto: provider.deuda.tipo),
-                _Info(titulo: 'Fecha: ', texto: provider.deuda.fecha.substring(0,10))
-              ],
-            )
-            :Container(),
+            child: (provider.tipoPago == 2)
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _Info(
+                          titulo: 'Codigo de Deuda: ',
+                          texto: provider.deuda.idDeuda.toString()),
+                      _Info(titulo: 'Detalle: ', texto: provider.deuda.detalle),
+                      _Info(titulo: 'Tipo: ', texto: provider.deuda.tipo),
+                      _Info(
+                          titulo: 'Fecha: ',
+                          texto: provider.deuda.fecha.substring(0, 10))
+                    ],
+                  )
+                : Container(),
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           Form(
             key: this.formStat,
             child: Column(
               children: [
                 TextFormField(
-                  keyboardType: TextInputType.multiline,
-                  decoration:InputDecoration(
-                    hintText: 'Glosa',
-                    prefixIcon: Icon(Icons.book)
-                  ),
-                  onChanged: (value){
-                    provider.glosa = value;
-                  },
-                  validator: (value){
-                    if (value.isEmpty) return "La glosa es necesaria";
-                    return null;
-                  }
-                  // decoration: estilos.inputDecoration(hintText: 'Glosa',padingTop: 15.0),
+                    keyboardType: TextInputType.multiline,
+                    decoration: InputDecoration(
+                        hintText: 'Glosa', prefixIcon: Icon(Icons.book)),
+                    onChanged: (value) {
+                      provider.glosa = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) return "La glosa es necesaria";
+                      return null;
+                    }
+                    // decoration: estilos.inputDecoration(hintText: 'Glosa',padingTop: 15.0),
 
-                )
-
+                    )
               ],
             ),
           ),
-
         ],
       ),
     );
@@ -192,7 +249,6 @@ class _Detalle extends StatelessWidget {
 }
 
 class _Info extends StatelessWidget {
-
   final String titulo;
   final String texto;
 
@@ -203,13 +259,11 @@ class _Info extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: RichText(
-        text: TextSpan(
-          style: TextStyle(color: Colors.black),
-          children: [
-            TextSpan(text: this.titulo, style: TextStyle(fontWeight: FontWeight.bold)),
-            TextSpan(text: this.texto)
-          ]
-        ),
+        text: TextSpan(style: TextStyle(color: Colors.black), children: [
+          TextSpan(
+              text: this.titulo, style: TextStyle(fontWeight: FontWeight.bold)),
+          TextSpan(text: this.texto)
+        ]),
       ),
     );
   }

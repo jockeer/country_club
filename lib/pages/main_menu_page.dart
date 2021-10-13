@@ -1,10 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:country/helpers/datos_constantes.dart';
 import 'package:country/helpers/preferencias_usuario.dart';
+import 'package:country/providers/notificacion_provider.dart';
 import 'package:country/services/comunicado_service.dart';
 import 'package:country/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:country/widgets/menu_lateral_widget.dart';
+import 'package:provider/provider.dart';
 
 class MainMenuPage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -76,6 +78,7 @@ class _MenuPrincipal extends StatelessWidget {
   final prefs = PreferenciasUsuario();
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<NotificacionesProvider>(context);
     final size = MediaQuery.of(context).size;
     return Positioned(
       bottom: 0,
@@ -155,8 +158,7 @@ class _MenuPrincipal extends StatelessWidget {
                               titulo: 'E-MAILS',
                               icono: 'email.png',
                               ruta: 'inbox'),
-                          (prefs.mensajesNuevos == 0 ||
-                                  prefs.mensajesNuevos == 0)
+                          (provider.mensajesEnEspera == 0)
                               ? Container()
                               : Positioned(
                                   top: 0,
@@ -204,6 +206,7 @@ class _OpcionMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<NotificacionesProvider>(context);
     final size = MediaQuery.of(context).size;
     return Container(
       width: size.width * 0.3,
@@ -212,6 +215,7 @@ class _OpcionMenu extends StatelessWidget {
         onTap: () {
           if (this.ruta == 'inbox') {
             prefs.mensajesNuevos = 0;
+            provider.mensajesEnEspera = 0;
           }
           Navigator.pushNamed(context, this.ruta);
         },

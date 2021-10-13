@@ -119,6 +119,7 @@ class __CalendarState extends State<_Calendar> {
       padding: EdgeInsets.all(0.0),
       margin: EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
       child: CalendarCarousel(
+        customGridViewPhysics: ScrollPhysics(),
         selectedDayBorderColor: colores.verdeMenuLateral,
         selectedDayButtonColor: colores.verdeMenuLateral,
         todayButtonColor: Colors.transparent,
