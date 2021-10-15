@@ -125,9 +125,14 @@ class _Todos extends StatelessWidget {
                     ),
                     title: Text(
                       snapshot.data[index]["titulo"],
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff6C625A)),
                     ),
-                    subtitle: Text(snapshot.data[index]["fecha"]),
+                    subtitle: Text(
+                      snapshot.data[index]["fecha"],
+                      style: TextStyle(color: Color(0xff574e45)),
+                    ),
                     onTap: () {
                       provider.todosup = true;
                       provider.mensajeALL = snapshot.data[index];
@@ -144,6 +149,7 @@ class _Todos extends StatelessWidget {
         ),
         (provider.todosup)
             ? Container(
+                padding: EdgeInsets.symmetric(horizontal: 50),
                 width: double.infinity,
                 height: double.infinity,
                 color: Colors.white,
@@ -155,11 +161,17 @@ class _Todos extends StatelessWidget {
                           height: 30,
                         ),
                         ListTile(
+                          contentPadding: EdgeInsets.zero,
                           title: Text(
                             provider.mensajeALL["titulo"],
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff6C625A)),
                           ),
-                          subtitle: Text(provider.mensajeALL["fecha"]),
+                          subtitle: Text(
+                            provider.mensajeALL["fecha"],
+                            style: TextStyle(color: Color(0xff574e45)),
+                          ),
                         ),
                         (provider.mensajeALL["img"] == null ||
                                 provider.mensajeALL["img"] == "")
@@ -171,7 +183,7 @@ class _Todos extends StatelessWidget {
                           height: 30,
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          padding: EdgeInsets.symmetric(horizontal: 0),
                           child: Container(
                             child: Text(provider.mensajeALL["mensaje"]),
                           ),
@@ -183,7 +195,7 @@ class _Todos extends StatelessWidget {
                                 provider.mensajeALL["emisor"] == "")
                             ? Container()
                             : Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                padding: EdgeInsets.symmetric(horizontal: 0),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,8 +216,8 @@ class _Todos extends StatelessWidget {
                       ],
                     ),
                     Positioned(
-                        top: 10,
-                        right: 10,
+                        top: 0,
+                        right: 0,
                         child: IconButton(
                           icon: Icon(Icons.close),
                           onPressed: () {
@@ -243,9 +255,14 @@ class _Generales extends StatelessWidget {
                         size: 50, color: colores.verde),
                     title: Text(
                       snapshot.data[index]["titulo"],
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff6C625A)),
                     ),
-                    subtitle: Text(snapshot.data[index]["fecha"]),
+                    subtitle: Text(
+                      snapshot.data[index]["fecha"],
+                      style: TextStyle(color: Color(0xff574e45)),
+                    ),
                     onTap: () {
                       provider.generalup = true;
                       provider.mensajeGeneral = snapshot.data[index];
@@ -262,6 +279,7 @@ class _Generales extends StatelessWidget {
         ),
         (provider.generalup)
             ? Container(
+                padding: EdgeInsets.symmetric(horizontal: 50),
                 width: double.infinity,
                 height: double.infinity,
                 color: Colors.white,
@@ -273,11 +291,15 @@ class _Generales extends StatelessWidget {
                           height: 30,
                         ),
                         ListTile(
+                          contentPadding: EdgeInsets.zero,
                           title: Text(
                             provider.mensajeGeneral["titulo"],
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff6C625A)),
                           ),
-                          subtitle: Text(provider.mensajeGeneral["fecha"]),
+                          subtitle: Text(provider.mensajeGeneral["fecha"],
+                              style: TextStyle(color: Color(0xff574e45))),
                         ),
                         (provider.mensajeGeneral["img"] == null ||
                                 provider.mensajeGeneral["img"] == "")
@@ -289,7 +311,7 @@ class _Generales extends StatelessWidget {
                           height: 30,
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          padding: EdgeInsets.symmetric(horizontal: 0),
                           child: Container(
                             child: Text(provider.mensajeGeneral["mensaje"]),
                           ),
@@ -301,7 +323,7 @@ class _Generales extends StatelessWidget {
                                 provider.mensajeGeneral["emisor"] == "")
                             ? Container()
                             : Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                padding: EdgeInsets.symmetric(horizontal: 0),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -322,8 +344,8 @@ class _Generales extends StatelessWidget {
                       ],
                     ),
                     Positioned(
-                        top: 10,
-                        right: 10,
+                        top: 0,
+                        right: 0,
                         child: IconButton(
                           icon: Icon(Icons.close),
                           onPressed: () {
@@ -364,9 +386,14 @@ class _Personales extends StatelessWidget {
                     ),
                     title: Text(
                       snapshot.data[index]["titulo"],
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff6C625A)),
                     ),
-                    subtitle: Text(snapshot.data[index]["fecha"]),
+                    subtitle: Text(
+                      snapshot.data[index]["fecha"],
+                      style: TextStyle(color: Color(0xff574e45)),
+                    ),
                     onTap: () {
                       provider.personalup = true;
                       provider.mensajePersonal = snapshot.data[index];
@@ -383,6 +410,7 @@ class _Personales extends StatelessWidget {
         ),
         (provider.personalup)
             ? Container(
+                padding: EdgeInsets.symmetric(horizontal: 50),
                 width: double.infinity,
                 height: double.infinity,
                 color: Colors.white,
@@ -394,11 +422,17 @@ class _Personales extends StatelessWidget {
                           height: 30,
                         ),
                         ListTile(
+                          contentPadding: EdgeInsets.zero,
                           title: Text(
                             provider.mensajePersonal["titulo"],
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff6C625A)),
                           ),
-                          subtitle: Text(provider.mensajePersonal["fecha"]),
+                          subtitle: Text(
+                            provider.mensajePersonal["fecha"],
+                            style: TextStyle(color: Color(0xff574e45)),
+                          ),
                         ),
                         (provider.mensajePersonal["img"] == null ||
                                 provider.mensajePersonal["img"] == "")
@@ -410,7 +444,7 @@ class _Personales extends StatelessWidget {
                           height: 30,
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          padding: EdgeInsets.symmetric(horizontal: 0),
                           child: Container(
                             child: Text(provider.mensajePersonal["mensaje"]),
                           ),
@@ -422,7 +456,7 @@ class _Personales extends StatelessWidget {
                                 provider.mensajePersonal["emisor"] == "")
                             ? Container()
                             : Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                padding: EdgeInsets.symmetric(horizontal: 0),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -443,8 +477,8 @@ class _Personales extends StatelessWidget {
                       ],
                     ),
                     Positioned(
-                        top: 10,
-                        right: 10,
+                        top: 0,
+                        right: 0,
                         child: IconButton(
                           icon: Icon(Icons.close),
                           onPressed: () {

@@ -48,7 +48,7 @@ class _Comunicados extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: comunicadosService.obtenerComunicados(context),
+      future: comunicadosService.obtenerComunicadosC(),
       builder: (_, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return _Eventos(
@@ -83,12 +83,11 @@ class _Eventos extends StatelessWidget {
 
 class _Evento extends StatelessWidget {
   final evento;
-
-  const _Evento({@required this.evento});
+  final colores = ColoresApp();
+  _Evento({@required this.evento});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     final provider = Provider.of<GaleriaProvider>(context);
     return GestureDetector(
         onTap: () {
@@ -96,49 +95,69 @@ class _Evento extends StatelessWidget {
           Navigator.pushNamed(context, 'pdf', arguments: this.evento["pdf"]);
         },
         child: Container(
-          margin: EdgeInsets.only(left: 20, right: 20, top: 40),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          margin: EdgeInsets.only(left: 20, right: 20, top: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  width: size.width * 0.42,
-                  height: size.width * 0.3,
-                  child: Image(
-                    image: NetworkImage(this.evento["img"]),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+              Image(image: NetworkImage(this.evento["img"])),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                this.evento["title"].toString().toUpperCase(),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: colores.naranja),
               ),
               SizedBox(
-                width: 20,
+                height: 5,
               ),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      this.evento["title"],
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      '${this.evento["descripcion"]}',
-                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    // Text('hasta ${this.evento["until"]}', style: TextStyle( fontSize: 12, color: Colors.grey ),),
-                  ],
-                ),
-              )
+              Text(
+                this.evento["descripcion"],
+              ),
             ],
           ),
+          // child: Row(
+          //   crossAxisAlignment: CrossAxisAlignment.center,
+          //   children: [
+          //     ClipRRect(
+          //       borderRadius: BorderRadius.circular(20),
+          //       child: Container(
+          //         width: size.width * 0.42,
+          //         height: size.width * 0.3,
+          //         child: Image(
+          //           image: NetworkImage(this.evento["img"]),
+          //           fit: BoxFit.cover,
+          //         ),
+          //       ),
+          //     ),
+          //     SizedBox(
+          //       width: 20,
+          //     ),
+          //     Flexible(
+          //       child: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         mainAxisAlignment: MainAxisAlignment.start,
+          //         children: [
+          //           Text(
+          //             this.evento["title"],
+          //             style: TextStyle(fontWeight: FontWeight.bold),
+          //           ),
+          //           SizedBox(
+          //             height: 5,
+          //           ),
+          //           Text(
+          //             '${this.evento["descripcion"]}',
+          //             style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+          //           ),
+          //           SizedBox(
+          //             height: 5,
+          //           ),
+          //           // Text('hasta ${this.evento["until"]}', style: TextStyle( fontSize: 12, color: Colors.grey ),),
+          //         ],
+          //       ),
+          //     )
+          //   ],
+          // ),
         ));
   }
 }

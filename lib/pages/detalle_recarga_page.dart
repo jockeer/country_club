@@ -5,7 +5,6 @@ import 'package:country/providers/tarjeta_provider.dart';
 import 'package:country/services/tarjeta_service.dart';
 import 'package:country/utils/show_snack_bar.dart';
 import 'package:country/widgets/app_bar_widget.dart';
-import 'package:country/widgets/pie_logo_widget.dart';
 import 'package:country/widgets/success_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';

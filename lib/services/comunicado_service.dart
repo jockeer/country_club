@@ -33,4 +33,16 @@ class ComunicadosService {
     print(decoded["Data"]);
     return decoded["Data"];
   }
+
+  Future<List> obtenerComunicadosC() async {
+    final url = Uri.https(
+        constantes.dominio, 'laspalmas/ste/api-v1/customers/get_comunicados');
+
+    final respuesta = await http.post(url, body: {"access_token": prefs.token});
+
+    final decoded = await json.decode(respuesta.body);
+
+    print(decoded["Data"]);
+    return decoded["Data"];
+  }
 }
