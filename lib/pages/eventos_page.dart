@@ -149,15 +149,15 @@ class _Evento extends StatelessWidget {
               arguments: this.evento["url_pdf"]);
         },
         child: Container(
-          margin: EdgeInsets.only(left: 20, right: 20, top: 40),
+          margin: EdgeInsets.only(left: 20, right: 20, top: 20),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
-                  width: size.width * 0.42,
-                  height: size.width * 0.3,
+                  width: size.width * 0.5,
+                  height: size.width * 0.35,
                   child: Image(
                     image: NetworkImage(this.evento["url_jpg"]),
                     fit: BoxFit.cover,
@@ -173,8 +173,10 @@ class _Evento extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      this.evento["subtitle"],
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      this.evento["subtitle"].toString().toUpperCase(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff6C625A)),
                     ),
                     SizedBox(
                       height: 5,

@@ -27,8 +27,7 @@ class WelcomePage extends StatelessWidget {
                       fontFamily: 'Montserrat',
                       color: ColoresApp().verde,
                       fontWeight: FontWeight.w600,
-                      fontSize: size.width*0.03
-                  ),
+                      fontSize: size.width * 0.03),
                 )
               ],
             ),
@@ -72,7 +71,7 @@ class ButtonsBottom extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: 20.0,
+          height: 70.0,
         )
       ],
     );

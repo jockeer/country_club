@@ -20,7 +20,8 @@ class PdfPage extends StatelessWidget {
       appBar: (extension == 'mp4')
           ? null
           : appBarWidget(
-              titulo: (provider.tituloExtra == 1) ? 'Evento' : 'Comunicado'),
+              titulo: (provider.tituloExtra == 1) ? 'Evento' : 'Comunicado',
+              logoClaro: true),
       //appBar: appBarWidget(titulo: 'Evento'),
       body: (extension == 'pdf')
           ? _Pdf(
@@ -91,9 +92,7 @@ class _Imagen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: FadeInImage(
-          placeholder: AssetImage('assets/icons/logo.png'),
-          image: NetworkImage(this.url)),
+      child: Image(image: NetworkImage(this.url)),
     );
   }
 }
