@@ -13,31 +13,25 @@ import 'package:country/models/socio_model.dart';
 
 import 'dart:io' show Platform;
 
-class SocioService{
-
+class SocioService {
   String user = 'Loyalty';
   String password = 'L0ya1tyc1ub5*';
   final constantes = DatosConstantes();
 
-  final tokenDevice =  PushNotificationService();
-  
+  final tokenDevice = PushNotificationService();
 
-  
   String basicAuthenticationHeader(String username, String password) {
     return 'Basic ' + base64Encode(utf8.encode('$username:$password'));
   }
 
-  Future<dynamic> _procesarInfo(Uri url) async{
+  Future<dynamic> _procesarInfo(Uri url) async {
     try {
-      final resp = await http.get(url,
-        headers: {
-          "authorization": basicAuthenticationHeader(user, password)
-        }
-      );
+      final resp = await http.get(url, headers: {
+        "authorization": basicAuthenticationHeader(user, password)
+      });
       return json.decode(resp.body);
-      
     } catch (e) {
-     // print(e);
+      // print(e);
     }
   }
 
@@ -45,36 +39,36 @@ class SocioService{
     final n = num.tryParse(codigoSocio);
     final ns = num.tryParse(ci);
 
-    if(n == null || ns == null){
+    if (n == null || ns == null) {
       return null;
     }
 
-    final url = Uri.http('190.186.228.218', 'appmovil/api/Asociado/GetIDCI/$codigoSocio/$ci');
+    final url = Uri.http(
+        '190.186.228.218', 'appmovil/api/Asociado/GetIDCI/$codigoSocio/$ci');
 
     final respuesta = await _procesarInfo(url);
 
-    if(respuesta == null)return null;
+    if (respuesta == null) return null;
 
     if (respuesta[0]["error"] != "") return null;
 
-    final url2 = Uri.http('190.186.228.218', 'appmovil/api/Asociado/GetDataID/$codigoSocio');
-    
+    final url2 = Uri.http(
+        '190.186.228.218', 'appmovil/api/Asociado/GetDataID/$codigoSocio');
+
     final decodedData = await _procesarInfo(url2);
-     if(decodedData == null)return null;
+    if (decodedData == null) return null;
 
     if (decodedData.length == 0) return null;
-      
 
     final socio = new Socio.fromJson(decodedData[0]);
 
     return socio;
-  
   }
 
-  Future<List<Dependiente>> obtenerDependientes()async{
-
+  Future<List<Dependiente>> obtenerDependientes() async {
     final prefs = PreferenciasUsuario();
-    final url = Uri.http('190.186.228.218', 'appmovil/api/Asociado/GetDependentID/${prefs.codigoSocio}');
+    final url = Uri.http('190.186.228.218',
+        'appmovil/api/Asociado/GetDependentID/${prefs.codigoSocio}');
 
     final respuesta = await _procesarInfo(url);
 
@@ -82,64 +76,53 @@ class SocioService{
 
     //print(dependiente.items[0]);
     return dependiente.items;
-
-    
   }
 
   Future<Socio> loginSocio(String usuario, String pass) async {
-
     final prefs = PreferenciasUsuario();
 
     final n = num.tryParse(usuario);
 
-    if(n==null){
+    if (n == null) {
       return null;
     }
     try {
-      
-      final url = Uri.https(constantes.dominio, 'laspalmas/oauth2/token'); 
-      final respuesta = await http.post(
-        url,
-        body: {
-          "password": pass,
-          "grant_type": "password",
-          "client_id": "LASPALMASAppUser",
-          "username": usuario
-        }
-      );
+      final url = Uri.https(constantes.dominio, 'laspalmas/oauth2/token');
+      final respuesta = await http.post(url, body: {
+        "password": pass,
+        "grant_type": "password",
+        "client_id": "LASPALMASAppUser",
+        "username": usuario
+      });
       final decodedData = jsonDecode(respuesta.body);
 
       if (decodedData.containsKey("access_token")) {
         prefs.token = await decodedData["access_token"];
         final _tokenService = TokenService();
-        
+
         await tokenDevice.obtenerDeviceToken();
-        
+
         final devideTokenguardado = await _tokenService.registrarDeviceToken();
         if (devideTokenguardado) {
           final socio = await obtenerDatosSocio();
-          return socio; 
-          
+          return socio;
         } else {
           return null;
         }
-        
-      }
-      else {
+      } else {
         return null;
       }
     } catch (e) {
       return null;
     }
-
-
   }
 
-  Future<Socio> obtenerDatosSocio()async {
+  Future<Socio> obtenerDatosSocio() async {
     final prefs = PreferenciasUsuario();
 
-    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/get_customer?access_token=${prefs.token}');
-    
+    final url = Uri.https(constantes.dominio,
+        'laspalmas/ste/api-v1/services/get_customer?access_token=${prefs.token}');
+
     final respuesta = await http.get(url);
 
     final decodedData = jsonDecode(respuesta.body);
@@ -147,68 +130,53 @@ class SocioService{
     final socio = Socio.fromJson(decodedData["Data"]);
 
     return socio;
-
   }
- 
 
   Future<dynamic> registrarSocio(Socio socio) async {
     final prefs = PreferenciasUsuario();
 
-    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/customers/customers');
-    final urlCountry = Uri.http('190.186.228.218', 'appmovil/api/Asociado/SetTelCelDirID/${socio.codigo}/${socio.telefono}/${socio.celular}/${socio.direccion}/${socio.email}');
-
+    final url = Uri.https(
+        constantes.dominio, 'laspalmas/ste/api-v1/customers/customers');
+    final urlCountry = Uri.http('190.186.228.218',
+        'appmovil/api/Asociado/SetTelCelDirID/${socio.codigo}/${socio.telefono}/${socio.celular}/${socio.direccion}/${socio.email}');
 
     final parametros = socio.toJson();
 
     parametros["access_token"] = await prefs.tokenReg;
-    parametros["type"] = (Platform.isAndroid)?"ANDROID":"IOS";
+    parametros["type"] = (Platform.isAndroid) ? "ANDROID" : "IOS";
 
     try {
-        final respuesta = await _procesarInfo(urlCountry);
-        print(respuesta);
+      final respuesta = await _procesarInfo(urlCountry);
+      print(respuesta);
     } catch (e) {
       print("No actualizo datos del country");
     }
     // print(parametros);
     try {
-      final respuesta = await http.post(
-        url,
-        body: parametros
-      );
+      final respuesta = await http.post(url, body: parametros);
       // final registroCountry = await _procesarInfo(url);
 
       // print(registroCountry);
 
       final resp = await json.decode(respuesta.body);
       return resp;
-
-      
     } catch (e) {
       return null;
     }
-
   }
 
-  Future<Map<String,dynamic>> recoverPassword(String email)async{
-
+  Future<Map<String, dynamic>> recoverPassword(String email) async {
     final prefs = PreferenciasUsuario();
-    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/customers/validate_email');
+    final url = Uri.https(
+        constantes.dominio, 'laspalmas/ste/api-v1/customers/validate_email');
 
     try {
-      final respuesta = await http.post(
-        url,
-        body: {
-          "email":email,
-          "access_token": prefs.tokenReg
-        }
-      );
+      final respuesta = await http
+          .post(url, body: {"email": email, "access_token": prefs.tokenReg});
       final decoded = json.decode(respuesta.body);
       return decoded;
     } catch (e) {
       return null;
     }
   }
-  
-
 }
-

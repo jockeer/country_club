@@ -13,7 +13,7 @@ class ComunicadosPage extends StatelessWidget {
     return Scaffold(
         backgroundColor: colores.gris,
         appBar: appBarWidget(
-            titulo: 'COMUNICADOS',
+            titulo: 'NOTICIAS',
             color: colores.gris,
             texto: Colors.green,
             logoClaro: true),
@@ -73,8 +73,29 @@ class _Eventos extends StatelessWidget {
     return ListView.builder(
       itemCount: eventos.length,
       itemBuilder: (context, index) {
-        return _Evento(
-          evento: eventos[index],
+        return Column(
+          children: [
+            (index == 0)
+                ? SizedBox(
+                    height: 80,
+                  )
+                : Container(),
+            _Evento(
+              evento: eventos[index],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 30, right: 30),
+              child: Divider(
+                thickness: 2,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+          ],
         );
       },
     );
@@ -95,7 +116,7 @@ class _Evento extends StatelessWidget {
           Navigator.pushNamed(context, 'pdf', arguments: this.evento["pdf"]);
         },
         child: Container(
-          margin: EdgeInsets.only(left: 20, right: 20, top: 30),
+          margin: EdgeInsets.only(left: 30, right: 30, top: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -106,58 +127,17 @@ class _Evento extends StatelessWidget {
               Text(
                 this.evento["title"].toString().toUpperCase(),
                 style: TextStyle(
-                    fontWeight: FontWeight.bold, color: colores.naranja),
+                    fontWeight: FontWeight.bold, color: Color(0xfff1a21e)),
               ),
               SizedBox(
                 height: 5,
               ),
               Text(
                 this.evento["descripcion"],
+                style: TextStyle(color: Color(0xff574e45), height: 1.5),
               ),
             ],
           ),
-          // child: Row(
-          //   crossAxisAlignment: CrossAxisAlignment.center,
-          //   children: [
-          //     ClipRRect(
-          //       borderRadius: BorderRadius.circular(20),
-          //       child: Container(
-          //         width: size.width * 0.42,
-          //         height: size.width * 0.3,
-          //         child: Image(
-          //           image: NetworkImage(this.evento["img"]),
-          //           fit: BoxFit.cover,
-          //         ),
-          //       ),
-          //     ),
-          //     SizedBox(
-          //       width: 20,
-          //     ),
-          //     Flexible(
-          //       child: Column(
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         mainAxisAlignment: MainAxisAlignment.start,
-          //         children: [
-          //           Text(
-          //             this.evento["title"],
-          //             style: TextStyle(fontWeight: FontWeight.bold),
-          //           ),
-          //           SizedBox(
-          //             height: 5,
-          //           ),
-          //           Text(
-          //             '${this.evento["descripcion"]}',
-          //             style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-          //           ),
-          //           SizedBox(
-          //             height: 5,
-          //           ),
-          //           // Text('hasta ${this.evento["until"]}', style: TextStyle( fontSize: 12, color: Colors.grey ),),
-          //         ],
-          //       ),
-          //     )
-          //   ],
-          // ),
         ));
   }
 }
