@@ -30,7 +30,7 @@ class ReservasPage extends StatelessWidget {
                     topRight: Radius.circular(50)),
                 child: Container(
                     width: size.width,
-                    height: size.height * 0.86,
+                    height: size.height * 0.85,
                     child: _MenuReservas()),
               ),
             )
@@ -110,6 +110,7 @@ class _OptCabana extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final provider = Provider.of<ReservaProvider>(context);
     final providerGaleria = Provider.of<GaleriaProvider>(context);
     return GestureDetector(
@@ -121,7 +122,7 @@ class _OptCabana extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        height: 150.0,
+        height: size.height * 0.2125,
         child: Stack(
           children: [
             Image(
@@ -176,7 +177,7 @@ class _OptCabana extends StatelessWidget {
                       opacity: 0.9,
                       child: Container(
                         width: double.infinity,
-                        height: 150,
+                        height: size.height * 0.2125,
                         color: Colors.white,
                         child: Padding(
                           padding: EdgeInsets.only(left: 30),
