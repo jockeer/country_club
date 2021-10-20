@@ -213,6 +213,11 @@ class _Transacciones extends StatelessWidget {
       future: _tarjetaService.obtenerHistoricoComprasEspecifico(this.codigo),
       builder: (BuildContext context, AsyncSnapshot<List<Compra>> snapshot) {
         if (snapshot.hasData) {
+          if (snapshot.data.length == 0) {
+            return Center(
+              child: Text('No tiene ninguna transacción realizada'),
+            );
+          }
           if (snapshot.data[0] == null) {
             return Center(
               child: Text('no tiene conexion a internet'),

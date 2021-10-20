@@ -98,6 +98,11 @@ class _PagosHistorico extends StatelessWidget {
       future: _tarjetaService.obtenerHistoricoPagos(),
       builder: (context, AsyncSnapshot<List<Pago>> snapshot) {
         if (snapshot.hasData) {
+          if (snapshot.data.length == 0) {
+            return Center(
+              child: Text('No tiene pagos realizados'),
+            );
+          }
           return PagosWidget(pagos: snapshot.data);
         } else {
           return Center(
@@ -121,6 +126,11 @@ class _DeudasHistorico extends StatelessWidget {
       future: _tarjetaService.obtenerHistoricoDeudas(),
       builder: (context, AsyncSnapshot<List<Deuda>> snapshot) {
         if (snapshot.hasData) {
+          if (snapshot.data.length == 0) {
+            return Center(
+              child: Text('No tiene deudas pendientes'),
+            );
+          }
           return Padding(
             padding: EdgeInsets.all(10.0),
             child: Column(

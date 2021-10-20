@@ -9,8 +9,8 @@ class CabanaService {
   final constantes = DatosConstantes();
 
   Future<List<Cabana>> obtenerCabanas() async {
-    final url = Uri.https(
-        constantes.dominio, 'laspalmas/ste/api-v1/services/get_cabanas');
+    final url = Uri.parse(
+        '${constantes.dominio}/laspalmas/ste/api-v1/services/get_cabanas');
     //print(url);
 
     final conexion = await comprobarInternet();
@@ -27,8 +27,8 @@ class CabanaService {
   }
 
   Future<List> obtenerFotos(String idCabana) async {
-    final url = Uri.https(constantes.dominio,
-        'laspalmas/ste/api-v1/services/get_cabanas_fotos?idcabana=$idCabana');
+    final url = Uri.parse(
+        '${constantes.dominio}/laspalmas/ste/api-v1/services/get_cabanas_fotos?idcabana=$idCabana');
     //print(url);
 
     final conexion = await comprobarInternet();

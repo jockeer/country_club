@@ -16,8 +16,8 @@ class EventosService {
   bool cargar = false;
 
   Future<dynamic> obtenerEventos() async {
-    final url = Uri.https(
-        constantes.dominio, 'laspalmas/ste/api-v1/services/get_publicity');
+    final url = Uri.parse(
+        '${constantes.dominio}/laspalmas/ste/api-v1/services/get_publicity');
     final conexion = await comprobarInternet();
     if (!conexion) {
       return null;
@@ -32,8 +32,8 @@ class EventosService {
   }
 
   Future<dynamic> obtenerEventosCalendario(BuildContext context) async {
-    final url = Uri.https(
-        constantes.dominio, 'laspalmas/ste/api-v1/services/getAllEvents');
+    final url = Uri.parse(
+        '${constantes.dominio}/laspalmas/ste/api-v1/services/getAllEvents');
     final conexion = await comprobarInternet();
     if (!conexion) {
       return null;
@@ -50,8 +50,8 @@ class EventosService {
   }
 
   Future<dynamic> obtenerTorneosCalendario(BuildContext context, int id) async {
-    final url = Uri.https(
-        constantes.dominio, 'laspalmas/ste/api-v1/services/getTorneos');
+    final url = Uri.parse(
+        '${constantes.dominio}/laspalmas/ste/api-v1/services/getTorneos');
     final conexion = await comprobarInternet();
     if (!conexion) {
       return null;
@@ -70,8 +70,8 @@ class EventosService {
   }
 
   Future obtenerEventosPorFecha(String fecha) async {
-    final url = Uri.https(
-        constantes.dominio, 'laspalmas/ste/api-v1/services/getEventsByDate');
+    final url = Uri.parse(
+        '${constantes.dominio}/laspalmas/ste/api-v1/services/getEventsByDate');
     final conexion = await comprobarInternet();
     if (!conexion) {
       return null;
@@ -88,8 +88,8 @@ class EventosService {
   }
 
   Future obtenerTorneosPorFecha(String fecha, int id) async {
-    final url = Uri.https(
-        constantes.dominio, 'laspalmas/ste/api-v1/services/getTorneosByDate');
+    final url = Uri.parse(
+        '${constantes.dominio}/laspalmas/ste/api-v1/services/getTorneosByDate');
     final conexion = await comprobarInternet();
     if (!conexion) {
       return null;

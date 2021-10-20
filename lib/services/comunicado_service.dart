@@ -16,8 +16,8 @@ class ComunicadosService {
   Future<List> obtenerComunicados(BuildContext context) async {
     final provider = Provider.of<NotificacionesProvider>(context);
     print(prefs.token);
-    final url = Uri.https(
-        constantes.dominio, 'laspalmas/ste/api-v1/customers/get_comunicados');
+    final url = Uri.parse(
+        '${constantes.dominio}/laspalmas/ste/api-v1/customers/get_comunicados');
 
     final respuesta = await http.post(url, body: {"access_token": prefs.token});
 
@@ -35,8 +35,8 @@ class ComunicadosService {
   }
 
   Future<List> obtenerComunicadosC() async {
-    final url = Uri.https(
-        constantes.dominio, 'laspalmas/ste/api-v1/customers/get_comunicados');
+    final url = Uri.parse(
+        '${constantes.dominio}/laspalmas/ste/api-v1/customers/get_comunicados');
 
     final respuesta = await http.post(url, body: {"access_token": prefs.token});
 

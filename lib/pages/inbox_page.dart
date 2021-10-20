@@ -110,6 +110,11 @@ class _Todos extends StatelessWidget {
           future: inboxService.obtenerAllMensajes(),
           builder: (_, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data.length == 0) {
+                return Center(
+                  child: Text('No tiene mensajes'),
+                );
+              }
               return ListView.builder(
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                 itemCount: snapshot.data.length,
@@ -245,6 +250,11 @@ class _Generales extends StatelessWidget {
           future: inboxService.obtenerMensajesGenerales(),
           builder: (_, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data.length == 0) {
+                return Center(
+                  child: Text('No tiene mensajes Generales'),
+                );
+              }
               return ListView.builder(
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                 itemCount: snapshot.data.length,
@@ -373,6 +383,11 @@ class _Personales extends StatelessWidget {
           future: inboxService.obtenerMensajesPersonales(),
           builder: (_, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data.length == 0) {
+                return Center(
+                  child: Text('No tiene mensajes personales'),
+                );
+              }
               return ListView.builder(
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                 itemCount: snapshot.data.length,

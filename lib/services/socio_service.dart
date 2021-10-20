@@ -87,7 +87,7 @@ class SocioService {
       return null;
     }
     try {
-      final url = Uri.https(constantes.dominio, 'laspalmas/oauth2/token');
+      final url = Uri.parse('${constantes.dominio}/laspalmas/oauth2/token');
       final respuesta = await http.post(url, body: {
         "password": pass,
         "grant_type": "password",
@@ -120,8 +120,8 @@ class SocioService {
   Future<Socio> obtenerDatosSocio() async {
     final prefs = PreferenciasUsuario();
 
-    final url = Uri.https(constantes.dominio,
-        'laspalmas/ste/api-v1/services/get_customer?access_token=${prefs.token}');
+    final url = Uri.parse(
+        '${constantes.dominio}/laspalmas/ste/api-v1/services/get_customer?access_token=${prefs.token}');
 
     final respuesta = await http.get(url);
 
@@ -135,8 +135,8 @@ class SocioService {
   Future<dynamic> registrarSocio(Socio socio) async {
     final prefs = PreferenciasUsuario();
 
-    final url = Uri.https(
-        constantes.dominio, 'laspalmas/ste/api-v1/customers/customers');
+    final url = Uri.parse(
+        '${constantes.dominio}/laspalmas/ste/api-v1/customers/customers');
     final urlCountry = Uri.http('190.186.228.218',
         'appmovil/api/Asociado/SetTelCelDirID/${socio.codigo}/${socio.telefono}/${socio.celular}/${socio.direccion}/${socio.email}');
 
@@ -167,8 +167,8 @@ class SocioService {
 
   Future<Map<String, dynamic>> recoverPassword(String email) async {
     final prefs = PreferenciasUsuario();
-    final url = Uri.https(
-        constantes.dominio, 'laspalmas/ste/api-v1/customers/validate_email');
+    final url = Uri.parse(
+        '${constantes.dominio}/laspalmas/ste/api-v1/customers/validate_email');
 
     try {
       final respuesta = await http

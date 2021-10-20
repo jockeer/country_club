@@ -8,47 +8,40 @@ import 'package:http/http.dart' as http;
 
 import 'dart:convert';
 
-
-class ReservaService{
-
+class ReservaService {
   final constantes = DatosConstantes();
   final prefs = PreferenciasUsuario();
   bool cargar = false;
-  
 
   Future<dynamic> guardarReserva(Reserva reserva) async {
-
     final conexion = await comprobarInternet();
     if (!conexion) {
       return null;
     }
-    
 
-    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/customers/reserva');
+    final url = Uri.parse(
+        '${constantes.dominio}/laspalmas/ste/api-v1/customers/reserva');
 
     final paremetros = reserva.toJson();
-    paremetros["access_token"]= await prefs.token;
-     //print(paremetros);
+    paremetros["access_token"] = await prefs.token;
+    //print(paremetros);
 
     try {
-      final respuesta = await http.post(
-        url,
-        body: paremetros
-      );
-      
+      final respuesta = await http.post(url, body: paremetros);
+
       final decoded = await jsonDecode(respuesta.body);
 
       return decoded;
-      
     } catch (e) {
       //print(e);
       return null;
     }
-
   }
-  Future<List<Reserva>> obtenerReservas()async{
-    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/get_all_reservas?access_token=${prefs.token}');
-    //print(url); 
+
+  Future<List<Reserva>> obtenerReservas() async {
+    final url = Uri.parse(
+        '${constantes.dominio}/laspalmas/ste/api-v1/services/get_all_reservas?access_token=${prefs.token}');
+    //print(url);
 
     final conexion = await comprobarInternet();
     if (!conexion) {
@@ -58,15 +51,15 @@ class ReservaService{
 
     final decoded = jsonDecode(respuesta.body);
 
-    
     final reservas = Reservas.fromJsonList(decoded["Data"]);
 
     return reservas.items;
-
   }
-  Future<bool> cancelarReserva(String idReserva)async{
-    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/get_cancelar_reserva?access_token=${prefs.token}&id_reserva=${int.parse(idReserva)}');
-    // print(url); 
+
+  Future<bool> cancelarReserva(String idReserva) async {
+    final url = Uri.parse(
+        '${constantes.dominio}/laspalmas/ste/api-v1/services/get_cancelar_reserva?access_token=${prefs.token}&id_reserva=${int.parse(idReserva)}');
+    // print(url);
     final respuesta = await http.get(url);
 
     final decoded = jsonDecode(respuesta.body);
@@ -76,19 +69,18 @@ class ReservaService{
 
     // print(decoded);
   }
-  Future<bool> actualizarReserva(Reserva reserva)async{
-    final url = Uri.https(constantes.dominio, 'laspalmas/ste/api-v1/services/actualizar_reserva');
+
+  Future<bool> actualizarReserva(Reserva reserva) async {
+    final url = Uri.parse(
+        '${constantes.dominio}/laspalmas/ste/api-v1/services/actualizar_reserva');
 
     final parametros = reserva.toJson();
 
-    parametros["access_token"]= prefs.token;
+    parametros["access_token"] = prefs.token;
     parametros["id_reserva"] = reserva.id;
 
-    // print(url); 
-    final respuesta = await http.post(
-      url,
-      body: parametros
-    );
+    // print(url);
+    final respuesta = await http.post(url, body: parametros);
 
     final decoded = jsonDecode(respuesta.body);
 
@@ -97,9 +89,4 @@ class ReservaService{
 
     // print(decoded);
   }
-
-
-
-
 }
-
